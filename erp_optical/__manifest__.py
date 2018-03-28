@@ -5,7 +5,7 @@
     'category': 'General',
     'summary': 'Optical Erp',
     'version': '1.0',
-    'description': """Optical Erp""",
+    'description': """Optical Erp system""",
     'author': 'Ali Ravani (ali.ravani14@gmail.com)',
     'depends': ['product','sale_management'],
     'data': [
