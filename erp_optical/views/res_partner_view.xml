@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+  	
+  	<record id="act_res_partner_2_easy_checkup" model="ir.actions.act_window">
+            <field name="name">Easy Checkup Details</field>
+            <field name="res_model">easy.checkup</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_partner_id': active_id}</field>
+            <field name="help" type="html">
+        		<p class="oe_view_nocontent_create">Click to define a new Easy Checkup Details.</p>
+      		</field>
+        </record>
+        
+    <record id="view_partner_form_erp_optical" model="ir.ui.view">
+      <field name="name">res.partner.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form" />
+      <field name="arch" type="xml">
+        <field name="website" position="after">
+          <field name="birthdate" />
+          <field name="age_year" />
+        </field>
+        <field name="vat" position="attributes">
+        	<attribute name="string">GSTIN</attribute>
+        </field>
+        <field name="ref" position="after">
+          <field name="doctor" />
+        </field>
+      </field>
+    </record>
+    
+  </data>
+</odoo>

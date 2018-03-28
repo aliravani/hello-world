@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_make,product.make,model_product_make,,1,1,1,1
+access_easy_checkup_line,easy.checkup.line,model_easy_checkup_line,,1,1,1,1
+access_eye_test_type,eye.test.type,model_eye_test_type,,1,1,1,1
+access_power_type,power.type,model_power_type,,1,1,1,1
+access_product_shape,product.shape,model_product_shape,,1,1,1,1
+access_product_size,product.size,model_product_size,,1,1,1,1
+access_product_color,product.color,model_product_color,,1,1,1,1
+access_frame_type,frame.type,model_frame_type,,1,1,1,1
+access_product_validity,product.validity,model_product_validity,,1,1,1,1
+access_case_type,case.type,model_case_type,,1,1,1,1

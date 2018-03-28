@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <record id="product_template_only_form_view_erp_optical" model="ir.ui.view">
+    <field name="name">product.template.product.form</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_form_view" />
+    <field name="arch" type="xml">
+      <field name="categ_id" position="after">
+        <field name="product_make_id" />
+        <field name="product_shape_id" />
+        <field name="product_size_id" />
+        <field name="product_color_id" />
+        <field name="product_validity_id"/>
+      </field>
+    </field>
+  </record>
+  
+  <record id="product_make_form_view" model="ir.ui.view">
+    <field name="name">product.make.form.view</field>
+    <field name="model">product.make</field>
+    <field name="arch" type="xml">
+      <form string="Product Make">
+        <sheet>
+          <group>
+            <field name="name" required="1"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  
+  <record id="product_make_type_action" model="ir.actions.act_window">
+    <field name="name">Product Make</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">product.make</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+  
+  <menuitem id="menu_product_make" name="Product Make" parent="sale.product_menu_catalog" action="product_make_type_action" />
+  
+  <record id="product_shape_form_view" model="ir.ui.view">
+    <field name="name">product.shape.form.view</field>
+    <field name="model">product.shape</field>
+    <field name="arch" type="xml">
+      <form string="Product Shape">
+        <sheet>
+          <group>
+            <field name="name" required="1"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  
+  <record id="product_shape_type_action" model="ir.actions.act_window">
+    <field name="name">Product Shape</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">product.shape</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+  
+  <menuitem id="menu_product_shape" name="Product Shape" parent="sale.product_menu_catalog" action="product_shape_type_action" />
+  
+  <record id="product_size_form_view" model="ir.ui.view">
+    <field name="name">product.size.form.view</field>
+    <field name="model">product.size</field>
+    <field name="arch" type="xml">
+      <form string="Product Size">
+        <sheet>
+          <group>
+            <field name="name" required="1"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  
+  <record id="product_size_type_action" model="ir.actions.act_window">
+    <field name="name">Product Size</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">product.size</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+  
+  <menuitem id="menu_product_size" name="Product Size" parent="sale.product_menu_catalog" action="product_size_type_action" />
+  
+  <record id="product_color_form_view" model="ir.ui.view">
+    <field name="name">product.color.form.view</field>
+    <field name="model">product.color</field>
+    <field name="arch" type="xml">
+      <form string="Product Color">
+        <sheet>
+          <group>
+            <field name="name" required="1"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  
+  <record id="product_color_type_action" model="ir.actions.act_window">
+    <field name="name">Product Color</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">product.color</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+  
+  <menuitem id="menu_product_color" name="Product Color" parent="sale.product_menu_catalog" action="product_color_type_action" />
+  
+  
+  
+  
+  <record id="frame_type_form_view" model="ir.ui.view">
+    <field name="name">frame.type.form.view</field>
+    <field name="model">frame.type</field>
+    <field name="arch" type="xml">
+      <form string="Frame Type">
+        <sheet>
+          <group>
+            <field name="name" required="1"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  
+  <record id="frame_type_type_action" model="ir.actions.act_window">
+    <field name="name">Product Frame Type</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">frame.type</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+  
+  <menuitem id="menu_frame_type" name="Product Frame Type" parent="sale.product_menu_catalog" action="frame_type_type_action" />
+  
+  
+  
+  <record id="product_validity_form_view" model="ir.ui.view">
+    <field name="name">product.validity.form.view</field>
+    <field name="model">product.validity</field>
+    <field name="arch" type="xml">
+      <form string="Product Validity">
+        <sheet>
+          <group>
+            <field name="name" required="1"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  
+  <record id="product_validity_type_action" model="ir.actions.act_window">
+    <field name="name">Product Validity</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">product.validity</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+  
+  <menuitem id="menu_product_validity" name="Product Validity" parent="sale.product_menu_catalog" action="product_validity_type_action" />
+  
+  
+  
+  
+  
+  
+</odoo>

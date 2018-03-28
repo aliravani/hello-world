@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="report_easycheckup_document">
+    <t t-call="web.external_layout">
+        <t t-set="doc" />
+        <div class="page">
+            <div class="oe_structure"/>
+            <div class="row">
+            <div class="col-xs-3">
+            	<div style="padding-bottom:5px">
+            		<span>Checkup By:</span>
+            	</div>
+            	<div style="padding-bottom:5px">
+            		<span>Checkup Date:</span>
+            	</div>
+            	<div style="padding-bottom:5px">
+            		<span>Mobile:</span>
+            	</div>
+            	<div style="padding-bottom:5px">
+            		<span>Eye Test Type:</span>
+            	</div>
+            	<div style="padding-bottom:5px">
+            		<span>Power Type:</span>
+            	</div>
+            </div>
+            <div class="col-xs-3">
+            	<div style="padding-bottom:5px">
+            		<span>Doctor</span> 
+            	</div>
+            	<div style="padding-bottom:5px">
+            		<span t-field="docs.check_up_date"/>
+            	</div>
+            	<div style="padding-bottom:5px">
+            		<span t-field="docs.mobile"/>
+            	</div>
+            	<div style="padding-bottom:5px">
+            		<span t-field="docs.eye_test_type_id.name"/>
+            	</div>
+            	<div style="padding-bottom:5px">
+            		<span t-field="docs.power_type_id.name"/>
+            	</div>
+            </div>
+            <div class="col-xs-3">
+            	<div style="padding-bottom:5px">
+            		<span>Doctor Name:</span> 
+            	</div>
+            	<div style="padding-bottom:5px">
+            		<span>Birthdate:</span>
+            	</div>
+            	<div style="padding-bottom:5px">
+            		<span>Age(In Year):</span>
+            	</div>
+            	<div style="padding-bottom:5px"></div>
+            	<div style="padding-bottom:5px"></div>
+            </div>
+            <div class="col-xs-3">
+            	<div>
+            		<span t-field="docs.doctor_id.name"/>
+            	</div>
+            	<div>
+            		<span t-field="docs.birthdate"/>
+            	</div>
+            	<div>
+            		<span t-field="docs.age_year"/>
+            	</div>
+            	<div></div>
+            	<div></div>
+            </div>
+            
+            </div>
+            
+            <br/>
+            <br/>
+            <table class="table table-condensed">
+                <thead>
+                    <tr class="text-center">
+                        <th>R/L</th>
+                        <th class="text-right">SPH</th>
+                        <th class="text-right">CYL</th>
+                        <th class="text-right">AX</th>
+                        <th class="text-right">Add1</th>
+                        <th class="text-right">Add2</th>
+                        <th class="text-right">IPD</th>
+                        <th class="text-right">Prism</th>
+                        <th class="text-right">Dim</th>
+                        <th class="text-right">Base</th>
+                        <th class="text-right">Height</th>
+                    </tr>
+               </thead>
+               <tbody>
+                    <t t-foreach="docs.checkup_lines" t-as="l">
+                        <tr>
+                            <td>
+                               <span t-field="l.checkup_type"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.sph"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.cyl"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.ax"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.add1"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.add2"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.ipd"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.prism"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.dim"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.base"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.height"/>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+            
+            <br/>
+            
+            <h3>Recommendation</h3>
+            
+            
+        <div class="row">
+            <div class="col-xs-2">
+            	<div style="padding-bottom:5px">
+	            	<span>Mineral</span>
+            	</div>
+            	
+            	<div style="padding-bottom:5px">
+	            	<span>Bi Focal</span>
+            	</div>
+            	
+            	<div style="padding-bottom:5px">
+	            	<span>Mira Coat-Scratch Resistance</span>
+            	</div>
+            	
+            </div>
+            
+            <div class="col-xs-1">
+				<div style="padding-bottom:5px">
+					<span t-if="docs.mineral" class="text-right">
+	            		<input type="checkbox"  checked="checked"/>	
+	            	</span>
+	            	<span t-if="not docs.mineral" class="text-right">
+	            		<input type="checkbox"/>	
+	            	</span>
+				</div>
+				
+				
+				<div style="padding-bottom:5px">
+					<span t-if="docs.bi_focal" class="text-right">
+	            		<input type="checkbox"  checked="checked"/>	
+	            	</span>
+	            	<span t-if="not docs.bi_focal" class="text-right">
+	            		<input type="checkbox"/>	
+	            	</span>
+				</div>
+				
+				
+				<div style="padding-bottom:5px">
+					<span t-if="docs.mira_coat" class="text-right">
+	            		<input type="checkbox"  checked="checked"/>	
+	            	</span>
+	            	<span t-if="not docs.mira_coat" class="text-right">
+	            		<input type="checkbox"/>	
+	            	</span>
+				</div>
+				
+				            
+            </div>
+            
+            
+            
+            
+            <div class="col-xs-2">
+            	<div style="padding-bottom:5px">
+	            	<span>Organic</span>
+            	</div>
+            	
+            	<div style="padding-bottom:5px">
+	            	<span>Progressive</span>
+            	</div>
+            	
+            	<div style="padding-bottom:5px">
+	            	<span>Hi Index</span>
+            	</div>
+            	
+            </div>
+            
+            <div class="col-xs-1">
+				<div style="padding-bottom:5px">
+					<span t-if="docs.organic" class="text-right">
+	            		<input type="checkbox"  checked="checked"/>	
+	            	</span>
+	            	<span t-if="not docs.organic" class="text-right">
+	            		<input type="checkbox"/>	
+	            	</span>
+				</div>
+				
+				<div style="padding-bottom:5px">
+					<span t-if="docs.progressive" class="text-right">
+	            		<input type="checkbox"  checked="checked"/>	
+	            	</span>
+	            	<span t-if="not docs.progressive" class="text-right">
+	            		<input type="checkbox"/>	
+	            	</span>
+				</div>
+				
+				
+				<div style="padding-bottom:5px">
+					<span t-if="docs.hi_index" class="text-right">
+	            		<input type="checkbox"  checked="checked"/>	
+	            	</span>
+	            	<span t-if="not docs.hi_index" class="text-right">
+	            		<input type="checkbox"/>	
+	            	</span>
+				</div>            
+            </div>
+            
+            
+            
+            
+            <div class="col-xs-2">
+            	<div style="padding-bottom:5px">
+	            	<span>Photochromic</span>
+            	</div>
+            	
+            	<div style="padding-bottom:5px">
+	            	<span>Anti Reflection</span>
+            	</div>
+            	
+            	<div style="padding-bottom:5px">
+	            	<span>Saftey</span>
+            	</div>
+            	
+            </div>
+            
+            <div class="col-xs-1">
+				<div style="padding-bottom:5px">
+					<span t-if="docs.photo_chromic" class="text-right">
+	            		<input type="checkbox"  checked="checked"/>	
+	            	</span>
+	            	<span t-if="not docs.photo_chromic" class="text-right">
+	            		<input type="checkbox"/>	
+	            	</span>
+				</div>     
+				
+				
+				<div style="padding-bottom:5px">
+					<span t-if="docs.anti_reflection" class="text-right">
+	            		<input type="checkbox"  checked="checked"/>	
+	            	</span>
+	            	<span t-if="not docs.anti_reflection" class="text-right">
+	            		<input type="checkbox"/>	
+	            	</span>
+				</div>     
+				
+				<div style="padding-bottom:5px">
+					<span t-if="docs.saftey" class="text-right">
+	            		<input type="checkbox"  checked="checked"/>	
+	            	</span>
+	            	<span t-if="not docs.saftey" class="text-right">
+	            		<input type="checkbox"/>	
+	            	</span>
+				</div>            
+            </div>
+            
+            
+            
+            <div class="col-xs-2">
+            	<div style="padding-bottom:5px">
+	            	<span>S.V.</span>
+            	</div>
+            	
+            	<div style="padding-bottom:5px">
+	            	<span>Tinting</span>
+            	</div>
+            	
+            	<div style="padding-bottom:5px">
+	            	<span>Other</span>
+            	</div>
+            	
+            </div>
+            
+            <div class="col-xs-1">
+				<div style="padding-bottom:5px">
+					<span t-if="docs.sv" class="text-right">
+	            		<input type="checkbox"  checked="checked"/>	
+	            	</span>
+	            	<span t-if="not docs.sv" class="text-right">
+	            		<input type="checkbox"/>	
+	            	</span>
+				</div>
+				
+				<div style="padding-bottom:5px">
+					<span t-if="docs.tinting" class="text-right">
+	            		<input type="checkbox"  checked="checked"/>	
+	            	</span>
+	            	<span t-if="not docs.tinting" class="text-right">
+	            		<input type="checkbox"/>	
+	            	</span>
+				</div>
+				
+				<div style="padding-bottom:5px">
+					<span t-if="docs.other" class="text-right">
+	            		<input type="checkbox"  checked="checked"/>	
+	            	</span>
+	            	<span t-if="not docs.other" class="text-right">
+	            		<input type="checkbox"/>	
+	            	</span>
+				</div>            
+            </div>
+            
+       </div>
+            
+            
+        </div>
+    </t>
+</template>
+
+
+<template id="report_easycheckup">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="erp_optical.report_easycheckup_document" t-lang="doc.partner_id.lang"/>
+        </t>
+    </t>
+</template>
+
+</odoo>
