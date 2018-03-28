@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+  
+    <record id="create_task_form_view" model="ir.ui.view">
+      <field name="name">Create Task Form View</field>
+      <field name="model">create.task</field>
+      <field name="arch" type="xml">
+        <form string="Service Request">
+          <group invisible="1">
+            <group>
+              <field name="sale_id" />
+            </group>
+          </group>
+          <button name="referesh_list" string="Refresh" type="object" class="oe_highlight"/>
+          <h2>Allow field will show how many combo you are allowed to select for that  product</h2>
+          <h2>e.g if product is Service Pack which has 3 line and allow 2 then you have to remove 1 and keep remaining 2. </h2>
+          <h2>Below is the list of all available services, keep what you need and delete the rest</h2>
+          <h2>'Product header' shows Main product and 'combo header ' shows sub product of main product</h2>
+          <field name="combo_ids" domain="[('product_template_id2.is_combo','=',False)]" >
+          		<tree editable="bottom" create="false">
+          			  <field name="product_template_id" string="Product" />
+                      <field name="product_template_id2" options="{'no_create': True}" string="Combo"/>
+                      <field name="allow" />
+                      <field name="product_quantity" invisible="1"/>
+                      <field name="uom_id" readonly="1" invisible="1"/>
+                  </tree>
+                </field>
+          <footer>
+            <button name="create_task" string="Create Service Request" type="object" class="oe_highlight" />
+            or
+            <button string="Cancel" class="oe_link" special="cancel" />
+          </footer>
+        </form>
+      </field>
+    </record>
+    
+    <record id="action_create_task" model="ir.actions.act_window">
+      <field name="name">Service Request</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">create.task</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+    </record>
+    
+  </data>
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="view_order_form_service_package" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+            <button name="action_cancel" position="after">
+            	<button name="%(action_create_task)d" string="Service Request" type="action" class="btn-primary"/>
+            </button>
+            <notebook position="inside">
+              <page string="Service Include" name="service_include">
+                <button name="get_combo" string="Get Combo" type="object"/>
+                <field name="combo_ids">
+          			<tree editable="bottom">
+          			  <field name="product_template_id" string="Product" />
+                      <field name="product_template_id2" options="{'no_create': True}" string="Combo"/>
+                      <field name="product_quantity" invisible="1"/>
+                      <field name="uom_id" readonly="1" invisible="1"/>
+                  </tree>
+                </field>
+              </page>
+            </notebook>
+            </field>
+         </record>
+</odoo>
