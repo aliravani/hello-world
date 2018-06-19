@@ -3,7 +3,7 @@
 {
     'name': 'Wollbody Prestashop',
     'category': 'General',
-    'summary': 'Wollbody Prestashop Connection',
+    'summary': 'Wollbody Prestashop Connections',
     'version': '1.0',
     'description': """Wollbody Prestashop Connection""",
     'author': 'Ali Ravani',
