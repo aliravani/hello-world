@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record id="product_template_form_view_wollbody_prestashop" model="ir.ui.view">
+	    <field name="name">product.template.product.form</field>
+	    <field name="model">product.template</field>
+	    <field name="inherit_id" ref="product.product_template_form_view" />
+	    <field name="arch" type="xml">
+	    <xpath expr="//page[@name='sales']" position="after">
+	      <page string="Prestashop" name="prestashop">
+	      <button name="push_product" string="Push All Product" type="object" attrs="{'invisible': [('presta_id','!=',False)]}"/>
+	      <button name="push_single_product" string="Push Single Product" type="object" attrs="{'invisible': [('presta_id','!=',False)]}"/>
+	      <button name="update_product_details" string="Update All Products Details" type="object"/>
+	      <button name="export_product_specific_prices" string="Push Specific Price" type="object"/>
+	      <button name="presta_apply_all" string="Apply All" type="object"/>
+	      <button name="clear_presta" string="Clear presta" type="object"/>
+	        <group>
+	            <field name="get_color_id" />
+				<field name="presta_categories" widget="many2many_tags"/>
+				<field name="presta_default_category_id" />
+				<field name="presta_feature" widget="many2many_tags" invisible="1"/>
+				<field name="presta_is_english" invisible="1"/>
+				<field name="presta_is_german" invisible="1"/>
+				<field name="presta_id"/>
+				<field name="presta_link" widget="url" />
+				<field name="presta_images" widget="image" invisible="1"/>
+				<field name="presta_condition" invisible="1"/>
+				<field name="presta_description_english" />
+				<field name="presta_description_german" />
+				
+				<field name="presta_description_short_english" />
+				<field name="presta_description_short_german" />
+				
+				<field name="presta_id_shop_1" invisible="1"/>
+				<field name="presta_id_shop_2" invisible="1"/>
+				<field name="presta_meta_description_english" />
+				<field name="presta_meta_description_german" />
+				<field name="presta_meta_keywords_english" />
+				<field name="presta_meta_keywords_german"/>
+				<field name="presta_meta_title_english" style="width: 525px"/>
+				<field name="presta_meta_title_german" style="width: 525px"/>
+				<field name="presta_name_english" invisible="1"/>
+				<field name="presta_name_german" invisible="1"/>
+		        <field name="presta_image_id" />			          
+	        </group>
+	      </page>
+	      <page string="All Childs" name="all_child">
+	      	<field name="get_all_child" />
+	      </page>
+	    </xpath>
+	    <field name="list_price" position="after">
+	    	<field name="impact_on_price"/>
+	    </field>
+	    </field>
+	</record>
+	
+	
+	<record id="product_template_search_view_prestashop" model="ir.ui.view">
+        <field name="name">product.template.search</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+        <filter name="filter_to_purchase" position="after">
+        	<filter string="Pushed to Presta" name="presta_id" domain="[('presta_id', '!=', '0')]"/>
+        	<filter string="Not Pushed to Presta" name="not_presta_id" domain="[('presta_id', '=', 0)]"/>
+        </filter>
+        </field>
+    </record>
+	
+	
+	
+	<record id="product_normal_form_view_wollbody_prestashop" model="ir.ui.view">
+      <field name="name">product.product.form</field>
+      <field name="model">product.product</field>
+      <field name="inherit_id" ref="wollbody_amazon_connection.product_normal_form_view_wollbody_amazon_connection" />
+      <field name="arch" type="xml">
+      <page name="sales" position="after">
+          <page name="prestashop_child" string="Child Prestashop">
+          <button name="export_product_specific_prices" string="Push Specific Price" type="object"/>
+            <group>
+              <group>
+                <field name="presta_price"/>
+                <field name="presta_child_id"/>
+                <field name="presta_qty"/>
+                <field name="presta_specific_price" />
+                <field name="presta_specific_price_id" />
+                <field name="presta_stock_id" />
+              </group>
+              <group>
+                
+              </group>
+              
+            </group>
+            
+          </page>
+      </page>
+      <field name="barcode" position="after">
+	    	<field name="presta_price_push" />
+	    	<field name="child_impact_on_price" />
+	    </field>
+      </field>
+   </record>
+   
+   
+   <record id="variants_tree_view_wollbody_prestashop" model="ir.ui.view">
+            <field name="name">product.attribute.value.tree</field>
+            <field name="model">product.attribute.value</field>
+            <field name="inherit_id" ref="product.variants_tree_view"/>
+            <field name="arch" type="xml">
+            <field name="name" position="after">
+              <field name="prestashop_id" />
+            </field>
+            </field>
+   </record>
+   
+   
+   
+   
+   <record id="product_color_tree_view" model="ir.ui.view">
+       <field name="name">product.color.tree</field>
+       <field name="model">product.color</field>
+       <field name="arch" type="xml">
+           <tree string="Product Color" editable="top">
+               <field name="name"/>
+               <field name="english_name"/>
+               <field name="prestashop_id"/>
+           </tree>
+       </field>
+   </record>
+
+     <record id="product_color_action" model="ir.actions.act_window">
+         <field name="name">Prestashop Color</field>
+         <field name="type">ir.actions.act_window</field>
+         <field name="res_model">product.color</field>
+         <field name="view_mode">tree</field>
+         <field name="view_type">form</field>
+     </record>
+     
+     <menuitem action="product_color_action" id="menu_product_color" parent="wollbody_amazon_connection.menu_product_update" sequence="10" />
+     
+     
+     <record id="view_mass_stock_update_1_wollbody_prestashop" model="ir.ui.view">
+      <field name="name">material</field>
+      <field name="model">article.material</field>
+      <field name="inherit_id" ref="wollbody_amazon_connection.view_mass_stock_update_1"/>
+      <field name="arch" type="xml">
+        <field name="name" position="after">
+          <field name="english_name" />
+          <field name="presta_id" />
+          <field name="presta_material_id" />
+        </field>
+      </field>
+    </record>
+
+</odoo>

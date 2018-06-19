@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+  
+	<menuitem id="menu_prestashop_configuration_label" parent="wollbody_amazon_connection.menu_base_api_connection" sequence="15" name="Prestashop" />
+    
+    <record id="view_prestashop_config_tree" model="ir.ui.view">
+      <field name="name">prestashop.config.tree</field>
+      <field name="model">prestashop.config</field>
+      <field name="arch" type="xml">
+        <tree string="Prestashop Configuration">
+          <field name="name" />
+          <field name="url" />
+          <field name="api_key" />
+          <field name="state" widget="statusbar" statusbar_visible="draft,connected" />
+        </tree>
+      </field>
+    </record>
+    
+    <record id="view_prestashop_config_form" model="ir.ui.view">
+      <field name="name">prestashop.config.form</field>
+      <field name="model">prestashop.config</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="prestashop Configuration">
+          <header>
+            <button name="test_connection" type="object" string="Test Server Connection" states="draft,error"  class="btn-primary"/>
+            <button name="reset" type="object" string="Reset Connection" states="connected" />
+            <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,connected,error" statusbar_colors="{&quot;connected&quot;:&quot;green&quot;,&quot;error&quot;:&quot;red&quot;}" />
+          </header>
+          <sheet>
+            <group>
+              <field name="name" />
+              <field name="url" required="1" />
+              <field name="api_key" required="1" />
+            </group>
+            <field name="export_stock_error" />
+            
+            <group>
+              <group>
+					<button name="import_category" string="Import Category" type="object" class="btn-primary" />
+					<br/>
+					<button name="import_product" string="Import Products" type="object" class="btn-primary" />  
+					<br/>
+					<button name="import_product_child_id" string="Import Products Child ID" type="object" class="btn-primary" />  
+					<br/>
+					<button name="push_color_size" string="Push Color Size" type="object" class="btn-primary" />
+					<br/>
+					<button name="import_brand_supplier" string="Import Supplier" type="object"/>
+					<br/>
+					<button name="get_product_specific_prices" string="Import Product specific prices" type="object"/>
+					<br/>
+					<button name="export_material" string="Export Material" type="object"/>
+					<br/>
+					<button name="import_order" string="Import Orders" type="object"/>
+					<br/>
+					<button name="sw_to_presta" string="SW to Prestashop" type="object"/>
+					<br/>
+					<button name="import_order_states" string="Import Orders state" type="object"/>
+					<br/>
+					<button name="export_image" string="Export Images" type="object"/>
+					<br/>
+					<button name="import_product_stock" string="Import stock" type="object"/>
+					<br/>
+					<button name="export_product_stock" string="Export stock" type="object"/>
+					<br/>
+					<button name="update_sale_price" string="Update All sale price" type="object"/>
+					<br/>
+					<button name="update_sale_compute_price" string="Update All sale price (Computed)" type="object"/>
+					<br/>
+					<button name="export_all_product_specific_prices" string="Export/Update  All specific price" type="object"/>
+					<br/>
+					<button name="update_all_product_details" string="Update All Mother products" type="object"/>
+					<br/>
+					
+              </group>
+              <group>
+              
+              </group>
+            </group>
+          </sheet>
+         </form>
+         </field>
+         </record>
+     
+     
+     <!-- Add menu: "prestashop" in Settings/Configuration -->
+    <record id="action_prestashop_configuration" model="ir.actions.act_window">
+      <field name="name">Prestashop Configuration</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">prestashop.config</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    
+    <menuitem id="menu_prestashop_configuration" parent="menu_prestashop_configuration_label" sequence="10" action="action_prestashop_configuration" />
+    
+    
+     <!--     prestashop category menu -->
+
+	<record id="view_prestashop_category_tree" model="ir.ui.view">
+      <field name="name">prestashop.category.tree</field>
+      <field name="model">prestashop.category</field>
+      <field name="arch" type="xml">
+        <tree string="Prestashop Category">
+          <field name="display_name"/>
+          <field name="name"/>
+          <field name="name_german"/>
+          <field name="prestashop_id" />
+          <field name="parent_id" />
+          <field name="is_english"/>
+          <field name="is_german"/>
+        </tree>
+      </field>
+    </record>
+    
+    <record id="view_prestashop_category_form" model="ir.ui.view">
+      <field name="name">prestashop.category.form</field>
+      <field name="model">prestashop.category</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Prestashop Category">
+          <sheet>
+            <group>
+              	<field name="display_name"/>
+          		<field name="name" />
+          		<field name="name_german" />
+          		<field name="prestashop_id" />
+          		<field name="parent_id" />
+          		<field name="prestashop_parent_id" />
+          		<field name="meta_description" />
+          		<field name="meta_description_german" />
+          		<field name="meta_keywords" />
+          		<field name="meta_keywords_german" />
+          		<field name="meta_title" />
+          		<field name="meta_title_german" />
+            </group>
+          </sheet>
+         </form>
+         </field>
+         </record>
+     
+     
+     <!-- Add menu: "prestashop category" in Settings/Configuration -->
+    <record id="action_prestashop_category" model="ir.actions.act_window">
+      <field name="name">Prestashop Category</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">prestashop.category</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    
+    <menuitem id="menu_prestashop_category" parent="menu_prestashop_configuration_label" sequence="11" action="action_prestashop_category" />
+    
+    
+    
+    <!--     prestashop feature menu -->
+
+	<record id="view_prestashop_feature_tree" model="ir.ui.view">
+      <field name="name">prestashop.feature.tree</field>
+      <field name="model">prestashop.feature</field>
+      <field name="arch" type="xml">
+        <tree string="Prestashop Feature">
+          <field name="display_name"/>
+          <field name="name"/>
+          <field name="name_german"/>
+          <field name="prestashop_id" />
+          <field name="parent_id" />
+          <field name="is_english"/>
+          <field name="is_german"/>
+        </tree>
+      </field>
+    </record>
+    
+    <record id="view_prestashop_feature_form" model="ir.ui.view">
+      <field name="name">prestashop.feature.form</field>
+      <field name="model">prestashop.feature</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Prestashop feature">
+          <sheet>
+            <group>
+              	<field name="display_name"/>
+          		<field name="name" />
+          		<field name="name_german" />
+          		<field name="prestashop_id" />
+          		<field name="prestashop_value_id" />
+          		<field name="parent_id" />
+          		<field name="prestashop_parent_id" />
+            </group>
+          </sheet>
+         </form>
+         </field>
+         </record>
+     
+     
+     <!-- Add menu: "prestashop feature" in Settings/Configuration -->
+    <record id="action_prestashop_feature" model="ir.actions.act_window">
+      <field name="name">Prestashop Feature</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">prestashop.feature</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    
+    <menuitem id="menu_prestashop_feature" parent="menu_prestashop_configuration_label" sequence="11" action="action_prestashop_feature" />
+    
+    
+    
+    
+    <!--     prestashop Order state menu -->
+
+	<record id="view_prestashop_order_state_tree" model="ir.ui.view">
+      <field name="name">prestashop.order.state.tree</field>
+      <field name="model">prestashop.order.state</field>
+      <field name="arch" type="xml">
+        <tree string="Prestashop Feature">
+          <field name="name"/>
+          <field name="name_german"/>
+          <field name="prestashop_id" />
+        </tree>
+      </field>
+    </record>
+    
+    <record id="view_prestashop_order_state_form" model="ir.ui.view">
+      <field name="name">prestashop.order.state.form</field>
+      <field name="model">prestashop.order.state</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Prestashop Order State">
+          <sheet>
+            <group>
+              	<field name="name" />
+          		<field name="name_german" />
+          		<field name="prestashop_id" />
+            </group>
+          </sheet>
+         </form>
+         </field>
+         </record>
+     
+     
+     <!-- Add menu: "prestashop order_state" in Settings/Configuration -->
+    <record id="action_prestashop_order_state" model="ir.actions.act_window">
+      <field name="name">Prestashop Order State</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">prestashop.order.state</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    
+    <menuitem id="menu_prestashop_order_state" parent="menu_prestashop_configuration_label" sequence="12" action="action_prestashop_order_state" />
+	  
+    
+   
+    
+    
+
+  </data>
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+  
+  <record id="view_partner_form_wollbody_prestashop" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+            <field name="ref" position="after">
+              <field name="presta_customer_id" />
+              <field name="presta_address_id" />
+              <field name="presta_supplier_id" />
+            </field>
+            </field>
+     </record>
+  
+  </data>
+</odoo>
