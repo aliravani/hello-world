@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+  
+  
+  <record id="view_pakdo_presta_stock_tree" model="ir.ui.view">
+      <field name="name">pakdo.presta.stock.tree</field>
+      <field name="model">pakdo.presta.stock</field>
+      <field name="arch" type="xml">
+        <tree string="Pakdo Presta Stock">
+          <field name="product_id" />
+          <field name="qty" />
+          <field name="gtin" />
+        </tree>
+      </field>
+    </record>
+    
+    <record id="view_pakdo_presta_stock_form" model="ir.ui.view">
+      <field name="name">pakdo.presta.stock.form</field>
+      <field name="model">pakdo.presta.stock</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Pakdo Presta Stock">
+          <sheet>
+          	<group>
+          	  <group>
+          	  	<field name="product_id"/>
+          	  	<field name="gtin"/>
+          	  	<field name="qty"/>
+          	  </group>
+          	  <group>
+          	  	<field name="presta_id"/>
+          	  	<field name="presta_child_id"/>
+          	  	<field name="presta_stock_id"/>
+          	  </group>
+          	</group>
+          </sheet>
+        </form>
+      </field>
+   </record>
+   
+   <record id="action_pakdo_presta_stock" model="ir.actions.act_window">
+      <field name="name">Pakdo Presta Stock</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">pakdo.presta.stock</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    
+    <menuitem id="menu_pakdo_presta_stock" parent="menu_prestashop_configuration_label" sequence="20" action="action_pakdo_presta_stock" />
+    
+    
+    <record id="view_csv_pakdo_presta" model="ir.ui.view">
+      <field name="name">Import Pakdo Stock</field>
+      <field name="model">csv.pakdo.presta</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Pakdo Stock" create="false" edit="false">
+          <sheet>
+            <separator string="Select File" colspan="4" />
+              <group>
+              	<field widget="binary"  name="file" required="1" />
+              </group>
+            <footer>
+              <button name="update" string="_Update" type="object" class="btn-primary" />
+              <button special="cancel" string="Close" type="object" class="oe_link oe_inline" />
+            </footer>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    
+    <record id="csv_pakdo_presta_action" model="ir.actions.act_window">
+      <field name="name">Import Pakdo Stock</field>
+      <field name="res_model">csv.pakdo.presta</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+      <field name="view_id" ref="view_csv_pakdo_presta" />
+    </record>
+    
+    
+    <menuitem action="csv_pakdo_presta_action" id="menu_csv_pakdo_presta" parent="menu_prestashop_configuration_label" sequence="21" />
+  
+  </data>
+</odoo>

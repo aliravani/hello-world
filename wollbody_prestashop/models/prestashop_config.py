@@ -444,11 +444,12 @@ class PrestashopConfig(models.Model):
                     stock_lists.append(stock_id['attrs'].get('id'))
                 for stock in stock_lists:
                     stock = prestashop.get('stock_availables',stock)
+                    print 'stock stock     ',stock
                     product_presta_id = stock['stock_available']['id_product_attribute']
                     qty               = stock['stock_available']['quantity']
-                    products = self.env['product.product'].search([('presta_child_id','=',product_presta_id)])
+                    products = self.env['pakdo.presta.stock'].search([('presta_child_id','=',product_presta_id)])
                     if products:
-                        products.write({'presta_qty': qty, 'presta_stock_id': stock['stock_available']['id'], 'presta_child_id':product_presta_id})
+                        products.write({'presta_stock_id': stock['stock_available']['id']})
         
         return True
     
@@ -487,6 +488,34 @@ class PrestashopConfig(models.Model):
                             _logger.info("Prestashop Exporting stock errorrrrrrrrrrrrrrrr    ..............." + str(product.default_code) )
                 
                 presta.write({'export_stock_error': error_data})
+        
+        return True
+    
+    
+    @api.multi
+    def export_product_stock_new(self):
+        _logger.info("Prestashop Exporting stock function called   ..............." )
+        for presta in self:
+            if presta.state == 'connected':
+                prestashop = PrestaShopWebServiceDict(presta.url, presta.api_key)
+                
+                stocks = self.env['pakdo.presta.stock'].search([('presta_id','!=',False),('presta_child_id','!=',False)])
+                print 'stocks stocks stocks       ',stocks
+                self.import_product_stock()
+                for stock in stocks:
+                    if stock.presta_stock_id:
+                        stock_vals = {'stock_available': {'depends_on_stock': '0',
+                                  'id': stock.presta_stock_id,
+                                  'id_product': stock.presta_id,
+                                  'id_product_attribute': stock.presta_child_id,
+                                  'id_shop': '1',
+                                  'id_shop_group': '0',
+                                  'out_of_stock': '1',
+                                  'quantity': stock.qty}}
+                        print 'stock_vals stock_vals        ',stock_vals
+                        stock_resp = prestashop.edit('stock_availables',stock_vals)
+                        
+                
         
         return True
     
@@ -1268,7 +1297,7 @@ class PrestashopConfig(models.Model):
                                              'low_stock_threshold': '',
                                              'minimal_quantity': '1',
                                              'price': str(variant.child_impact_on_price),
-                                             'quantity': str(variant.pakdo_qty),
+                                            # 'quantity': str(variant.pakdo_qty),
                                              'reference': variant.default_code,
                                              'supplier_reference': '',
                                              'unit_price_impact': '0.000000',

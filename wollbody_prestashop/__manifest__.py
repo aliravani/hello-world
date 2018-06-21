@@ -15,6 +15,7 @@
              'views/product_view.xml',
              'views/res_partner_view.xml',
              'views/sale_view.xml',
+             'views/pakdo_presta_view.xml',
              
              
     ],
