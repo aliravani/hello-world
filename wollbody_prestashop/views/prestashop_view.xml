@@ -62,7 +62,7 @@
 					<br/>
 					<button name="import_product_stock" string="Import stock" type="object"/>
 					<br/>
-					<button name="export_product_stock_new" string="Export stock" type="object"/>
+					<button name="export_product_stock_new" string="Export stock CSV" type="object"/>
 					<br/>
 					<button name="update_sale_price" string="Update All sale price" type="object"/>
 					<br/>

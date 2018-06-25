@@ -82,6 +82,98 @@
     
     
     <menuitem action="csv_pakdo_presta_action" id="menu_csv_pakdo_presta" parent="menu_prestashop_configuration_label" sequence="21" />
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <record id="view_presta_price_tree" model="ir.ui.view">
+      <field name="name">presta.price.tree</field>
+      <field name="model">presta.price</field>
+      <field name="arch" type="xml">
+        <tree string="Presta Price">
+          <field name="product_id" />
+          <field name="default_code"/>
+          <field name="price" />
+          <field name="date_from" />
+          <field name="date_to" />
+        </tree>
+      </field>
+    </record>
+    
+    <record id="view_presta_price_form" model="ir.ui.view">
+      <field name="name">presta.price.form</field>
+      <field name="model">presta.price</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Presta Price">
+          <sheet>
+          	<group>
+          	  <group>
+          	  	<field name="product_id"/>
+          	  	<field name="default_code"/>
+          	  	<field name="price"/>
+          	  </group>
+          	  <group>
+          	  	<field name="presta_id"/>
+          	  	<field name="presta_child_id"/>
+          	  	<field name="date_from" />
+          		<field name="date_to" />
+          	  </group>
+          	</group>
+          </sheet>
+        </form>
+      </field>
+   </record>
+   
+   <record id="action_presta_price" model="ir.actions.act_window">
+      <field name="name">Presta Price</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">presta.price</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    
+    <menuitem id="menu_presta_price" parent="menu_prestashop_configuration_label" sequence="22" action="action_presta_price" />
+    
+    
+    <record id="view_csv_presta_price" model="ir.ui.view">
+      <field name="name">Import Presta Price</field>
+      <field name="model">csv.presta.price</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Presta Price" create="false" edit="false">
+          <sheet>
+            <separator string="Select File" colspan="4" />
+              <group>
+              	<field widget="binary"  name="file" required="1" />
+              </group>
+            <footer>
+              <button name="update" string="_Update" type="object" class="btn-primary" />
+              <button special="cancel" string="Close" type="object" class="oe_link oe_inline" />
+            </footer>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    
+    <record id="csv_presta_price_action" model="ir.actions.act_window">
+      <field name="name">Import Presta Price</field>
+      <field name="res_model">csv.presta.price</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+      <field name="view_id" ref="view_csv_presta_price" />
+    </record>
+    
+    
+    <menuitem action="csv_presta_price_action" id="menu_csv_presta_price" parent="menu_prestashop_configuration_label" sequence="23" />
   
   </data>
 </odoo>
