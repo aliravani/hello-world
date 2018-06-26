@@ -62,13 +62,13 @@
 					<br/>
 					<button name="import_product_stock" string="Import stock" type="object"/>
 					<br/>
-					<button name="export_product_stock_new" string="Export stock CSV" type="object"/>
+					<button name="export_product_stock_new" string="Export stock CSV New" type="object"/>
 					<br/>
 					<button name="update_sale_price" string="Update All sale price" type="object"/>
 					<br/>
 					<button name="update_sale_compute_price" string="Update All sale price (Computed)" type="object"/>
 					<br/>
-					<button name="export_all_product_specific_prices" string="Export/Update  All specific price" type="object"/>
+					<button name="export_product_specific_prices_new" string="Export specific price CSV New" type="object"/>
 					<br/>
 					<button name="update_all_product_details" string="Update All Mother products" type="object"/>
               </group>

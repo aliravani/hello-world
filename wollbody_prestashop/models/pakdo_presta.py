@@ -88,6 +88,7 @@ class PrestaPrice(models.Model):
     presta_id               = fields.Char(related='product_id.presta_id',string='Presta ID', store=True)
     date_from               = fields.Date('Date From')
     date_to                 = fields.Date('Date To')
+    presta_specific_price_id = fields.Char('Specific Price ID')
                         
 class CSVPrestaPrice(models.TransientModel):
     _name = "csv.presta.price"

@@ -101,6 +101,7 @@ class PrestashopConfig(models.Model):
                     #print 'category_resp category_resp      ',category_resp
                      
                     prestashop_id = category_resp['category']['id']
+                    print 'prestashop_id prestashop_id prestashop_id        ',prestashop_id
                     
                     prestashop_parent_id = category_resp['category']['id_parent']
                      
@@ -1695,6 +1696,45 @@ class PrestashopConfig(models.Model):
                             specific_prices   =  {'specific_price': price_dict}
                             specific_prices_resp = prestashop.add('specific_prices', specific_prices)
                             print 'creating new specifiv price       ',specific_prices_resp
+                            variant.write({'presta_specific_price_id' : specific_prices_resp['prestashop']['specific_price'].get('id')})
+                
+        return True
+    
+    
+    @api.multi
+    def export_product_specific_prices_new(self):
+        for presta in self:
+            if presta.state == 'connected':
+                prestashop = PrestaShopWebServiceDict(presta.url, presta.api_key)
+                
+                #specific_prices = prestashop.get('specific_prices')
+                #print 'specific_prices    ',specific_prices
+                #specific_prices     {'specific_price': {'reduction_type': 'amount', 'id_cart': '0', 'reduction_tax': '1', 
+                #        'id_country': '0', 'to': '0000-00-00 00:00:00', 'id_shop': '0', 'price': '-1.000000', 'reduction': '10.000000', 'from_quantity': '1', 
+                #        'id_customer': '0', 'id_product_attribute': '742', 'id_specific_price_rule': '0', 'id_currency': '0', 'id_product': '46', 'from': '0000-00-00 00:00:00', 
+                #        'id_group': '0', 'id': '8', 'id_shop_group': '0'}}
+                variants = self.env['presta.price'].search([('presta_id','!=',False),('presta_child_id','!=',False)])
+                for variant in variants:
+                    if variant.presta_child_id and variant.price != 0:
+                        price_dict = {'reduction_type': 'amount', 'reduction_tax': '1', 'id_customer': '0','from': '0000-00-00 00:00:00', 'to': '0000-00-00 00:00:00', 
+                        'id_shop': '0', 'price': '-1.000000', 'reduction': variant.price, 'from_quantity': '1', 'id_currency': '0','id_country': '0',
+                        'id_product_attribute': variant.presta_child_id, 'id_specific_price_rule': '0', 'id_product': variant.presta_id, 'id_cart': '0','id_group': '0',
+                         'id_shop_group': '0'}
+                        
+#                         price_dict = {'reduction_type': 'amount', 'reduction_tax': '1', 'id_customer': '0','from': '0000-00-00 00:00:00', 'to': '0000-00-00 00:00:00', 
+#                         'id_shop': '0', 'price': '-1.000000', 'reduction': variant.presta_specific_price, 'from_quantity': '1', 'id_currency': '0','id_country': '0',
+#                         'id_product_attribute': variant.presta_child_id, 'id_specific_price_rule': '0', 'id_product': variant.product_tmpl_id.presta_id, 'id_cart': '0','id_group': '0',
+#                          'id_shop_group': '0'}
+                        
+                        if variant.presta_specific_price_id:
+                            price_dict.update({ 'id' : variant.presta_specific_price_id})
+                            specific_prices   =  {'specific_price': price_dict}
+                            specific_prices_resp = prestashop.edit('specific_prices', specific_prices)
+                            _logger.info("updating Exporting specific price    ..............." + str(specific_prices_resp) )
+                        else:
+                            specific_prices   =  {'specific_price': price_dict}
+                            specific_prices_resp = prestashop.add('specific_prices', specific_prices)
+                            _logger.info("***** creating  Exporting specific price    ..............." + str(specific_prices_resp) )
                             variant.write({'presta_specific_price_id' : specific_prices_resp['prestashop']['specific_price'].get('id')})
                 
         return True

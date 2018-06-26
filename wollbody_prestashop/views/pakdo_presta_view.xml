@@ -118,6 +118,7 @@
           	  	<field name="product_id"/>
           	  	<field name="default_code"/>
           	  	<field name="price"/>
+          	  	<field name="presta_specific_price_id"/>
           	  </group>
           	  <group>
           	  	<field name="presta_id"/>
