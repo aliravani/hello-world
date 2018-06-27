@@ -126,6 +126,16 @@ class ProductTemplate(models.Model):
     
     impact_on_price                     = fields.Float(compute='_impact_on_price', string="Basic Price",digits=dp.get_precision('Payment Terms'))
     
+    
+    @api.multi
+    def push_images(self):
+        presta = self.env['prestashop.config'].search([], limit=1)
+        if presta:
+            
+            product_template = self.get_alternative.ids
+            product_template.append(self.id)
+            presta.push_images(product_template)
+            
     @api.multi
     def push_product(self):
         presta = self.env['prestashop.config'].search([], limit=1)

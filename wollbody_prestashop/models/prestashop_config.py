@@ -631,6 +631,43 @@ class PrestashopConfig(models.Model):
         
         return True
     
+    
+    @api.multi
+    def push_images(self, product_template):
+        for presta in self:
+            if presta.state == 'connected':
+                prestashop = PrestaShopWebServiceDict(presta.url, presta.api_key)
+                #add product image file_name = ‘sample.jpg’ fd = io.open(file_name, “rb”) content = fd.read() fd.close()
+                #product_template = self.env['product.template'].search([('art_no','=','91053')], limit=1)
+                print 'product_template product_template        ',product_template
+                product_templates = self.env['product.template'].search([('id','in',product_template)])
+                if product_templates:
+                    path_list = []
+                    for template in product_templates:
+                        
+                        #file_name = '/home/ali/Desktop/image.jpeg'
+                        #file_name ='https://www.wollbody.de/media/image/b1/03/ec/Logo_Wollbody.png'
+                        
+                        if template.image and  not template.presta_image_id:
+                            tmp_dir = tempfile.gettempdir()
+                            
+                            path = tmp_dir +"/" + template.art_no +'_' + template.color_no +".jpeg"
+                            with open(path, "wb") as fh:
+                                fh.write(template.image.decode('base64'))
+                                path_list.append(path)
+                                fh.close()
+                                self._cr.commit()
+                            
+                            file_name = str(path)
+                            fd = io.open(file_name, 'rb') 
+                            content = fd.read() 
+                            fd.close()
+                            image = prestashop.add('/images/products/'+str(template.presta_id), files=[('image', file_name, content)])
+                            
+                            if image['prestashop']['image']['id']:
+                                template.write({'presta_image_id': image['prestashop']['image']['id']})
+        return True
+        
     @api.multi
     def push_single_product(self, product_tmpl):
         if product_tmpl:

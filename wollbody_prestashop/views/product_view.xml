@@ -14,6 +14,7 @@
 	      <button name="export_product_specific_prices" string="Push Specific Price" type="object"/>
 	      <button name="presta_apply_all" string="Apply All" type="object"/>
 	      <button name="clear_presta" string="Clear presta" type="object"/>
+	      <button name="push_images" string="Push Image" type="object"/>
 	        <group>
 	            <field name="get_color_id" />
 				<field name="presta_categories" widget="many2many_tags"/>
