@@ -35,3 +35,17 @@ class SaleOrder(models.Model):
             else:
                 raise UserError(_('Pakdo tracking code is empty.'))
         return True
+
+class SaleLineMissing(models.Model):
+    _inherit = 'sale.line.missing'
+    
+    total_amount = fields.Float(compute='_total_amount', string='Total Amount')
+    
+    #@api.depends('price_unit','qty')
+    @api.multi
+    def _total_amount(self):
+        for line in self:
+            line.total_amount = 0
+            if line.price_unit > 0  and line.qty > 0:
+                total = line.price_unit * line.qty
+                line.total_amount = total

@@ -1285,7 +1285,7 @@ class PrestashopConfig(models.Model):
                         if templates_all:
                             for product_template in templates_all:
                                 print 'product_template product_template product_template     ',product_template
-                                url = 'http://35.198.117.158/' +  resp['prestashop']['product']['id'] + '-' + resp['prestashop']['product']['link_rewrite']['language'][0]['value'] + '.html'
+                                url = 'http://www.wollbody.com/' +  resp['prestashop']['product']['id'] + '-' + resp['prestashop']['product']['link_rewrite']['language'][0]['value'] + '.html'
                                 product_template.write({'presta_id': resp['prestashop']['product']['id'], 'presta_link': url})
                                 
                                 #self.export_image(product_template)
@@ -2024,19 +2024,22 @@ class PrestashopConfig(models.Model):
                 partner_pool = self.env['res.partner']
                 sale_pool = self.env['sale.order']
                 line_pool = self.env['sale.order.line']
+                prod_pool = self.env['product.product']
                 orders = prestashop.get('orders')
                 
                 
                 prestashop_order_list = []
                 for prod in orders['orders']['order']:
-                    if int(prod['attrs'].get('id')) > 7150002:
+                    #if int(prod['attrs'].get('id')) > 7150002:
+                    if int(prod['attrs'].get('id')) == 2:
                         prestashop_order_list.append(prod['attrs'].get('id'))
                 
                 
                 for order in prestashop_order_list:
                     order_resp = prestashop.get('orders',order)
                     sale_order = self.env['sale.order'].search([('presta_id','=',order_resp['order'].get('id'))], limit=1)
-                    
+                    print '>>>>>>>>>>>>     ',order_resp
+                    print 'total_shipping total_shipping      ',type(order_resp['order']['total_shipping'])
                     if not sale_order:
                  
                  
@@ -2050,6 +2053,8 @@ class PrestashopConfig(models.Model):
                                         'presta_shop'           : order_resp['order']['id_shop'],
                                         'presta_reference'      : order_resp['order']['reference']
                             }
+                        
+                        
                          
                         current_state = self.env['prestashop.order.state'].search([('prestashop_id','=',order_resp['order']['current_state'])])
                         if current_state:
@@ -2082,6 +2087,7 @@ class PrestashopConfig(models.Model):
                             order_row = [order_resp['order']['associations']['order_rows']['order_row']]
                         
                         for order_line in order_row:
+                            print 'order_line order_lineorder_line               ',order_line
                             product = self.env['product.product'].search([('presta_child_id','=',order_line.get('product_attribute_id')),('presta_child_id','!=',0)], limit=1)
                             if product:
                                 name = product.name_get()[0][1]
@@ -2108,6 +2114,20 @@ class PrestashopConfig(models.Model):
                                 if not missing_line:
                                     self.env['sale.line.missing'].create({'sale_id' : sale_order.id, 'name' : order_line['product_name'], 'sku' : str(order_line['product_reference']),'qty':order_line['product_quantity'], 'price_unit' :order_line['unit_price_tax_incl']})
                         
+                        if float(order_resp['order']['total_shipping']) >  0:
+                            prod_ship_id = prod_pool.search([('name','ilike','Versand')])
+                            if not prod_ship_id:
+                                raise UserError(_('Versand  !', 'Product with name Versand does not exist.... '))
+                            
+                            ship_vals = { 
+                                                'order_id'           : sale_order.id,
+                                                'product_id'         : prod_ship_id and prod_ship_id.id or False,
+                                                'name'               : 'Versand',
+                                                'product_uom_qty'    : 1,
+                                                'price_unit'         : order_resp['order']['total_shipping'],
+                                                'product_uom'        : product_uom.id, #unit
+                                        }
+                            line_pool.create(ship_vals)
                         self.env.cr.commit()
     @api.multi
     def import_order_states(self):
@@ -2170,6 +2190,14 @@ class PrestashopConfig(models.Model):
                 
                 
         return True
+
+    @api.multi
+    def null_presta_stock_id(self):
+        stocks = self.env['pakdo.presta.stock'].search([])
+        if stocks:
+            for stock in stocks:
+                stock.write({'presta_stock_id':False})
+        
 class PrestashopCategory(models.Model):
     _name = 'prestashop.category'
     

@@ -7,7 +7,7 @@
     'version': '1.0',
     'description': """Wollbody Prestashop Connection""",
     'author': 'Ali Ravani',
-    'depends': ['wollbody_amazon_connection','product','sale'],
+    'depends': ['wollbody_amazon_connection','product','sale','wollbody_shopware'],
     'data': [
              'security/ir.model.access.csv',
              'data/cron.xml',

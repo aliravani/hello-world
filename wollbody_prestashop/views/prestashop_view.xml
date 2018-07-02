@@ -64,6 +64,8 @@
 					<br/>
 					<button name="export_product_stock_new" string="Export stock CSV New" type="object"/>
 					<br/>
+					<button name="null_presta_stock_id" string="Pakdo Presta stock Empty stock ID" type="object"/>
+					<br/>
 					<button name="update_sale_price" string="Update All sale price" type="object"/>
 					<br/>
 					<button name="update_sale_compute_price" string="Update All sale price (Computed)" type="object"/>

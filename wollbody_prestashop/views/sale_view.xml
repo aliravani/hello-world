@@ -23,6 +23,38 @@
 		</notebook>
 	</field>
 	</record>
+	
+	<record id="view_order_form_wollbody_shopware_prestashop" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="wollbody_shopware.view_order_form_wollbody_shopware"/>
+            <field name="arch" type="xml">
+            <page name="missing_products" position="replace">
+            <page string="Missing Products" name="missing_products" >
+            <field name="missing_ids">
+              <tree string="Missing Products">
+                <field name="name"/>
+                <field name="sku"/>
+                <field name="qty"/>
+                <field name="price_unit" />
+                <field name="total_amount" sum="Total"/>
+                <field name="transfer"/>
+              </tree>
+              <form>
+                <group>
+                  <field name="name"/>
+                  <field name="sku"/>
+                  <field name="qty"/>
+                  <field name="price_unit"/>
+                  <field name="total_amount"/>
+                  <field name="transfer"/>
+                </group>
+              </form>
+            </field>
+          </page>
+          </page>
+            </field>
+    </record>
   
   </data>
 </odoo>

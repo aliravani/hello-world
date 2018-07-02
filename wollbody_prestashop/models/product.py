@@ -200,9 +200,9 @@ class ProductTemplate(models.Model):
         if self.get_all_child:
             _logger.info("clear presta start.......................      " )
             for child in self.get_all_child:
-                child.write({'presta_child_id' : 0, 'presta_specific_price_id':False})
+                child.write({'presta_child_id' : False, 'presta_specific_price_id':False})
                 if child.product_tmpl_id:
-                    child.product_tmpl_id.write({'presta_id': 0,'presta_link': False,'presta_image_id': 0})
+                    child.product_tmpl_id.write({'presta_id': False,'presta_link': False,'presta_image_id': False})
                     _logger.info("clear presta done .......................      " )
         
         return True
