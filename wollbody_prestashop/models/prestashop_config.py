@@ -2031,8 +2031,8 @@ class PrestashopConfig(models.Model):
                 prestashop_order_list = []
                 for prod in orders['orders']['order']:
                     #if int(prod['attrs'].get('id')) > 7150002:
-                    if int(prod['attrs'].get('id')) == 2:
-                        prestashop_order_list.append(prod['attrs'].get('id'))
+                    #if int(prod['attrs'].get('id')) == 2:
+                    prestashop_order_list.append(prod['attrs'].get('id'))
                 
                 
                 for order in prestashop_order_list:
