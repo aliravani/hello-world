@@ -2031,7 +2031,7 @@ class PrestashopConfig(models.Model):
                 prestashop_order_list = []
                 for prod in orders['orders']['order']:
                     #if int(prod['attrs'].get('id')) > 7150002:
-                    #if int(prod['attrs'].get('id')) == 2:
+                    #if int(prod['attrs'].get('id')) == 11:
                     prestashop_order_list.append(prod['attrs'].get('id'))
                 
                 
@@ -2088,7 +2088,7 @@ class PrestashopConfig(models.Model):
                         
                         for order_line in order_row:
                             print 'order_line order_lineorder_line               ',order_line
-                            product = self.env['product.product'].search([('presta_child_id','=',order_line.get('product_attribute_id')),('presta_child_id','!=',0)], limit=1)
+                            product = self.env['product.product'].search([('presta_child_id','=',order_line.get('product_attribute_id'))], limit=1)
                             if product:
                                 name = product.name_get()[0][1]
                                 if product.description_sale:
