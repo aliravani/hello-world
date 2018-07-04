@@ -11,6 +11,7 @@
         <tree string="Prestashop Configuration">
           <field name="name" />
           <field name="url" />
+          <field name="shop_url" />
           <field name="api_key" />
           <field name="state" widget="statusbar" statusbar_visible="draft,connected" />
         </tree>
@@ -32,6 +33,7 @@
             <group>
               <field name="name" />
               <field name="url" required="1" />
+              <field name="shop_url" required="1"/>
               <field name="api_key" required="1" />
             </group>
             <field name="export_stock_error" />

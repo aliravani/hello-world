@@ -17,6 +17,7 @@ class PrestashopConfig(models.Model):
     
     name              = fields.Char('Name', default='Wollbody-Prestashop')
     url               = fields.Char('Host API Url', default='http://prestashop.wollbody.de')
+    shop_url          = fields.Char('Shop URL')
     api_key           = fields.Char('API Key',)
     state             = fields.Selection([('draft','Draft'),('connected','Connection Success'),('error','Error')], 'State', default='draft', readonly=True)
     export_stock_error = fields.Text('Export stock Error')
@@ -1236,8 +1237,8 @@ class PrestashopConfig(models.Model):
               {'attrs': {'id': '2'}, 'value': product_tmpl.presta_meta_description_english if product_tmpl.presta_meta_description_english else ''}]},
             'meta_keywords': {'language': [{'attrs': {'id': '1'}, 'value': product_tmpl.presta_meta_keywords_german if product_tmpl.presta_meta_keywords_german else ''},
               {'attrs': {'id': '2'}, 'value': product_tmpl.presta_meta_keywords_english if product_tmpl.presta_meta_keywords_english else ''}]},
-            'meta_title': {'language': [{'attrs': {'id': '1'}, 'value': ''},
-              {'attrs': {'id': '2'}, 'value': ''}]},
+            'meta_title': {'language': [{'attrs': {'id': '1'}, 'value': product_tmpl.presta_meta_title_german if product_tmpl.presta_meta_title_german else ''},
+              {'attrs': {'id': '2'}, 'value': product_tmpl.presta_meta_title_english if product_tmpl.presta_meta_title_english else ''}]},
                                         
             
                                         
@@ -1285,7 +1286,7 @@ class PrestashopConfig(models.Model):
                         if templates_all:
                             for product_template in templates_all:
                                 print 'product_template product_template product_template     ',product_template
-                                url = 'http://www.wollbody.com/' +  resp['prestashop']['product']['id'] + '-' + resp['prestashop']['product']['link_rewrite']['language'][0]['value'] + '.html'
+                                url =  presta.shop_url + '/' +  resp['prestashop']['product']['id'] + '-' + resp['prestashop']['product']['link_rewrite']['language'][0]['value'] + '.html'
                                 product_template.write({'presta_id': resp['prestashop']['product']['id'], 'presta_link': url})
                                 
                                 #self.export_image(product_template)
