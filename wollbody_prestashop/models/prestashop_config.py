@@ -1761,11 +1761,11 @@ class PrestashopConfig(models.Model):
                          'id_shop_group': '0'}
                         
                         if variant.date_from:
-                            from_date = variant.date_from + ' 00:00:00'
-                            price_dict.update({'from': from_date})
+                            #from_date = variant.date_from + ' 00:00:00'
+                            price_dict.update({'from': variant.date_from})
                         if variant.date_to:
-                            to_date = variant.date_to + ' 23:59:59'
-                            price_dict.update({'to': to_date})
+                            #to_date = variant.date_to + ' 23:59:59'
+                            price_dict.update({'to': variant.date_to})
                         
                         #never uncommet this section
 #                         price_dict = {'reduction_type': 'amount', 'reduction_tax': '1', 'id_customer': '0','from': '0000-00-00 00:00:00', 'to': '0000-00-00 00:00:00', 
