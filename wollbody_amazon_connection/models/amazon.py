@@ -507,6 +507,7 @@ class AmazonConfig(models.Model):
         amazon_obj = self.search([], limit=1)[0]
         shopware_obj = self.env['shopware.config'].search([], limit=1)[0]
         pakdo_obj = self.env['pakdo.config'].search([], limit=1)[0]
+        presta_obj = self.env['prestashop.config'].search([], limit=1)[0]
         #paypal_obj = self.env['connect.paypal'].search([], limit=1)[0]
         
         try:
@@ -525,6 +526,11 @@ class AmazonConfig(models.Model):
             #shopware_obj.import_betterpayment()
         #except:
         #    pass
+        
+        try:
+            presta_obj.import_order()
+        except:
+            pass
         
         try:
             pakdo_obj.get_tracking_code()
