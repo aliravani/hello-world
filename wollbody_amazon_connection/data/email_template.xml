@@ -1,0 +1,226 @@
+<?xml version="1.0" ?>
+<openerp>
+
+    <!-- Mail template are declared in a NOUPDATE block
+         so users can freely customize/delete them -->
+    <data noupdate="1">
+        <!--Email template -->
+        <record id="account.email_template_edi_invoice" model="mail.template">
+            <field name="name">AMZ:Invoice - Send by Email</field>
+            <field name="email_from">Wollbody® &lt;mail@wollbody.de&gt; </field>
+            <field name="subject">Wollbody® | Rechnung ${object.number or 'n/a'}</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="account.model_account_invoice"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="report_template" ref="account.account_invoices"/>
+            <field name="report_name">Rechnung_${(object.number or '')}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+
+<p>Hallo ${object.partner_id.name},</p>
+<p>vielen Dank. Wir haben Ihre Bestellung ${object.origin} über € ${object.amount_total} erhalten und wir oder unser Logistikpartner ist schon dabei Ihre Bestellung versandfertig zu machen. In der Anlage senden wir Ihnen Ihre Rechnung mit der Rechnungsnummer ${object.number}</p>
+
+% if object.pakdo_tracking_code:
+<p>Ihre Sendung befindet sich bereits auf dem Versandweg. Sie können auf der Seite von DHL Ihre Sendung verfolgen - Tracking Code : ${object.pakdo_tracking_code}</p>
+% endif
+
+<p>TAKE &amp; PASS ™ - Gutes tun und dabei sparen</p>
+<p>Ihr könnt die getragene Kleidung wieder an uns zurücksenden. Als Dankeschön erhalten Sie eine Gutschrift von 15% Ihres Bestellwerts. Und wir unterstützen mit der Kleidung, das Kinderprojekt die "Arche".</p>
+
+<p>Wir freuen uns, Sie in unserem Online-Shop willkommen zu heißen oder von Ihnen zu hören und verbleiben</p>
+<p>mit herzlichen Grüßen von</p><p>Wollbody</p><p><a title="" href="https://www.wollbody.de/" style="text-decoration:none;" data-original-title="Wollbody"><img src="https://www.wollbody.de/media/image/b1/03/ec/Logo_Wollbody.png" alt="Wollbody" width="300" height="82"></a></p>
+<p>Telefon 030 / 77 90 790-50<br>Fax 030 / 77 90 790-59<br>Email&nbsp;<a href="mailto:mail@wollbody.de" style="text-decoration:none;">mail@wollbody.de</a></p>
+<p><a href="https://www.facebook.com/Wollbody.de/" style="text-decoration:none;"><img src="https://www.wollbody.de/media/image/Facebook_Wollbody.png" alt="Wollbody auf Facebook" width="50" height="50"></a>&nbsp;<a href="https://plus.google.com/+WollbodyDe" style="text-decoration:none;"><img src="https://wollbody.de/media/image/GooglePlus_Wollbody.png" alt="Wollbody auf GooglePlus" width="49" height="50"></a>&nbsp;<a href="https://www.wollbody.de/wollbody/take-und-pass-gutes-tun-und-dabei-sparen/" style="text-decoration:none;"><img src="https://www.wollbody.de/media/image/TakeandPass.jpg" alt="Take &amp; Pass" width="50" height="50"></a></p>
+<p>Wollbody®de GmbH<br>Neue Kreisstraße 5 | 14109 Berlin</p>
+<p><font style="font-size: 10px;">Impressum:<br></font><font style="font-size: 10px;">www.wollbody.de<br>Wollbody GmbH<br>Neue Kreisstraße 5<br>14109 Berlin<br>Vertretungsberechtigter Geschäftsführer: Gunnar Sohn<br>Registergericht: Amtsgericht Berlin-CharlottenburgRegisternummer: HRB 118509 B</font></p>
+<p><font style="font-size: 10px;">Wichtiger Hinweis:Diese Information ist für den Gebrauch durch die Person oder die Firma/Organisation bestimmt, die in der Empfängeradresse benannt sind und unterliegt u. U. dem Berufsgeheimnis, dem Schutz von Arbeitsergebnissen oder anderweitigem rechtlichen Schutz. Wenn Sie nicht der angegebene Empfänger sind, nehmen Sie bitte zur Kenntnis, dass Weitergabe, Kopieren, Verteilung oder Nutzung des Inhalts dieser E-Mail-Übertragung unzulässig ist. Falls Sie diese E-Mail irrtümlich erhalten haben, benachrichtigen Sie den Absender bitte unverzüglich telefonisch oder durch eine E-Mail. Bitte informieren Sie uns auch unverzüglich, wenn Sie oder Ihr Arbeitgeber nicht mit E-Mail-Nachrichten dieser Art einverstanden sein sollten.&nbsp;</font></p>
+<p><font style="font-size: 10px;">Important Note:This e-mail may contain trade secrets or privileged, undisclosed or confidential information or otherwise protected by work product immunity or other legal rules. If you have received this e-mail in error, you are hereby notified that any review, copying or distribution of it is strictly prohibited. Please inform us immediately and destroy the original transmittal. Please advise us immediately if you or your company does not consent to receive e-mails for messages of this kind.</font></p>
+            
+
+            ]]></field>
+        </record>
+        
+        
+        
+        <!--Email template -->
+        <record id="email_template_edi_invoice_wollbody" model="mail.template">
+            <field name="name">WLBD: Invoice - Send by Email</field>
+            <field name="email_from">Wollbody® &lt;mail@wollbody.de&gt; </field>
+            <field name="subject">Wollbody® | Rechnung ${object.number or 'n/a'}</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="account.model_account_invoice"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="report_template" ref="account.account_invoices"/>
+            <field name="report_name">Rechnung_${(object.number or '')}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+
+<p>Hallo ${object.partner_id.name},</p>
+<p>vielen Dank. Wir haben Ihre Bestellung ${object.origin} über € ${object.amount_total} erhalten und wir oder unser Logistikpartner ist schon dabei Ihre Bestellung versandfertig zu machen. In der Anlage senden wir Ihnen Ihre Rechnung mit der Rechnungsnummer ${object.number}</p>
+
+% if object.pakdo_tracking_code:
+<p>Ihre Sendung befindet sich bereits auf dem Versandweg. Sie können auf der Seite von DHL Ihre Sendung verfolgen - Tracking Code : ${object.pakdo_tracking_code}</p>
+% endif
+
+<p>TAKE &amp; PASS ™ - Gutes tun und dabei sparen</p>
+<p>Ihr könnt die getragene Kleidung wieder an uns zurücksenden. Als Dankeschön erhalten Sie eine Gutschrift von 15% Ihres Bestellwerts. Und wir unterstützen mit der Kleidung, das Kinderprojekt die "Arche".</p>
+
+<p>Wir freuen uns, Sie in unserem Online-Shop willkommen zu heißen oder von Ihnen zu hören und verbleiben</p>
+<p>mit herzlichen Grüßen von</p><p>Wollbody</p><p><a title="" href="https://www.wollbody.de/" style="text-decoration:none;" data-original-title="Wollbody"><img src="https://www.wollbody.de/media/image/b1/03/ec/Logo_Wollbody.png" alt="Wollbody" width="300" height="82"></a></p>
+<p>Telefon 030 / 77 90 790-50<br>Fax 030 / 77 90 790-59<br>Email&nbsp;<a href="mailto:mail@wollbody.de" style="text-decoration:none;">mail@wollbody.de</a></p>
+<p><a href="https://www.facebook.com/Wollbody.de/" style="text-decoration:none;"><img src="https://www.wollbody.de/media/image/Facebook_Wollbody.png" alt="Wollbody auf Facebook" width="50" height="50"></a>&nbsp;<a href="https://plus.google.com/+WollbodyDe" style="text-decoration:none;"><img src="https://wollbody.de/media/image/GooglePlus_Wollbody.png" alt="Wollbody auf GooglePlus" width="49" height="50"></a>&nbsp;<a href="https://www.wollbody.de/wollbody/take-und-pass-gutes-tun-und-dabei-sparen/" style="text-decoration:none;"><img src="https://www.wollbody.de/media/image/TakeandPass.jpg" alt="Take &amp; Pass" width="50" height="50"></a></p>
+<p>Wollbody®de GmbH<br>Neue Kreisstraße 5 | 14109 Berlin</p>
+<p><font style="font-size: 10px;">Impressum:<br></font><font style="font-size: 10px;">www.wollbody.de<br>Wollbody GmbH<br>Neue Kreisstraße 5<br>14109 Berlin<br>Vertretungsberechtigter Geschäftsführer: Gunnar Sohn<br>Registergericht: Amtsgericht Berlin-CharlottenburgRegisternummer: HRB 118509 B</font></p>
+<p><font style="font-size: 10px;">Wichtiger Hinweis:Diese Information ist für den Gebrauch durch die Person oder die Firma/Organisation bestimmt, die in der Empfängeradresse benannt sind und unterliegt u. U. dem Berufsgeheimnis, dem Schutz von Arbeitsergebnissen oder anderweitigem rechtlichen Schutz. Wenn Sie nicht der angegebene Empfänger sind, nehmen Sie bitte zur Kenntnis, dass Weitergabe, Kopieren, Verteilung oder Nutzung des Inhalts dieser E-Mail-Übertragung unzulässig ist. Falls Sie diese E-Mail irrtümlich erhalten haben, benachrichtigen Sie den Absender bitte unverzüglich telefonisch oder durch eine E-Mail. Bitte informieren Sie uns auch unverzüglich, wenn Sie oder Ihr Arbeitgeber nicht mit E-Mail-Nachrichten dieser Art einverstanden sein sollten.&nbsp;</font></p>
+<p><font style="font-size: 10px;">Important Note:This e-mail may contain trade secrets or privileged, undisclosed or confidential information or otherwise protected by work product immunity or other legal rules. If you have received this e-mail in error, you are hereby notified that any review, copying or distribution of it is strictly prohibited. Please inform us immediately and destroy the original transmittal. Please advise us immediately if you or your company does not consent to receive e-mails for messages of this kind.</font></p>
+            
+
+            ]]></field>
+        </record>
+        
+        
+        
+        <!--Default Notification Email template for invoices-->
+        <record id="account.mail_template_data_notification_email_account_invoice" model="mail.template">
+            <field name="name">Invoice Notification Email</field>
+            <field name="subject">${object.subject}</field>
+            <field name="model_id" ref="mail.model_mail_message"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[<html>
+                <head></head>
+                <body style="margin: 0; padding: 0;">
+                <table border="0" width="100%" cellpadding="0" bgcolor="#ededed" style="padding: 20px; background-color: #ededed" summary="o_mail_notification">
+                    <tbody>
+
+                      <!-- HEADER -->
+                      
+
+                      <!-- CONTENT -->
+                      <tr>
+                        <td align="center" style="min-width: 590px;">
+                          <table width="590" border="0" cellpadding="0" bgcolor="#ffffff" style="min-width: 590px; background-color: rgb(255, 255, 255); padding: 20px;">
+                            <tbody>
+                              <td valign="top" style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;">
+                                ${object.body | safe}
+                              </td>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+
+                      <!-- FOOTER -->
+                      <tr>
+                        <td align="center" style="min-width: 590px;">
+                          <table width="590" border="0" cellpadding="0" bgcolor="#875A7B" style="min-width: 590px; background-color: rgb(135,90,123); padding: 20px;">
+                            <tr>
+                              <td valign="middle" align="left" style="color: #fff; padding-top: 10px; padding-bottom: 10px; font-size: 12px;">
+                                ${user.company_id.name}<br/>
+                                ${user.company_id.phone or ''}
+                              </td>
+                              <td valign="middle" align="right" style="color: #fff; padding-top: 10px; padding-bottom: 10px; font-size: 12px;">
+                                % if user.company_id.email:
+                                <a href="mailto:${user.company_id.email}" style="text-decoration:none; color: white;">${user.company_id.email}</a><br/>
+                                % endif
+                                % if user.company_id.website:
+                                    <a href="${user.company_id.website}" style="text-decoration:none; color: white;">
+                                        ${user.company_id.website}
+                                    </a>
+                                % endif
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+                </body>
+                </html>
+            ]]></field>
+        </record>
+        
+        
+   
+
+  <record id="email_template_edi_invoice_sale_reciept" model="mail.template">
+            <field name="name">Zahlungsbeleg</field>
+            <field name="email_from">Wollbody® &lt;mail@wollbody.de&gt; </field>
+            <field name="subject">Wollbody® | Back Sending | Sales Reciept ${object.number or 'n/a'}</field>
+            <field name="email_recipients">${object.partner_id.id}</field>
+            <field name="model_id" ref="account.model_account_invoice"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="report_template" ref="wollbody_amazon_connection.sale_reciept"/>
+            <field name="report_name">Zahlungsbeleg${(object.child_invoice_id.number or '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<p>
+
+</p><div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; "><p>Hallo ${object.partner_id.name},</p><p>wir haben Ihre Retourensendung ${object.origin} erhalten und Ihnen den Betrag von ${object.get_refund_total} ${object.currency_id.name} zurückerstattet (${object.payment_method} ).&nbsp;</p><p>In der Anlage senden wir Ihnen Ihren aktualisierten Zahlungsbeleg über ${object.amount_total_r} ${object.currency_id.name} mit der Nummer ${object.child_invoice_id.number}&nbsp;</p><p>Bewahren Sie diese Rechnung gut auf und senden Sie uns, wenn Sie mögen, einfach die auf der TAKE &amp; PASS™ Rechnung angegebenen Artikel, nachdem Sie getragen worden sind und Sie sie nicht mehr „benötigen" an uns zurück.&nbsp;</p><p>Als Dankeschön erhalten Sie eine Geschenkgutschrift von 15% des Warenwertes.&nbsp;</p><div></div><div><p></p><p></p><p></p></div><p>
+TAKE &amp; PASS ™ - Gutes tun und dabei sparen</p><div></div><p>Ihr könnt die getragene Kleidung wieder an uns zurücksenden. Als Dankeschön erhalten Sie eine Gutschrift von 15% Ihres Bestellwerts. Und wir unterstützen mit der Kleidung, das Kinderprojekt die "Arche".&nbsp;</p><div><p></p></div><p>Wir freuen uns, Sie in unserem Online-Shop willkommen zu heißen oder von Ihnen zu hören und verbleiben</p><div></div><p>mit herzlichen Grüßen von&nbsp;</p><div><p></p><p></p></div><p>Wollbody&nbsp;</p><div><p></p><p></p></div><div><p></p><p></p><p></p><p></p></div><a href="http://Wollbody.de" style="text-decoration:none;"><img src="http://www.wollbody.de/media/image/Wollbody-de.jpg" alt=" wollbody®&quot;=" "=""></a><div><p></p><p></p></div><p>Telefon 030 / 77 90 790-50</p><div></div><p>Fax 030 / 77 90 790-59&nbsp;</p><div></div><p>Email mail@wollbody.de&nbsp;</p><div><p></p><p></p><p></p><p></p><p></p><p></p></div><a href="https://de-de.facebook.com/Wollbody.de" style="text-decoration:none;"><img src="http://www.wollbody.de/media/image/Facebook_Wollbody.png" alt="Besuchen" sie="" wollbody®="" auf="" facebook"=""></a><a href="https://plus.google.com/+WollbodyDe" style="text-decoration:none;"><img src="http://wollbody.de/media/image/GooglePlus_Wollbody.png" alt="Besuchen" sie="" wollbody®="" auf="" google+"=""></a><a href="http://www.wollbody.de/take-und-pass" style="text-decoration:none;"><img src="http://www.wollbody.de/media/image/TakeandPass.jpg" alt="Wollbody®" take&pass"=""></a><div><p></p><p></p><p></p><p></p><p></p><p></p></div><p>Wollbody®de GmbH</p></div><div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; "><div></div><p>Neue Kreisstraße 5 | 14109 Berlin&nbsp;</p><div><p></p><p></p><p></p><p></p><p></p><p></p></div><p>Impressum:</p><div></div><p>www.wollbody.de</p><div></div><p>Wollbody GmbH</p><div></div><p>Neue Kreisstraße 5, 14109 Berlin</p><div></div><p>Vertretungsberechtigter Geschäftsführer: Gunnar Sohn</p><div></div><p>Registergericht: Amtsgericht Berlin-Charlottenburg</p><div></div><p>Registernummer: HRB 118509 B</p><div></div><div><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p></div><p>Wichtiger Hinweis:</p><div></div><p>Diese Information ist für den Gebrauch durch die Person oder die Firma/Organisation bestimmt, die in der Empfängeradresse benannt sind und unterliegt u. U. dem Berufsgeheimnis, dem Schutz von Arbeitsergebnissen oder anderweitigem rechtlichen Schutz. Wenn Sie nicht der angegebene Empfänger sind, nehmen Sie bitte zur Kenntnis, dass Weitergabe, Kopieren, Verteilung oder Nutzung des Inhalts dieser E-Mail-Übertragung unzulässig ist. Falls Sie diese E-Mail irrtümlich erhalten haben, benachrichtigen Sie den Absender bitte unverzüglich telefonisch oder durch eine E-Mail. Bitte informieren Sie uns auch unverzüglich, wenn Sie oder Ihr Arbeitgeber nicht mit E-Mail-Nachrichten dieser Art einverstanden sein sollten. Important Note:</p><div></div><p>This e-mail may contain trade secrets or privileged, undisclosed or confidential information or otherwise protected by work product immunity or other legal rules. If you have received this e-mail in error, you are hereby notified that any review, copying or distribution of it is strictly prohibited. Please inform us immediately and destroy the original transmittal. Please advise us immediately if you or your company does not consent to receive e-mails for messages of this kind.</p></div>
+            <p></p>
+            ]]></field>
+        </record>
+        
+
+<record id="email_template_edi_invoice_reminder" model="mail.template">
+            <field name="name">Zahlungserinnerung</field>
+            <field name="email_from">Wollbody® &lt;mail@wollbody.de&gt; </field>
+            <field name="subject">Wollbody® | Zahlungserinnerung ${object.child_invoice_id.number or object.number or 'n/a'}</field>
+            <field name="email_recipients">${object.partner_id.id}</field>
+            <field name="model_id" ref="account.model_account_invoice"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="report_template" ref="wollbody_amazon_connection.sale_reminder"/>
+            <field name="report_name">Zahlungserinnerung${(object.child_invoice_id.number or object.number or '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+			<p>
+			</p><div style="font-family: &quot;Lucica Grande&quot;, Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);"><font color="#222222">&nbsp;</font>Hallo ${object.partner_id.name},
+			</div><p></p><div style="color: rgb(34, 34, 34)"></div><div><div><p style="color: rgb(34, 34, 34)">&nbsp;leider haben wir von Ihrer Bestellung&nbsp;${object.origin}&nbsp;mit der Rechnungsnummer ${object.child_invoice_id.number or object.number}&nbsp;vom&nbsp;${object.date_invoice.split('-')[2] + '.' + object.date_invoice.split('-')[1] + '.' + object.date_invoice.split('-')[0]}&nbsp;bis heute noch keinen Zahlungseingang verzeichnen können.</p><p style="color: rgb(34, 34, 34)">Wahrscheinlich ist die Rechnung im täglichen Trubel mit den Kleinen untergegangen, wofür wir vollstes Verständnis haben.</p><p style="color: rgb(34, 34, 34)">Wir bitten Sie höflich um Ausgleich der Rechnung in Höhe von ${object.amount_total_r or object.amount_total} €</p><p style="color: rgb(34, 34, 34)">bis spätestens ${object.get_date_8} auf unser Konto:</p><p style="color: rgb(34, 34, 34)">Wollbody GmbH</p><p style="color: rgb(34, 34, 34)">IBAN: DE55100400000735912800 | Kontonummer: 735 9128 00</p><p style="color: rgb(34, 34, 34)">BIC: COBADEFF / BLZ: 10040000 (Commerzbank)</p><p style="color: rgb(34, 34, 34)">Verwendungszweck:&nbsp;${object.child_invoice_id.number or object.number}&nbsp;</p><p style="color: rgb(34, 34, 34)">Sollten Sie allerdings den Rechnungsbetrag in den letzten Tagen bereits überwiesen haben, so betrachten Sie bitte dieses Schreiben als gegenstandslos. Bei Fragen, zögern Sie bitte nicht uns einfach anzurufen.</p><p style="color: rgb(34, 34, 34)">Wir freuen uns, Sie in unserem Online-Shop willkommen zu heißen oder von Ihnen zu hören und verbleiben</p><p style="color: rgb(34, 34, 34)">mit herzlichen Grüßen</p><p style="color: rgb(34, 34, 34)">Ihr Wollbody Team</p><p style="color: rgb(34, 34, 34)">++++++++++++++++++++++++++</p></div><div style="color: rgb(34, 34, 34)">Ihr Wollbody Team<a href="http://wollbody.de/" style="text-decoration:none;"></a>Telefon 030 / 77 90 790-50Fax 030 / 77 90 790-59Email mail@wollbody.de<a href="https://de-de.facebook.com/Wollbody.de" style="text-decoration:none;"></a>&nbsp;<a href="https://plus.google.com/+WollbodyDe" style="text-decoration:none;"></a>&nbsp;<a href="http://www.wollbody.de/take-und-pass" style="text-decoration:none;"></a>Wollbody.de ist eine Marke der Nhos Services &amp; Vertriebs GmbHNeue Kreisstraße 5 | 14109 BerlinImpressum:www.wollbody.deWollbody®de ist eine Marke der Nhos Services &amp; Vertriebs GmbHNeue Kreisstraße 5, 14109 BerlinVertretungsberechtigter Geschäftsführer: Gunnar SohnRegistergericht: Amtsgericht Berlin-CharlottenburgRegisternummer: HRB 118509 BWichtiger Hinweis:Diese Information ist für den Gebrauch durch die Person oder die Firma/Organisation bestimmt, die in der Empfängeradresse benannt sind und unterliegt u. U. dem Berufsgeheimnis, dem Schutz von Arbeitsergebnissen oder anderweitigem rechtlichen Schutz. Wenn Sie nicht der angegebene Empfänger sind, nehmen Sie bitte zur Kenntnis, dass Weitergabe, Kopieren, Verteilung oder Nutzung des Inhalts dieser E-Mail-Übertragung unzulässig ist. Falls Sie diese E-Mail irrtümlich erhalten haben, benachrichtigen Sie den Absender bitte unverzüglich telefonisch oder durch eine E-Mail. Bitte informieren Sie uns auch unverzüglich, wenn Sie oder Ihr Arbeitgeber nicht mit E-Mail-Nachrichten dieser Art einverstanden sein sollten. Important Note:This e-mail may contain trade secrets or privileged, undisclosed or confidential information or otherwise protected by work product immunity or other legal rules. If you have received this e-mail in error, you are hereby notified that any review, copying or distribution of it is strictly prohibited. Please inform us immediately and destroy the original transmittal. Please advise us immediately if you or your company does not consent to receive e-mails for messages of this kind.</div></div><p></p>
+            <p></p>
+            ]]></field>
+        </record>
+        
+     
+     <record id="email_template_edi_sale_order_odoo_error_refund" model="mail.template">
+            <field name="name">Odoo Lagerbstandsfehler / korrektur Rechnung</field>
+            <field name="email_from">Wollbody® &lt;mail@wollbody.de&gt; </field>
+            <field name="subject">Wollbody® | Ihre Bestellung | Lagerbstandsfehler</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+			<p style="font-size: 13px; font-family: &quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif; margin: 0px 0px 9px 0px">Hallo ${object.partner_id.name},</p>
+			<p style="font-size: 13px; font-family: &quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif; margin: 0px 0px 9px 0px">leider ist etwas bei Ihrer Bestellung schief gelaufen... Wir bitten vielmals um Entschuldigung!</p>
+			<p style="font-size: 13px; font-family: &quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif; margin: 0px 0px 9px 0px">Es gab einen Lagerbestansfehler weshalb wir Ihnen den "" nicht versenden können.</p>
+			
+			% for line in object.order_line:
+				% if line.shipped_type == False and line.product_id.type == 'product':	
+				<p style="font-size: 13px; font-family: &quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif; margin: 0px 0px 9px 0px"><b>${"%.0f" %line.product_uom_qty}x ${line.name} ${"%.2f" % line.price_unit}€
+				  </b>
+				</p>
+				% endif
+			% endfor
+			
+			<p style="font-size: 13px; font-family: &quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif; margin: 0px 0px 9px 0px">
+			  Ihrer Rechnung haben wir den/die Artikel abgezogen (<b>${"%.2f" %object.total_price_error}€</b>)&nbsp;
+			</p>
+			
+			<p style="font-size: 13px; font-family: &quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif; margin: 0px 0px 9px 0px">Bei Fragen, zögern Sie bitte nicht uns einfach anzurufen.</p>
+			<p style="font-size: 13px; font-family: &quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif; margin: 0px 0px 9px 0px">Herzliche Grüße</p>
+			<p style="font-size: 13px; font-family: &quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif; margin: 0px 0px 9px 0px">Wollbody</p>
+			<p style="font-size: 13px; font-family: &quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif; margin: 0px 0px 9px 0px"><a title="" href="https://www.wollbody.de/" style="color: rgb(124, 123, 173); background-color: transparent"><img src="https://www.wollbody.de/media/image/b1/03/ec/Logo_Wollbody.png" alt="Wollbody" width="300" height="82"></a></p>
+			<p style="font-size: 13px; font-family: &quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif; margin: 0px 0px 9px 0px">Telefon 030 / 77 90 790-50<br>Fax 030 / 77 90 790-59<br>Email <a href="mailto:mail@wollbody.de" style="color: rgb(124, 123, 173); background-color: transparent">mail@wollbody.de</a></p>
+			<p style="font-size: 13px; font-family: &quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif; margin: 0px 0px 9px 0px"><a href="https://www.facebook.com/Wollbody.de/" style="color: rgb(124, 123, 173); background-color: transparent"><img src="https://www.wollbody.de/media/image/Facebook_Wollbody.png" alt="Wollbody auf Facebook" width="50" height="50"></a>&nbsp;<a href="https://plus.google.com/+WollbodyDe" style="color: rgb(124, 123, 173); background-color: transparent"><img src="https://wollbody.de/media/image/GooglePlus_Wollbody.png" alt="Wollbody auf GooglePlus" width="49" height="50"></a>&nbsp;<a href="https://www.wollbody.de/wollbody/take-und-pass-gutes-tun-und-dabei-sparen/" style="color: rgb(124, 123, 173); background-color: transparent"><img src="https://www.wollbody.de/media/image/TakeandPass.jpg" alt="Take &amp; Pass" width="50" height="50"></a></p>
+			<p style="font-size: 13px; font-family: &quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif; margin: 0px 0px 9px 0px">Wollbody®de GmbH<br>Neue Kreisstraße 5 | 14109 Berlin</p>
+			<p style="font-size: 13px; font-family: &quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif; margin: 0px 0px 9px 0px"><font style="font-size: 9px">Impressum:<br>www.wollbody.de<br>Wollbody GmbH<br>Neue Kreisstraße 5<br>14109 Berlin<br>Vertretungsberechtigter Geschäftsführer: Gunnar Sohn<br>Registergericht: Amtsgericht Berlin-Charlottenburg<br>Registernummer: HRB 118509 B</font></p>
+			<p style="font-size: 13px; font-family: &quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif; margin: 0px 0px 9px 0px"><font style="font-size: 9px">Wichtiger Hinweis:Diese Information ist für den Gebrauch durch die Person oder die Firma/Organisation bestimmt, die in der Empfängeradresse benannt sind und unterliegt u. U. dem Berufsgeheimnis, dem Schutz von Arbeitsergebnissen oder anderweitigem rechtlichen Schutz. Wenn Sie nicht der angegebene Empfänger sind, nehmen Sie bitte zur Kenntnis, dass Weitergabe, Kopieren, Verteilung oder Nutzung des Inhalts dieser E-Mail-Übertragung unzulässig ist. Falls Sie diese E-Mail irrtümlich erhalten haben, benachrichtigen Sie den Absender bitte unverzüglich telefonisch oder durch eine E-Mail. Bitte informieren Sie uns auch unverzüglich, wenn Sie oder Ihr Arbeitgeber nicht mit E-Mail-Nachrichten dieser Art einverstanden sein sollten.&nbsp;</font></p>
+			<p style="font-size: 13px; font-family: &quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif; margin: 0px 0px 9px 0px"><font style="font-size: 9px">Important Note:This e-mail may contain trade secrets or privileged, undisclosed or confidential information or otherwise protected by work product immunity or other legal rules. If you have received this e-mail in error, you are hereby notified that any review, copying or distribution of it is strictly prohibited. Please inform us immediately and destroy the original transmittal. Please advise us immediately if you or your company does not consent to receive e-mails for messages of this kind.</font></p>
+            
+
+            
+            ]]></field>
+        </record>
+   
+        
+    </data>
+</openerp>

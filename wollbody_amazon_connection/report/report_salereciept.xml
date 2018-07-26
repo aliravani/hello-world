@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<template id="report_salereciept_document">
+    <t t-call="wollbody_amazon_connection.custom_invoice_layout">
+        <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
+        <div class="page">
+            
+        	
+        	
+        	
+        	
+        	<div class="row mt32">
+        	    <div style="margin-left: 16px;margin-bottom: 5px;font-size: 10px;">Wollbody.de | Neue Kreisstraße 5 | 14109 Berlin</div>
+        	    <div class="col-xs-6 pull-left text-left" style="margin-top: 0px;font-size: 13px;">
+        			<address t-field="o.partner_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+                    <span t-if="o.partner_id.vat">TIN: <span t-field="o.partner_id.vat"/></span>
+        		</div>
+        		<div class="col-xs-6 pull-center text-left" >
+        		   <div style="margin-left: 90px;font-size: 12px;"><b>Wollbody®de</b></div>
+        		   <div style="margin-left: 90px;font-size: 12px;">Wollbody GmbH</div>
+        		   <div style="margin-left: 90px;font-size: 12px;">Neue Kreisstraße 5</div>
+        		   <div style="margin-left: 90px;font-size: 12px;">14109 Berlin</div>
+        		   <br/>
+        		   <div style="margin-left: 90px;font-size: 12px;"><b>Kontakt</b></div>
+				   <div style="margin-left: 90px;font-size: 12px;">Telefon 030/7790790-50</div>
+				   <div style="margin-left: 90px;font-size: 12px;">Email mail@wollbody.de</div>
+				   <div style="margin-left: 90px;font-size: 12px;">LiveChat auf Wollbody.de</div>
+				   <div style="margin-left: 90px;font-size: 12px;">Fax 030/7790790-59</div>
+				   <div style="margin-left: 90px;">
+				     <img src='/wollbody_amazon_connection/static/src/img/wollbody_facebook.png' style="max-height: 35px;"/>
+				     <img src='/wollbody_amazon_connection/static/src/img/wollbody_google.png' style="max-height: 35px;"/>
+				   </div>
+        		</div>
+        		
+        	
+        	</div>
+        	
+        	<div class="row">
+                <div name="invoice_address" class="col-xs-5 col-xs-offset-7">
+                    
+                </div>
+            </div>
+        	
+        	
+            <div name="invoice_header" style="font-size:16px;font-weight: bold;">
+                <span>Zahlungsbeleg</span>
+                <span t-field="o.child_invoice_id.number"/>
+            </div>
+            
+            <br/>
+            
+            <table class="table">
+            	<thead>
+            	<tr>
+            	  <th class="text-center">Datum</th>
+            	  <th class="text-center">Bestellnummer</th>
+            	  <th class="text-center">Rechnungsnummer</th>
+            	 </tr>
+            	</thead>
+            	<tbody>
+            	  <tr>
+            	    <td class="text-center"><span t-field="o.date_invoice"/></td>
+            	    <td class="text-center"><span t-field="o.origin"/></td>
+            	    <td class="text-center"><span t-field="o.origin"/></td>
+            	  </tr>
+            	
+            	</tbody>
+            </table>
+
+            
+                
+           <div name="reference"></div>
+            
+
+            <!-- Is there a discount on at least one line? -->
+            <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
+
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Artikel</th>
+                        <th class="text-center">MwSt</th>
+                        <th class="text-right">Anzahl</th>
+                        <th class="text-right">Einzelpreis</th>
+                    </tr>
+                </thead>
+                <tbody class="invoice_tbody">
+                    <tr t-foreach="o.sale_reciept_ids" t-as="l">
+                    
+                        <td><span t-field="l.name"/></td>
+                        
+                        <td class="text-center">
+                            <span t-esc="', '.join(map(lambda x: (x.description or x.name), l.invoice_line_tax_ids))"/>
+                        </td>
+                        <td class="text-right">
+                        	<span t-esc="'%.0f'%(l.quantity)"/> 
+                            <span t-field="l.uom_id"  groups="product.group_uom"/>
+                        </td>
+                        
+                        <td class="text-right">
+                            <span t-field="l.price_unit" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-xs-4 pull-right">
+                    <table class="table table-condensed">
+                        <tr class="border-black">
+                            <td>Netto:</td>
+                            <td class="text-right">
+                                <span t-field="o.amount_untaxed_r" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td>MwSt:</td>
+                            <td class="text-right">
+                                <span t-field="o.amount_tax_r" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td><strong>Summe:</strong></td>
+                            <td class="text-right">
+                                 <span t-field="o.amount_total_r" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            
+			
+			<p t-if="o.payment_method">
+                Zahlungsweise:
+                <span t-field="o.payment_method"/>
+            </p>
+            
+            <p t-if="o.payment_method == 'Kauf auf Rechnung'">
+              <div>Bitte überweisen Sie den Rechnungsbetrag bis spätestens <span t-field="o.date_10"/></div>
+              
+              <!-- red -->
+              <div style="color:#FF0000">Geben Sie bitte als Verwendungszweck nur den Transaktionscode an, andernfalls können wir Ihre Zahlung nicht zuordnen.</div>
+              
+              <!-- transcode  -->
+              <div style="color:#FF0000">Transaktionscode: <span t-field="o.transaction_id"/></div>
+              
+              <!-- red -->
+              
+              <div>	Empfänger: Wollbody GmbH </div>
+			  <div>	IBAN: DE75700131000000150398</div>
+			  <div>Bank: net-m Privatbank 1891</div>
+			  <div>BIC: BVWBDE2WXXX</div>
+              
+            </p>
+			
+            
+        </div>
+    </t>
+</template>
+
+<template id="report_salereciept">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="wollbody_amazon_connection.report_salereciept_document" t-lang="o.partner_id.lang"/>
+        </t>
+    </t>
+</template>
+
+
+
+	
+</data>
+</odoo>

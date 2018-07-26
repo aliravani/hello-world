@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+  
+  <menuitem name="API Connection" id="menu_base_api_connection" sequence="2" groups="sales_team.group_sale_salesman"/>
+    <menuitem id="menu_amazon_configuration_label" parent="menu_base_api_connection" sequence="10" name="Amazon" />
+    
+    <record id="view_amazon_connect_tree" model="ir.ui.view">
+      <field name="name">amazon.connect.tree</field>
+      <field name="model">amazon.config</field>
+      <field name="arch" type="xml">
+        <tree string="Amazon Configuration">
+          <field name="domain" />
+          <field name="state" />
+        </tree>
+      </field>
+    </record>
+    
+    <record id="view_amazon_connect_form" model="ir.ui.view">
+      <field name="name">amazon.connect.form</field>
+      <field name="model">amazon.config</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Amazon Configuration">
+          <header>
+            <button name="test_connection" type="object" string="Test Amazon Server Connection" states="draft,error" class="btn-primary" />
+            <button name="reset" type="object" string="Cancel Test Amazon Server Connection" states="connected" />
+            <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,connected,error" statusbar_colors="{&quot;connected&quot;:&quot;green&quot;,&quot;error&quot;:&quot;red&quot;}" />
+          </header>
+          <sheet>
+            <group>
+              <group>
+                <field name="name" />
+                <field name="domain" />
+                <field name="user_agent" />
+                <field name="import_from" />
+                <field name="finance_import_from"/>
+              </group>
+              <group>
+                <field name="seller_id" />
+                <field name="aws_access_key_id" />
+                <field name="secret_key" />
+              </group>
+            </group>
+            <separator colspan="4" string="Marketplaces" />
+            <field name="market_place_id" colspan="4" nolabel="1" domain="[('active','=',true)]" />
+            <group name="amazon">
+              <group string="Action">
+                <div>
+                  <button name="list_inventory_supply" type="object" string="Get Inventory" class="btn-primary"/>
+                  <br/>
+                  <button name="get_product_my_price" type="object" string="Get Products My Price" class="btn-primary"/>
+                  <br/>
+                  <button name="import_order" type="object" string="Import Orders"  class="btn-primary"/>
+                  <br/>
+                  <button name="ListFinancialEvents_sale" type="object" string="ListFinancialEvents"  class="btn-primary"/>
+                  <br/>
+                  <button name="import_product_name" string="Import Name" type="object" class="btn-primary"/>
+                  <br/>
+                  <button name="list_inventory_supply_amazon_product" string="Import stock in amazon product" type="object"/>
+                </div>
+              </group>
+              <group string="Last Updated">
+                <div>
+                  <field name="date_1" nolabel="1" />
+                  <br/>
+                  <field name="date_2" nolabel="1" />
+                  <br/>
+                  <field name="date_3" nolabel="1" />
+                  <br/>
+                  <field name="date_4" nolabel="1" />
+                  <br/>
+                </div>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    
+    <!-- Add menu: "Amazon" in Settings/Configuration -->
+    <record id="action_amazon_configuration" model="ir.actions.act_window">
+      <field name="name">Amazon Configuration</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">amazon.config</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    
+    <menuitem id="menu_amazon_configuration" parent="menu_amazon_configuration_label" sequence="10" action="action_amazon_configuration" />
+  
+  </data>
+</odoo>

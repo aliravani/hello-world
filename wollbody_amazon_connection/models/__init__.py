@@ -1,0 +1,13 @@
+import product_template
+import product
+import ecs
+import amazon
+import print_label
+import sale
+import account_invoice
+import res_partner
+import account_payment
+#import mail_thread
+import mail_follower
+import mail_mail
+import mail_message

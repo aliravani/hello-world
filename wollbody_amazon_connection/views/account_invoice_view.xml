@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+  
+  	
+  	<record id="account.invoice_tree" model="ir.ui.view">
+            <field name="name">account.invoice.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="state == 'draft'"  decoration-muted="sale_reciept_send == True" string="Invoice">
+                    <field name="partner_id" groups="base.group_user" string="Customer"/>
+                    <field name="date_invoice"/>
+                    <field name="number"/>
+                    <field name="commercial_partner_id" invisible="1"/>
+                    <field name="reference" invisible="1"/>
+                    <field name="name" invisible="1"/>
+                    <field name="journal_id" invisible="1"/>
+                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                    <field name="user_id"/>
+                    <field name="date_due"/>
+                    <field name="origin"/>
+                    <field name="amount_total_signed" string="Total" sum="Total"/>
+                    <field name="residual_signed" string="Amount Due" sum="Amount Due"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="company_currency_id" invisible="1"/>
+                    <field name="state"/>
+                    <field name="sale_reciept_send" invisible="1"/>
+                    <field name="type" invisible="context.get('type',True)"/>
+                </tree>
+            </field>
+        </record>
+  
+    <record id="invoice_form_wollbody_amazon_connection" model="ir.ui.view">
+      <field name="name">account.invoice.form</field>
+      <field name="model">account.invoice</field>
+      <field name="inherit_id" ref="account.invoice_form" />
+      <field name="arch" type="xml">
+      <button name="action_invoice_open" position="after">
+      	<button name="refund_process_all" type="object"  string="Process All" attrs="{'invisible': [('type', '!=', 'out_refund')]}"/>
+      	<button name="action_invoice_sent_sale_reciept" string="Send Zahlungsbeleg" type="object"/>
+      </button>
+      <notebook position="inside">
+        <page string="Amazon" name="amazon">
+        <group>
+              <group>
+                <field name="purchase_date" readonly="1" />
+                <field name="last_update_date" readonly="1" />
+                <field name="amazon_id" readonly="1" />
+                <field name="f_channel" readonly="1" />
+                <field name="sales_channel" readonly="1" />
+                <field name="ship_serv_level" readonly="1" />
+                <field name="shipment_service" readonly="1" />
+              </group>
+              <group>
+                <!--                 <field name="order_status" readonly="1" /> -->
+                <field name="unshipped_items" readonly="1" />
+                <field name="shipped_items" readonly="1" />
+                <field name="marketplace_id" readonly="1" />
+                <field name="order_total" readonly="1" />
+                <field name="order_type" readonly="1" />
+                <field name="is_amazon" readonly="1" />
+                <field name="date_10" invisible="1" />
+              </group>
+            </group>
+        </page>
+        <page name="sale_reciept" string="Sales Reciept" attrs="{'invisible': [('type', '=', 'out_refund')]}">
+          <button name="get_line" string="Get Line" type="object" />
+             <field name="sale_reciept_ids">
+	          <tree editable="bottom">
+	            <field name="sequence" invisible="1"/>
+	            <field name="product_id"/>
+	            <field name="name"/>
+	            <field name="quantity"/>
+	            <field name="price_unit"/>
+	            <field name="account_id"/>
+	            <field name="invoice_line_tax_ids" widget="many2many_tags"/>
+	            <field name="price_subtotal"/>
+	          </tree>
+	        </field>
+	        
+	        <group class="oe_subtotal_footer oe_right">
+	          
+	          <field name="amount_untaxed_r" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+	          <field name="amount_tax_r" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+	          <field name="amount_total_r" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+	      	  <button name="compute_taxes_r" string="Update tax" type="object" class="oe_link"/>    
+	        </group>
+	        <group>
+	        	<field name="sale_reciept_send" invisible="1"/>
+	            <field name="get_refund_amount"/>
+	            <field name="get_refund_pending" />
+	            <field name="get_refund_total"/>
+	            <field name="refund_amount"/>
+	            <field name="get_child_invoice_ids" widget="many2many_tags"/>
+<!-- 	        	<field name="child_invoice_ids" widget="many2many_tags" invisible="1"/> -->
+	        	<field name="child_invoice_id" domain="[('id','in',get_child_invoice_ids and get_child_invoice_ids[0] and get_child_invoice_ids[0][2] or False)]" context="{'form_view_ref' : 'account.invoice_form'}"/>
+<!-- 	        	<field name="is_sale_reciept" invisible="1"/> -->
+	        </group>
+
+          </page>
+      </notebook>
+      <field name="tax_line_ids" position="after">
+        <field name="r_tax_line_ids" >
+                   <tree editable="bottom" string="Taxes">
+                       <field name="name"/>
+                       <!--Need invisible fields for on_change to create all necessary info -->
+                       <field name="tax_id" invisible="1"/>
+                       <field name="account_analytic_id" invisible="1"/>
+                       <field name="sequence" invisible="1"/>
+                       <field name="manual" invisible="1"/>
+                       <field name="account_id" groups="account.group_account_invoice"/>
+                       <field name="account_analytic_id" domain="[('company_id', '=', parent.company_id), ('account_type', '=', 'normal')]" groups="analytic.group_analytic_accounting"/>
+                       <field name="amount"/>
+                       <field name="currency_id" invisible="1"/>
+                   </tree>
+               </field>
+        </field>
+        <field name="payment_term_id" position="after">
+			<field name="mother_invoice_id" attrs="{'invisible': [('type', '=', 'out_invoice')]}" context="{'form_view_ref' : 'account.invoice_form'}"/>        
+        </field>
+        <div class="oe_chatter" position="replace">
+          <div class="oe_chatter">
+            <field name="message_follower_ids" widget="mail_followers" />
+            <field name="message_ids" widget="mail_thread" options="{'display_log_button' : True}" />
+            <field name="all_message_ids" widget="mail_thread" options="{'display_log_button' : True}" invisible="1"/>
+          </div>
+        </div>
+      	<xpath expr="//field[@name='partner_id']" position="attributes">
+       		<attribute name="context">{'search_default_customer':1, 'show_address_company': 1}</attribute>
+            <attribute name="options">{'always_reload': True}</attribute>
+       </xpath>
+      </field>
+    </record>
+    
+    
+    <!-- Update account invoice !-->
+        <record model="ir.ui.view" id="account_invoice_form_lbs">
+            <field name="name">Account Invoice</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="sale.account_invoice_form"/>
+            <field name="arch" type="xml">
+                    <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
+                        <attribute name="context">{'show_address_company': 1, 'default_type': 'delivery'}</attribute>
+            			<attribute name="options">{'always_reload': True}</attribute>
+                   </xpath>
+            </field>
+        </record>
+  
+  </data>
+</odoo>

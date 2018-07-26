@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_article_material,article.material,model_article_material,,1,1,1,1
+access_amazon_config,amazon.config,model_amazon_config,,1,1,1,1
+access_print_label,print.label,model_print_label,,1,1,1,1
+access_print_label_lilano,print.label.lilano,model_print_label_lilano,,1,1,1,1
+access_invoice_sale_reciept,invoice.sale.reciept,model_invoice_sale_reciept,,1,1,1,1
+access_invoice_refund_reason,invoice.refund.reason,model_invoice_refund_reason,,1,1,1,1
+access_account_invoice_tax_r,account.invoice.tax.r,model_account_invoice_tax_r,,1,1,1,1
+access_csv_template,csv.template,model_csv_template,,1,1,1,1
+access_csv_template_column,csv.template.column,model_csv_template_column,,1,1,1,1
+access_print_barcode,print.barcode,model_print_barcode,,1,1,1,1
+access_print_fnsku,print.fnsku,model_print_fnsku,,1,1,1,1

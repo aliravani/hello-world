@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+  	
+  	<record id="paperformat_print_label" model="report.paperformat">
+            <field name="name">Print Label</field>
+            <field name="default" eval="False" />
+            <field name="format">custom</field>
+            <field name="page_height">120</field>
+            <field name="page_width">125</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">0</field>
+            <field name="dpi">300</field>
+        </record>
+        
+	  <report
+        id="report_printlabel"
+        model="print.label"
+        string="Print Labels"
+        report_type="qweb-pdf"
+        name="wollbody_amazon_connection.report_print_label"
+        file="wollbody_amazon_connection.report_print_label"
+        paperformat="wollbody_amazon_connection.paperformat_print_label"/>
+      
+      
+      
+        
+      
+      
+    <record id="paperformat_print_labellilano" model="report.paperformat">
+        <field name="name">Print Label Lilano</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">1</field>
+        <field name="margin_bottom">1</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">300</field>
+    </record>
+        
+      <report
+            id="report_printlabellilano"
+            string="Print Labels Lilano"
+            model="print.label.lilano"
+            report_type="qweb-pdf"
+            name="wollbody_amazon_connection.report_print_labellilano"
+            file="wollbody_amazon_connection.report_print_labellilano"
+            paperformat="wollbody_amazon_connection.paperformat_print_labellilano"/>
+            
+     
+     
+     <record id="paperformat_print_labellilano_2" model="report.paperformat">
+        <field name="name">Print Label Lilano 2</field>
+        <field name="default" eval="False" />
+            <field name="format">custom</field>
+            <field name="page_height">50</field>
+            <field name="page_width">100</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">0</field>
+            <field name="dpi">300</field>
+    </record>
+        
+      <report
+            id="report_printlabellilano_2"
+            string="Print Labels Lilano 2"
+            model="print.label.lilano"
+            report_type="qweb-pdf"
+            name="wollbody_amazon_connection.report_print_labellilano_2"
+            file="wollbody_amazon_connection.report_print_labellilano_2"
+            paperformat="wollbody_amazon_connection.paperformat_print_labellilano_2"/>
+     
+     
+     <record id="paperformat_print_barcode" model="report.paperformat">
+        <field name="name">Print Barcode</field>
+        <field name="default" eval="False" />
+            <field name="format">custom</field>
+            <field name="page_height">50</field>
+            <field name="page_width">100</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">0</field>
+            <field name="dpi">300</field>
+    </record>
+    
+     <report
+        id="report_printbarcode"
+        model="print.barcode"
+        string="Print Barcode"
+        report_type="qweb-pdf"
+        name="wollbody_amazon_connection.report_print_barcode"
+        file="wollbody_amazon_connection.report_print_barcode"
+        paperformat="wollbody_amazon_connection.paperformat_print_barcode"/>
+     
+     
+     <report
+        id="report_printfnsku"
+        model="print.fnsku"
+        string="Print FNSKU"
+        report_type="qweb-pdf"
+        name="wollbody_amazon_connection.report_print_fnsku"
+        file="wollbody_amazon_connection.report_print_fnsku"
+        paperformat="wollbody_amazon_connection.paperformat_print_barcode"/>
+     
+     <record id="paperformat_invoice" model="report.paperformat">
+        <field name="name">Customer Invoice</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">50</field>
+        <field name="margin_bottom">23</field>
+        <field name="margin_left">18</field>
+        <field name="margin_right">18</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">50</field>
+        <field name="dpi">80</field>
+    </record>
+     
+     <report 
+            id="account.account_invoices"
+            model="account.invoice"
+            string="Invoices"
+            report_type="qweb-pdf"
+            name="account.report_invoice"
+            file="account.report_invoice"
+            attachment_use="True"
+            attachment="(object.state in ('open','paid')) and ('INV'+(object.number or '').replace('/','')+'.pdf')"
+        	paperformat="wollbody_amazon_connection.paperformat_invoice"/>
+        	
+     
+     <report 
+            id="sale_reciept"
+            model="account.invoice"
+            string="Sales Reciept"
+            report_type="qweb-pdf"
+            name="wollbody_amazon_connection.report_salereciept"
+            file="wollbody_amazon_connection.report_salereciept"
+            attachment_use="True"
+            attachment="(object.state in ('open','paid')) and ('sale_reciept_'+(object.child_invoice_id.number or '').replace('/','')+'.pdf')"
+        	paperformat="wollbody_amazon_connection.paperformat_invoice"/>
+      
+     
+     <report 
+            id="sale_reminder"
+            model="account.invoice"
+            string="Zahlungserinnerung"
+            report_type="qweb-pdf"
+            name="wollbody_amazon_connection.report_reminder"
+            file="wollbody_amazon_connection.report_reminder"
+            attachment_use="True"
+            attachment="(object.state in ('open','paid')) and ('Zahlungserinnerung_'+(object.child_invoice_id.number or object.number or '').replace('/','')+'.pdf')"
+        	paperformat="wollbody_amazon_connection.paperformat_invoice"/>
+        
+    
+    </data>
+</openerp>

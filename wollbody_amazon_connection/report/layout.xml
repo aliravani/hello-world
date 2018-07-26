@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+	
+<template id="wollbody_amazon_connection.custom_invoice_layout">
+    <t t-if="not o and doc">
+        <t t-set="o" t-value="doc"/>
+    </t>
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t>
+
+    <t t-call="wollbody_amazon_connection.custom_layout_header" />
+    <t t-raw="0" />
+    <t t-call="wollbody_amazon_connection.custom_layout_footer" />
+</template>
+
+<template id="wollbody_amazon_connection.custom_layout_header">
+    <div class="header">
+        <div class="row">
+            <br/>
+            <div class="col-xs-3">
+            </div>
+            <div class="col-xs-6">
+                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 90px;"/>
+            </div>
+            <div class="col-xs-3">
+            </div>
+            
+            
+            </div>
+            
+            
+            
+            <br/>
+        </div>
+    
+</template>
+
+	
+	<template id="wollbody_amazon_connection.custom_layout_footer">
+    <div class="footer">
+        <div class="text-center">
+        	<div class="text-center" style="font-size: 12px;">
+        		Wollbody® GmbH
+        	</div>
+        	
+            <t t-if="company.custom_footer">
+            <div style="font-size: 12px;">Telefon: 030 - 77 90 790 - 50 | Fax: 030 - 77 90 790 - 59 | mail@wollbody.de | www.wollbody.de | DE138404106</div>
+            <div style="font-size: 12px;">Neue Kreisstraße 5 | 14109 Berlin | Geschäftsführer Gunnar Sohn | Amtsgericht Berlin-Charlottenburg | HRB 118509 B</div>
+            </t>
+        
+    </div>
+    </div>      
+</template>
+
+</data>
+</openerp>

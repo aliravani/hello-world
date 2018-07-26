@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+  
+  <menuitem name="Label" id="menu_base_label" sequence="3"  groups="wollbody_amazon_connection.group_print_label,wollbody_amazon_connection.group_print_label_lilano"/>
+  <menuitem id="menu_print_label_label" parent="menu_base_label" sequence="10" name="Label" groups="wollbody_amazon_connection.group_print_label,wollbody_amazon_connection.group_print_label_lilano"/>
+  
+  <record id="view_print_label_tree" model="ir.ui.view">
+      <field name="name">print.label.tree</field>
+      <field name="model">print.label</field>
+      <field name="arch" type="xml">
+        <tree string="Print Label">
+          <field name="name" />
+        </tree>
+      </field>
+    </record>
+   
+    <record id="view_print_label_form" model="ir.ui.view">
+      <field name="name">print.label.form</field>
+      <field name="model">print.label</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Print Label">
+          <sheet>
+            <group>
+              <group>
+                <field name="name" default_focus="1" />
+              </group>
+              <group>
+                <button name="do_search" string="Search" type="object" class="btn-primary"/>
+				<button name="%(report_printlabel)d" string="Print Label" type="action" class="btn-primary"/>
+              </group>
+            </group>
+            <group>
+              <group>
+              <field name="amazon_name" readonly="1" />
+              <field name="supplier_id" readonly="1" />
+              <field name="art_name" readonly="1" />
+              <field name="art_no" readonly="1" />
+              <field name="color_no" readonly="1" />
+              <field name="size" readonly="1" />
+              <field name="color_name" readonly="1" />
+              <field name="material_id" readonly="1" />
+              <field name="image" widget="image" readonly="1" />
+              <field name="fnsku" invisible="1" />
+              </group>
+              <group>
+                <field name="barcode_img" widget="image" nolabel="1"/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+   
+    <record id="action_print_label" model="ir.actions.act_window">
+      <field name="name">Print Label</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">print.label</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+   
+    <menuitem id="menu_print_label" parent="menu_print_label_label" sequence="1" action="action_print_label" groups="wollbody_amazon_connection.group_print_label"/>
+    
+    
+<!--     Lilano -->
+    
+    <record id="view_print_label_lilano_tree" model="ir.ui.view">
+      <field name="name">print.label.lilano.tree</field>
+      <field name="model">print.label.lilano</field>
+      <field name="arch" type="xml">
+        <tree string="Print Label Lilano">
+          <field name="name" />
+        </tree>
+      </field>
+    </record>
+   
+    <record id="view_print_label_lilano_form" model="ir.ui.view">
+      <field name="name">print.label.lilano.form</field>
+      <field name="model">print.label.lilano</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Print Label Lilano">
+          <sheet>
+            <group>
+              <group>
+                <field name="name" default_focus="1" />
+              </group>
+              <group>
+                <button name="do_search" string="Search" type="object" class="btn-primary"/>
+				<button name="%(report_printlabellilano_2)d" string="Print Label" type="action" class="btn-primary"/>
+              </group>
+            </group>
+            <group>
+              <group>
+              <field name="amazon_name" readonly="1" invisible="1" />
+              <field name="supplier_id" readonly="1" />
+              <field name="art_name" readonly="1" />
+              <field name="art_no" readonly="1" />
+              <field name="color_no" readonly="1" />
+              <field name="size" readonly="1" />
+              <field name="color_name" readonly="1" />
+              <field name="material_id" readonly="1" />
+              <field name="image" widget="image" readonly="1" />
+              <field name="logo" widget="image" readonly="1" invisible="1"/>
+              <field name="fnsku" invisible="1" />
+              </group>
+              <group>
+                <field name="barcode_img2" widget="image" nolabel="1"/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+   
+    <record id="action_print_label_lilano" model="ir.actions.act_window">
+      <field name="name">Print Label Lilano</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">print.label.lilano</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+   
+    <menuitem id="menu_print_label_lilano" parent="menu_print_label_label" sequence="2" action="action_print_label_lilano" groups="wollbody_amazon_connection.group_print_label_lilano"/>
+    
+    
+<!--     Print barcode -->
+    <record id="view_print_barcode_tree" model="ir.ui.view">
+      <field name="name">print.barcode.tree</field>
+      <field name="model">print.barcode</field>
+      <field name="arch" type="xml">
+        <tree string="Print Barcode">
+          <field name="name" />
+        </tree>
+      </field>
+    </record>
+   
+    <record id="view_print_barcode_form" model="ir.ui.view">
+      <field name="name">print.barcode.form</field>
+      <field name="model">print.barcode</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Print Barcode">
+          <sheet>
+            <group>
+              <group>
+                <field name="name" default_focus="1" />
+              </group>
+              <group>
+                <button name="do_search" string="Search" type="object" class="btn-primary"/>
+				<button name="%(report_printbarcode)d" string="Print Barcode" type="action" class="btn-primary"/>
+              </group>
+            </group>
+            <group>
+              <group>
+              
+              <field name="art_no" readonly="1" />
+              <field name="color_no" readonly="1" />
+              <field name="size" readonly="1" />
+              
+              <field name="barcode" invisible="0" readonly="1" />
+              </group>
+              <group>
+                <field name="barcode_img" widget="image" nolabel="1"/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+   
+    <record id="action_print_barcode" model="ir.actions.act_window">
+      <field name="name">Print Barcode</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">print.barcode</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+   
+    <menuitem id="menu_print_barcode" parent="menu_print_label_label" sequence="3" action="action_print_barcode" groups="wollbody_amazon_connection.group_print_label"/>
+    
+ 
+ 
+ <!--     Print FNSKU -->
+    <record id="view_print_fnsku_tree" model="ir.ui.view">
+      <field name="name">print.fnsku.tree</field>
+      <field name="model">print.fnsku</field>
+      <field name="arch" type="xml">
+        <tree string="Print FNSKU">
+          <field name="name" />
+        </tree>
+      </field>
+    </record>
+   
+    <record id="view_print_fnsku_form" model="ir.ui.view">
+      <field name="name">print.fnsku.form</field>
+      <field name="model">print.fnsku</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Print FNSKU">
+          <sheet>
+            <group>
+              <group>
+                <field name="name" default_focus="1" />
+              </group>
+              <group>
+                <button name="do_search" string="Search" type="object" class="btn-primary"/>
+				<button name="%(report_printfnsku)d" string="Print FNSKU" type="action" class="btn-primary"/>
+              </group>
+            </group>
+            <group>
+              <group>
+              
+              <field name="amazon_name" readonly="1" />
+              <field name="supplier_id" readonly="1" invisible="1"/>
+              <field name="art_name" readonly="1" />
+              <field name="art_no" readonly="1" />
+              <field name="color_no" readonly="1" />
+              <field name="size" readonly="1" />
+              <field name="color_name" readonly="1" />
+              <field name="image" widget="image" readonly="1" />
+              <field name="fnsku" invisible="1" />
+              </group>
+              <group>
+                <field name="fnsku_img" widget="image" nolabel="1"/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+   
+    <record id="action_print_fnsku" model="ir.actions.act_window">
+      <field name="name">Print FNSKU</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">print.fnsku</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+   
+    <menuitem id="menu_print_fnsku" parent="menu_print_label_label" sequence="3" action="action_print_fnsku" groups="wollbody_amazon_connection.group_print_label"/>
+    
+  
+  </data>
+</openerp>

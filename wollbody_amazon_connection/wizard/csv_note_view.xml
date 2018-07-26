@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+  
+    
+    <record id="view_mass_csv_note" model="ir.ui.view">
+      <field name="name">CSV Update Note</field>
+      <field name="model">csv.note</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="CSV Update Note">
+          <sheet>
+            <separator string="Select File" colspan="4" />
+            <h2>Please make sure that CSV file should be separated by TAB</h2>
+            <group>
+              <field name="path" required="1" />
+              <newline />
+              <field name="model_id" required="1" readonly="1" invisible="1" />
+            </group>
+            <separator string="" colspan="4" />
+            <label string="" colspan="2" />
+            <footer>
+              <button name="update" string="_Update" type="object" class="btn-primary" />
+              <button special="cancel" string="Close" type="object" class="oe_link oe_inline" />
+            </footer>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    
+   
+    
+    <record id="csv_note_action" model="ir.actions.act_window">
+      <field name="name">Note from CSV</field>
+      <field name="res_model">csv.note</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="target">new</field>
+      <field name="view_id" ref="view_mass_csv_note" />
+    </record>
+   
+    
+    <!-- menu created in warehouse -->
+    <menuitem action="csv_note_action" id="menu_csv_note" parent="wollbody_amazon_connection.menu_product_update" sequence="20" />
+    
+  </data>
+</odoo>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+  
+   <template id="report_print_labellilano">
+    
+        <div class="page">
+        	<t t-foreach="docs" t-as="o">
+        	
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    
+                    <t t-set="o" t-value="o"/>
+                </t>
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                
+                
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                
+                
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside">
+                    <t t-set="o" t-value="o"/>
+                </t>
+                
+               
+                
+            </t>
+        </div>
+    </template>
+    
+    
+    <template id="report_print_labellilano_inside" >
+    
+    
+      <div class="col-xs-4" style="padding:0;margin-left:0px;">
+
+        <table style="border-spacing:0;margin-left:3px;margin-bottom:5px;height:150px;width:230px;border:0px;" class="table" border="0">
+            <tbody>
+                <tr style="border:none;">
+                    <td style="border:none;">
+                        <div style="font-size: 10px;margin-bottom:3px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 100px;" >
+                         <span  t-if="o.supplier_id" t-field="o.supplier_id"></span>
+                         -
+                         <span  t-if="o.art_name" t-field="o.art_name"></span>
+                       </div>
+                       
+                       <div style="font-size: 4px;" t-if="o.art_no">Art.-Nr.</div>
+                       <div  style="font-size: 10px;margin-bottom:3px;" t-field="o.art_no"/>
+                       
+                       <div style="font-size: 4px;" t-if="o.color_name">Farbe</div>
+                       <div  style="font-size: 10px;margin-bottom:6px;">
+                         <span t-field="o.color_name"/>
+                         -
+                         <span t-field="o.color_no"/>
+                       </div>
+                       
+                       <div style="font-size: 4px;" t-if="o.size">Größe</div>
+                       <div  style="font-size: 10px;margin-bottom:3px;" t-field="o.size"/>
+                       
+                       <div style="font-size: 4px;" t-if="o.material_id.name">Material</div>
+                       
+                       <div style="font-size: 10px;" t-field="o.material_id.name" />
+                    </td>
+                    <td style="border:none;">
+                        
+                       <img t-if="o.logo" t-att-src="'data:image/png;base64,%s' % o.logo" width="80" height="80" />
+                       
+                       <div  style="margin-bottom:5px;"/>
+                       <img t-attf-src="data:image/*;base64,{{o.barcode_img}}" t-att-alt="o.barcode_img" width="80" height="45" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+    
+    </div>
+    
+    
+    </template>
+  
+  </data>
+</openerp>

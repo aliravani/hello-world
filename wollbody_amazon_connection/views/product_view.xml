@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+  
+    
+     <record id="stock.view_stock_product_tree" model="ir.ui.view">
+            <field name="name">product.stock.tree.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+                <tree position="attributes">
+                    <attribute name="decoration-danger">total_child_qty&lt;0</attribute>
+                    <attribute name="decoration-info">total_child_qty&gt;=0</attribute>
+                </tree>
+                <field name="price" position="after">
+                    <field name="total_child_qty" string="Stock"/>
+                    <field name="color_name"/>
+                    <field name="qty_available" invisible="1"/>
+                    <field name="virtual_available" invisible="1"/>
+                </field>
+            </field>
+        </record>
+  
+    <record id="product_normal_form_view_wollbody_amazon_connection" model="ir.ui.view">
+      <field name="name">product.product.form</field>
+      <field name="model">product.product</field>
+      <field name="inherit_id" ref="product.product_normal_form_view" />
+      <field name="arch" type="xml">
+        <field name="company_id" position="before">
+          <field name="sale_price_our" invisible="1" />
+          <field name="list_price" string="new list price"  invisible="1"/>
+          <field name="get_auto_product_desc" />
+          <field name="get_size" />
+          <field name="compute_sale_price" />
+          <field name="get_int_no" />
+          <field name="total_child_qty" />
+          <field name="fba_qty"/>
+          <field name="wlbdy_qty"/>
+          <field name="pakdo_qty"/>
+          <field name="pakdo"/>
+          <field name="push_pakdo"/>
+        </field>
+        <field name="lst_price" position="replace">
+          <field name="lst_price" widget="monetary" options="{'currency_field': 'currency_id'}" />
+        </field>
+        <page name="sales" position="after">
+          <page name="amazon" string="Amazon">
+            <group>
+              <field name="amazon_name" string="Name"/>
+              <field name="asin" />
+              <field name="fnsku" />
+              <field name="amazon_de_price" />
+              <field name="amazon_my_price" />
+            </group>
+            <group>
+              <field name="amazon_best_price_1" />
+              <field name="amazon_best_price_2" />
+              <field name="amazon_best_price_3" />
+              <field name="amazon_best_price_4" />
+              <field name="amazon_best_price_5" />
+              <field name="amazon_offer_count" />
+            </group>
+            <div>
+              <div class="address_format">
+                <label string="Amazon DE Competitive Price" />
+                <field name="amazon_land_price" style="width: 12%%" />
+                <field name="amazon_list_price" style="width: 12%%" />
+                <field name="amazon_ship_price" style="width: 12%%" />
+              </div>
+            </div>
+          </page>
+        </page>
+      </field>
+    </record>
+    
+    
+    <record id="action_product_sale_list_30_day" model="ir.actions.act_window">
+       <field name="name">Sale Order Lines</field>
+       <field name="res_model">sale.order.line</field>
+       <field name="context">{'search_default_product_id': [active_id], 'default_product_id': active_id, 'day_30': 'True'}</field>
+   </record>
+   
+    <record id="action_product_sale_list_365_day" model="ir.actions.act_window">
+       <field name="name">Sale Order Lines</field>
+       <field name="res_model">sale.order.line</field>
+       <field name="context">{'search_default_product_id': [active_id], 'default_product_id': active_id, 'day_365': 'True'}</field>
+   </record>
+   
+   <record id="action_product_sale_list_365_30_day" model="ir.actions.act_window">
+       <field name="name">Sale Order Lines</field>
+       <field name="res_model">sale.order.line</field>
+       <field name="context">{'search_default_product_id': [active_id], 'default_product_id': active_id, 'day_365_30': 'True'}</field>
+   </record>
+    
+    <record model="ir.ui.view" id="sale.product_form_view_sale_order_button">
+         <field name="name">product.product.sale.order</field>
+         <field name="model">product.product</field>
+         <field name="inherit_id" ref="product.product_normal_form_view"/>
+         <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+         <field name="arch" type="xml">
+             <div name="button_box" position="inside">
+                 <button class="oe_stat_button" name="%(sale.action_product_sale_list)d"
+                     type="action" icon="fa-usd">
+                     <field string="Sales" name="sales_count" widget="statinfo" />
+                 </button>
+                 <button class="oe_stat_button" name="%(action_product_sale_list_30_day)d"
+                     type="action" icon="fa-usd">
+                     <field string="Last 30 Tage" name="sales_count_30" widget="statinfo" />
+                 </button>
+                 <button class="oe_stat_button" name="%(action_product_sale_list_365_day)d"
+                     type="action" icon="fa-usd">
+                     <field string="Last 365 Tage" name="sales_count_365" widget="statinfo" />
+                 </button>
+                 <button class="oe_stat_button" name="%(action_product_sale_list_365_30_day)d"
+                     type="action" icon="fa-usd">
+                     <field string="Last 365-30 Tage" name="sales_count_365_30" widget="statinfo" />
+                 </button>
+             </div>
+         </field>
+     </record>
+    
+  </data>
+</odoo>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+  
+    <template id="report_print_barcode">
+    <t t-call="report.html_container">
+        <div class="page">
+            <t t-foreach="docs" t-as="o">
+                
+             	<div style="text-align:center;">
+	             	<img t-attf-src="data:image/*;base64,{{o.barcode_img}}" t-att-alt="o.barcode_img" width="400" height="140"/>
+	             	
+             	</div>   
+             	
+                <div style="text-align:center;">
+	                 <div style="font-size: 18px;">
+	                   <span  t-field="o.art_no"/> -
+	                   <span  t-field="o.color_no"/> -
+	                   <span  t-field="o.size"/> 
+	                 </div>
+	         	</div>
+             	
+	             <div style="text-align:center;">
+	             	<img t-if="o.logo" t-att-src="'data:image/png;base64,%s' % o.logo" style="max-height: 30px;"/>
+	             </div>
+             
+             
+            </t>
+        </div>
+    </t>
+    
+    </template>
+    
+
+    
+  </data>
+</openerp>

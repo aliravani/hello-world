@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+  
+   <template id="report_print_labellilano_2">
+    
+        <div class="page">
+        	<t t-foreach="docs" t-as="o">
+        	
+                <t t-call="wollbody_amazon_connection.report_print_labellilano_inside_2">
+                    
+                    <t t-set="o" t-value="o"/>
+                </t>
+                
+            </t>
+        </div>
+    </template>
+    
+    
+    <template id="report_print_labellilano_inside_2" >
+    
+    
+      <div class="col-xs-4" style="padding:0;margin-left:0px;">
+
+        <table style="border-spacing:0;margin-left:-10px;margin-bottom:-10px;height:188px;width:377px;border:0px;" class="table" border="0">
+            <tbody>
+                <tr style="border:none;">
+                    <td style="border:none;">
+                        <div style="font-size: 17px;margin-bottom:3px;">
+                         <span  t-if="o.art_name" t-field="o.art_name"></span>
+                       </div>
+                       
+                       
+                       <div  style="font-size: 17px;margin-bottom:3px;" >
+                         Art.
+                         <span t-if="o.art_no" t-field="o.art_no"/>
+                         Gr.
+                       	 <span  t-if="o.size" t-field="o.size"/>
+                       </div>
+                       <div  style="font-size: 17px;margin-bottom:3px;">
+                         <span t-field="o.color_name"/>
+                         -
+                         <span t-field="o.color_no"/>
+                       </div>
+                       
+                       
+                       
+                       
+                       
+                       <div style="font-size: 17px;" t-field="o.material_id.name" />
+                    </td>
+                    <td style="border:none;">
+                       <div style="margin-left:14px;margin-bottom:5px;">
+                       		<img t-if="o.logo" t-att-src="'data:image/png;base64,%s' % o.logo" width="100" height="80" />
+                       </div>
+                       <img t-attf-src="data:image/*;base64,{{o.barcode_img2}}" t-att-alt="o.barcode_img2" width="150" height="80" />
+                       
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        
+    
+    </div>
+    
+    
+    </template>
+  
+  </data>
+</openerp>

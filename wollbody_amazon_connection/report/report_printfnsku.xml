@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+  
+    <template id="report_print_fnsku">
+    <t t-call="report.html_container">
+        <div class="page">
+            <t t-foreach="docs" t-as="o">
+                
+             	<div style="text-align:center;">
+	             	<img t-attf-src="data:image/*;base64,{{o.fnsku_img}}" t-att-alt="o.fnsku_img" width="400" height="120"/>
+	             	
+             	</div>   
+             	
+                <div style="text-align:center;">
+	                 <div style="font-size: 14px;">
+	                   <span  t-field="o.amazon_name"/> 
+	                 </div>
+	         	</div>
+             	
+	             <div style="text-align:center;">
+	             	<img t-if="o.logo" t-att-src="'data:image/png;base64,%s' % o.logo" style="max-height: 30px;"/>
+	             </div>
+             
+             
+            </t>
+        </div>
+    </t>
+    
+    </template>
+    
+
+    
+  </data>
+</openerp>

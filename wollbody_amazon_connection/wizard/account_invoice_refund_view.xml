@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+  
+    <record id="view_account_invoice_refund_amazon_connecion" model="ir.ui.view">
+      <field name="name">account.invoice.refund.form</field>
+      <field name="model">account.invoice.refund</field>
+      <field name="inherit_id" ref="account.view_account_invoice_refund" />
+      <field name="arch" type="xml">
+        <field name="description" position="replace">
+          <field name="description" invisible="1" />
+          <field name="refund_reason_id" string="Reason" />
+          <field name="mother_invoice_id"/>
+          <field name="sku_values" />
+        </field>
+      </field>
+    </record>
+    
+  </data>
+</openerp>

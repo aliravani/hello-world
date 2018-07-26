@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+     <record id="csv_template_export_view" model="ir.ui.view">
+            <field name="name">csv.template.form.view</field>
+            <field name="model">export.csv.template</field>
+            <field name="arch" type="xml">
+              <form string="Export Template CSV">
+                  <group colspan="2" col="2">
+                       <field name="template_id" required="0" widget="selection"/>
+                       <field name="all"/>
+                       <field name="file" filename="file_name" attrs="{'invisible':[('file','=',False)]}" readonly="1"/>
+                     <field name="file_name" invisible="1" colspan="4"/>
+                     </group>
+                   <newline/>
+                   <separator string="" colspan="4"/>
+                   <footer>
+                        <button name="open_template" string="Open Template" type="object" class="oe_highlight"/>
+                        or
+                        <button name="export_csv" string="Export CSV" type="object" class="oe_highlight"/>
+                   </footer>
+              </form>
+            </field>
+     </record>
+        
+     <act_window 
+            name="Export CSV (Template)"
+            res_model="export.csv.template"
+            src_model="product.product"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="action_csv_template"/>
+    </data>
+    
+    
+    <record id="csv_template_view" model="ir.ui.view">
+          <field name="name">csv.template.form.view</field>
+          <field name="model">csv.template</field>
+          <field name="type">form</field>
+          <field name="arch" type="xml">
+            <form string="Template">
+              <group colspan="2" col="2">
+                    <field name="name" required="1"/>
+                    <field name="amazon_template"/>
+                    <field name="delimiter" attrs="{'invisible':[('amazon_template','=',False)]}"/>
+                    <field name="amazon_desc" attrs="{'invisible':[('amazon_template','=',False)]}"/>
+                    <group colspan="4">
+                    </group>
+                    <separator colspan="4" string="Fields to Export"/>
+                    <field name="column_ids" colspan="4" nolabel="1">
+                       <tree string="" editable="bottom">
+                           <field name="sequence" invisible="1"/>
+                           <field name="field_id" required="0"/>
+                           <field name="field_name"/>
+                           <field name="field_desc"/>
+                           <field name="static_value"/>
+                       </tree>
+                    </field>
+              </group>
+           </form>
+          </field>
+      </record>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+    
+    <record id="group_print_label" model="res.groups">
+        <field name="name">Print Label</field>
+        <field name="comment">Allow User to see print label menu.</field>
+    </record>
+    
+    <record id="group_print_label_lilano" model="res.groups">
+        <field name="name">Print Label Lilano</field>
+        <field name="comment">Allow User to see print label lilano menu.</field>
+    </record>
+    
+    </data>
+</odoo>

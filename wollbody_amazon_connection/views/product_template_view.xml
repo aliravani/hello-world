@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <record id="product_template_only_form_view_wollbody_amazon_connection" model="ir.ui.view">
+    <field name="name">product.template.product.form</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_form_view" />
+    <field name="arch" type="xml">
+      <div name="options" position="before">
+        <div>
+          <field name="german_name" placeholder="German Name" />
+          <field name="swedish_name" placeholder="Swedish Name" />
+          <field name="is_gift" />
+          <label for="is_gift" />
+        </div>
+      </div>
+      <xpath expr="//page[@name='sales']" position="before">
+        <page name="article details" string="Article Details">
+          <group>
+            <field name="wldy_pakdo_qty" />
+            <field name="total_qty" />
+            <field name="related_supplier_id" domain="[('supplier','=',True)]" />
+            <field name="supplier_name" />
+            <field name="art_name" />
+            <field name="art_no" />
+            <field name="art_no_original" />
+            <field name="color_no" />
+            <field name="color_name" />
+            <field name="material_id" />
+            <field name="single_size" />
+            <field name="get_small_child" />
+            <field name="small_child_sku" />
+          </group>
+          <group />
+        </page>
+      </xpath>
+    </field>
+   </record>
+    
+    <record id="stock.view_stock_product_template_tree" model="ir.ui.view">
+            <field name="name">product.template.stock.tree.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+                <tree position="attributes">
+                    <attribute name="decoration-danger">total_qty&lt;0</attribute>
+                    <attribute name="decoration-info">total_qty&gt;=0</attribute>
+                </tree>
+                <field name="uom_id" position="before">
+                    <field name="total_qty" string="Stock"/>
+                    <field name="color_name"/>
+                    <field name="qty_available" invisible="1"/>
+                    <field name="virtual_available" invisible="1"/>
+                    <field name="art_no" />
+                </field>
+            </field>
+        </record>
+    
+    <record model="ir.ui.view" id="stock.product_template_kanban_stock_view">
+            <field name="name">Product Template Kanban Stock</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_kanban_view"/>
+            <field name="arch" type="xml">
+                <field name="lst_price" position="after">
+                    <field name="type"/>
+                </field>
+                <ul position="inside">
+                    <li t-if="record.type.raw_value == 'product'">On hand: <field name="total_qty"/> <field name="uom_id"/></li>
+                    <li>Article Nr.: <field name="art_no"/></li>
+                    <li>Color Nr.: <field name="color_no"/></li>
+                </ul>
+            </field>
+        </record>
+        
+    
+    <record id="product_template_search_view_amazon" model="ir.ui.view">
+        <field name="name">product.template.search</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+        <field name="name" position="after">
+          <field name="art_no" string="Articel Number" filter_domain="[('art_no','ilike',self)]"/>
+        </field>
+        <filter name="filter_to_purchase" position="after">
+        	<filter string="Qty greater than 0" name="total_qty" domain="[('total_qty', '&gt;', 0)]"/>
+        </filter>
+        </field>
+    </record>
+    
+  
+</odoo>

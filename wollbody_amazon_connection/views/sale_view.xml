@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+  
+    <record id="view_order_form_wollbody_amazon_connection" model="ir.ui.view">
+      <field name="name">sale.order.form</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form" />
+      <field name="arch" type="xml">
+        <button name="action_confirm" position="after">
+          <button name="process_all" string="All-Paper" type="object"  class="oe_highlight" attrs="{'invisible': [('shipped_all_btn', '=', False)]}"/>
+          <button name="%(action_fba_order)d" string="Create FBA" type="action" class="oe_highlight" />
+          <button name="transfer_to_order_line" states="draft,sent" string="Transfer to Order Line" type="object" class="oe_highlight"  />
+        </button>
+        <notebook position="inside">
+          <page string="Amazon" name="amazon">
+            <group>
+              <group>
+              	<field name="total_price_error" invisible="1"/>
+                <field name="shipped_all_btn" invisible="1"/>
+                <field name="purchase_date" readonly="0" />
+                <field name="last_update_date" readonly="0" />
+                <field name="amazon_id" readonly="0" />
+                <field name="f_channel" readonly="0" />
+                <field name="sales_channel" readonly="0" />
+                <field name="ship_serv_level" readonly="0" />
+                <field name="shipment_service" readonly="0" />
+              </group>
+              <group>
+                <field name="is_amazon"/>
+                <field name="unshipped_items" readonly="0" />
+                <field name="shipped_items" readonly="0" />
+                <field name="marketplace_id" readonly="0" />
+                <field name="order_total" readonly="0" />
+                <field name="order_type" readonly="0" />
+              </group>
+            </group>
+          </page>
+        </notebook>
+        <xpath expr="//field[@name='order_line']" position="replace">
+        	<field name="order_line" mode="tree,kanban"
+                 attrs="{'readonly': [('state', 'in', ('done','cancel'))]}">
+                 <form string="Sales Order Lines">
+                     <group>
+                         <group>
+                             <field name="product_id"
+                                 context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'company_id': parent.company_id}"
+                                 attrs="{'readonly': ['|', ('qty_invoiced', '&gt;', 0), ('procurement_ids', '!=', [])]}"
+                                />
+                             <field name="layout_category_id" groups="sale.group_sale_layout"/>
+                             <field name="invoice_status" invisible="1"/>
+                             <field name="qty_to_invoice" invisible="1"/>
+                             <field name="qty_delivered_updateable" invisible="1"/>
+                             <field name="procurement_ids" invisible="1"/>
+                             <field name="price_subtotal" invisible="1"/>
+                             <label for="product_uom_qty" string="Ordered Quantity"/>
+                             <div>
+                                 <field
+                                     context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'uom_qty_change':True, 'company_id': parent.company_id}"
+                                     name="product_uom_qty" class="oe_inline"/>
+                                 <field name="product_uom" groups="product.group_uom" class="oe_inline oe_no_button"
+                                     attrs="{'readonly': [('state', 'in', ('sale','done', 'cancel'))]}"/>
+                             </div>
+                             <label for="qty_delivered" string="Delivered Quantity" invisible="context.get('hide_sale')"/>
+                             <div invisible="context.get('hide_sale')">
+                                 <field name="qty_delivered" attrs="{'readonly': [('qty_delivered_updateable', '=', False)]}"/>
+                             </div>
+                             <label for="qty_invoiced" string="Invoiced Quantity" invisible="context.get('hide_sale')"/>
+                             <div invisible="context.get('hide_sale')">
+                                 <field name="qty_invoiced" invisible="context.get('hide_sale')"/>
+                             </div>
+                             <field name="price_unit"/>
+                             <label for="discount" groups="sale.group_discount_per_so_line"/>
+                             <div name="discount" groups="sale.group_discount_per_so_line">
+                                 <field name="discount" class="oe_inline"/> %%
+                             </div>
+                         </group>
+                         <group>
+                             <field name="tax_id" widget="many2many_tags" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
+                                 attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
+                             <label for="customer_lead"/>
+                             <div>
+                                 <field name="customer_lead" class="oe_inline"/> days
+                             </div>
+                             <label for="analytic_tag_ids"/>
+                             <div>
+                                 <field name="analytic_tag_ids" widget="many2many_tags"/>
+                             </div>
+                         </group>
+                     </group>
+                     <label for="name"/>
+                     <field name="name"/>
+                     <div groups="base.group_no_one">
+                         <label for="invoice_lines"/>
+                         <field name="invoice_lines"/>
+                     </div>
+                     <field name="state" invisible="1"/>
+                 </form>
+                 <tree string="Sales Order Lines" editable="bottom" decoration-info="invoice_status=='to invoice'" decoration-danger="fba_qty == 0 and not name == 'Versand'">
+                     <field name="sequence" widget="handle"/>
+                     <field name="product_id"
+                         attrs="{'readonly': ['|', ('qty_invoiced', '&gt;', 0), ('procurement_ids', '!=', [])]}"
+                         context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'company_id': parent.company_id}"
+                        />
+                     <field name="layout_category_id" groups="sale.group_sale_layout"/>
+                     <field name="name"/>
+                     <field name="product_uom_qty"
+                         string="Ordered Qty"
+                         context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'company_id': parent.company_id}"
+                     />
+                     <field name="fba_qty"/>
+					<field name="wlbdy_qty"/>
+					<field name="pakdo_qty"/>
+					<field name="shipped_type" />
+                     <field name="qty_delivered" invisible="context.get('hide_sale')"
+                         attrs="{'readonly': [('qty_delivered_updateable', '=', False)]}"/>
+                     <field name="qty_invoiced"
+                         invisible="context.get('hide_sale')"/>
+                     <field name="qty_to_invoice" invisible="1"/>
+                     <field name="product_uom"
+                         attrs="{'readonly': [('state', 'in', ('sale','done', 'cancel'))]}"
+                         context="{'company_id': parent.company_id}"
+                         groups="product.group_uom" options='{"no_open": True}'/>
+                     <field name="analytic_tag_ids" groups="analytic.group_analytic_accounting" widget="many2many_tags"/>
+                     <field name="price_unit"
+                         attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
+                     <field name="tax_id" widget="many2many_tags" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
+                         attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
+                     <field name="discount" groups="sale.group_discount_per_so_line"/>
+                     <field name="price_subtotal" widget="monetary" groups="sale.group_show_price_subtotal"/>
+                     <field name="price_total" widget="monetary" groups="sale.group_show_price_total"/>
+                     <field name="qty_delivered_updateable" invisible="1"/>
+                     <field name="procurement_ids" invisible="1"/>
+                     <field name="state" invisible="1"/>
+                     <field name="invoice_status" invisible="1"/>
+                     <field name="customer_lead" invisible="1"/>
+                 </tree>
+                 <kanban class="o_kanban_mobile">
+                     <field name="product_id"/>
+                     <field name="product_uom_qty"/>
+                     <field name="product_uom" groups="product.group_uom"/>
+                     <field name="price_subtotal"/>
+                     <templates>
+                         <t t-name="kanban-box">
+                             <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                 <div class="row">
+                                     <div class="col-xs-12">
+                                         <strong><span><t t-esc="record.product_id.value"/></span></strong>
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-xs-8 text-muted">
+                                         <span><t t-esc="record.product_uom_qty.value"/> <t t-esc="record.product_uom.value"/></span>
+                                     </div>
+                                     <div class="col-xs-4 text-muted">
+                                         <span class="pull-right text-right"><t t-esc="record.price_subtotal.value"/></span>
+                                     </div>
+                                 </div>
+                             </div>
+                         </t>
+                     </templates>
+                 </kanban>
+             </field>
+        </xpath>
+        <div class="oe_chatter" position="replace">
+	     <div class="oe_chatter">
+           <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+           <field name="message_ids" widget="mail_thread" options="{'display_log_button' : True}" />
+           <field name="all_message_ids" widget="mail_thread" options="{'display_log_button' : True}" invisible="1"/>
+	     </div>
+       </div>
+       <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
+       		<attribute name="context">{'show_address_company': 1, 'default_type': 'delivery'}</attribute>
+            <attribute name="options">{'always_reload': True}</attribute>
+       </xpath>
+       <xpath expr="//field[@name='partner_id']" position="attributes">
+       		<attribute name="context">{'search_default_customer':1, 'show_address_company': 1}</attribute>
+            <attribute name="options">{'always_reload': True}</attribute>
+       </xpath>
+        
+      </field>
+    </record>
+    
+    
+    <record id="sale.action_quotations" model="ir.actions.act_window">
+        <field name="name">Quotations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="sale.view_quotation_tree"/>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+        <field name="search_view_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="context">{'hide_sale': True}</field>
+        <field name="domain">[('state', 'in', ('draft', 'sent', 'cancel'))]</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Create a Quotation, the first step of a new sale.
+          </p><p>
+            Your next actions should flow efficiently: confirm the Quotation
+            to a Sale Order, then create the Invoice and collect the Payment.
+          </p><p>
+            Note that once a Quotation becomes a Sale Order, it will be moved
+            from the Quotations list to the Sales Order list.
+          </p>
+        </field>
+    </record>
+    
+    
+    <record id="view_sales_order_filter_amazon_connection" model="ir.ui.view">
+            <field name="name">sale.order.list.select</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+            <filter name="message_needaction" position="after">
+            	<filter string="Not Shipped Type" name="shipped_type_not" domain="[]" context="{'shipped_type_not':True}"/>
+            </filter>
+            </field>
+    </record>
+    
+  </data>
+</odoo>
