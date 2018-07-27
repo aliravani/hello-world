@@ -1751,14 +1751,24 @@ class PrestashopConfig(models.Model):
                 #        'id_country': '0', 'to': '0000-00-00 00:00:00', 'id_shop': '0', 'price': '-1.000000', 'reduction': '10.000000', 'from_quantity': '1', 
                 #        'id_customer': '0', 'id_product_attribute': '742', 'id_specific_price_rule': '0', 'id_currency': '0', 'id_product': '46', 'from': '0000-00-00 00:00:00', 
                 #        'id_group': '0', 'id': '8', 'id_shop_group': '0'}}
+                
+                #percentage
                 variants = self.env['presta.price'].search([('presta_id','!=',False),('presta_child_id','!=',False)])
                 for variant in variants:
                     
-                    if variant.presta_child_id and variant.price != 0:
+                    if variant.presta_child_id:
                         price_dict = {'reduction_type': 'amount', 'reduction_tax': '1', 'id_customer': '0','from': '0000-00-00 00:00:00', 'to': '0000-00-00 00:00:00', 
-                        'id_shop': '0', 'price': '-1.000000', 'reduction': variant.price, 'from_quantity': '1', 'id_currency': '0','id_country': '0',
-                        'id_product_attribute': variant.presta_child_id, 'id_specific_price_rule': '0', 'id_product': variant.presta_id, 'id_cart': '0','id_group': '0',
-                         'id_shop_group': '0'}
+                            'id_shop': '0', 'price': '-1.000000', 'reduction': variant.price, 'from_quantity': '1', 'id_currency': '0','id_country': '0',
+                            'id_product_attribute': variant.presta_child_id, 'id_specific_price_rule': '0', 'id_product': variant.presta_id, 'id_cart': '0','id_group': '0',
+                             'id_shop_group': '0'}
+                        if variant.price != 0 and variant.price_percent == 0:
+                            price_dict['reduction_type'] = 'amount'
+                            price_dict['reduction'] = variant.price
+                        
+                        if variant.price_percent != 0 and variant.price == 0:
+                            price_dict['reduction_type'] = 'percentage'
+                            price_dict['reduction'] = variant.price_percent
+                            
                         
                         if variant.date_from:
                             #from_date = variant.date_from + ' 00:00:00'

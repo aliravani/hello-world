@@ -83,6 +83,7 @@ class PrestaPrice(models.Model):
     
     product_id              = fields.Many2one('product.product','Product')
     price                   = fields.Float('Impact Price')
+    price_percent           = fields.Float('Impact Percent (%)')
     default_code            = fields.Char('Internel Reference')
     presta_child_id         = fields.Char(related='product_id.presta_child_id',string='Presta Child ID', store=True)
     presta_id               = fields.Char(related='product_id.presta_id',string='Presta ID', store=True)
@@ -122,8 +123,9 @@ class CSVPrestaPrice(models.TransientModel):
                 
                 default_code         = row[0]
                 price                = row[1]
-                date_from            = row[2]
-                date_to              = row[3]
+                percent              = row[2]
+                date_from            = row[3]
+                date_to              = row[4]
                 
                 
 #                 date_from = datetime.strptime(date_from,'%d/%m/%y %H:%M')
@@ -135,11 +137,11 @@ class CSVPrestaPrice(models.TransientModel):
 
                 pp_stock = pp_stock_pool.search([('default_code','=',default_code)], limit=1)
                 if pp_stock:
-                    pp_stock.write({'price':price, 'date_from':date_from, 'date_to':date_to})
+                    pp_stock.write({'price':price, 'date_from':date_from, 'date_to':date_to, 'price_percent':percent})
                 else:
                     product = product_pool.search([('default_code','=',default_code)], limit=1)
                     if product:
-                        pp_stock.create({'product_id':product.id, 'default_code':default_code, 'price':price, 'date_from':date_from, 'date_to':date_to})
+                        pp_stock.create({'product_id':product.id, 'default_code':default_code, 'price':price, 'date_from':date_from, 'date_to':date_to, 'price_percent':percent})
                         
                         
                         
