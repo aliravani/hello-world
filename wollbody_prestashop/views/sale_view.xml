@@ -17,7 +17,8 @@
 					<field name="presta_order_total"/>
 					<field name="presta_date_time" />
 					<field name="presta_shop" />
-					<field name="presta_order_state" />			
+					<field name="presta_order_state" />
+					<field name="tracking_code_push" readonly="1"/>			
 				</group>
 			</page>
 		</notebook>
@@ -53,6 +54,18 @@
             </field>
           </page>
           </page>
+            </field>
+    </record>
+    
+    
+    <record id="view_sales_order_filter_wollbody_prestashop" model="ir.ui.view">
+            <field name="name">sale.order.list.select</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+            <filter name="message_needaction" position="after">
+            	<filter string="Pushed Pakdo Tracking Code all" name="tracking_code_push" domain="[('tracking_code_push','=',True)]"/>
+            </filter>
             </field>
     </record>
   
