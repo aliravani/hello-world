@@ -2302,38 +2302,38 @@ class PrestashopConfig(models.Model):
                     raise UserError(_('Shipping is not generated in prestashop.'))
                 
                 #Updating
-                try:
-                    shipping_vals = {'order_carrier': {'date_add': today,
-                                      'id': ship_get['order_carrier']['id'],
-                                      'id_carrier': ship_get['order_carrier']['id_carrier'],
-                                      'id_order': sale.presta_id,
-                                      #'id_order_invoice': '2',
-                                      #'shipping_cost_tax_excl': '1.000000',
-                                      #'shipping_cost_tax_incl': '1.000000',
-                                      'tracking_number': sale.pakdo_tracking_code
-                                      #'weight': '0.000000'
-                                      }}
-                    
-                    ship_resp = prestashop.edit('order_carriers', shipping_vals)
-                    sale_vals = {'tracking_code_push' : True}
-                    
-                    presta_order = self.env['presta.order.state'].search([('name','=','Shipped')])
-                    if presta_order:
-                        sale_vals.update({'presta_order_state': presta_order.id})
-                        order_vals = {'order': {
-                                  'current_state': str(presta_order.prestashop_id),
-                                  'id': sale.presta_id,
-                                  'id_shop': '1',
-                                  'id_shop_group': '1',
+                #try:
+                shipping_vals = {'order_carrier': {'date_add': today,
+                                  'id': ship_get['order_carrier']['id'],
+                                  'id_carrier': ship_get['order_carrier']['id_carrier'],
+                                  'id_order': sale.presta_id,
+                                  #'id_order_invoice': '2',
+                                  #'shipping_cost_tax_excl': '1.000000',
+                                  #'shipping_cost_tax_incl': '1.000000',
+                                  'tracking_number': sale.pakdo_tracking_code
+                                  #'weight': '0.000000'
                                   }}
+                
+                ship_resp = prestashop.edit('order_carriers', shipping_vals)
+                sale_vals = {'tracking_code_push' : True}
+                
+                presta_order = self.env['presta.order.state'].search([('name','=','Shipped')])
+                if presta_order:
+                    sale_vals.update({'presta_order_state': presta_order.id})
+                    order_vals = {'order': {
+                              'current_state': str(presta_order.prestashop_id),
+                              'id': sale.presta_id,
+                              'id_shop': '1',
+                              'id_shop_group': '1',
+                              }}
 
-                        order_resp = prestashop.edit('orders', order_vals)
+                    order_resp = prestashop.edit('orders', order_vals)
 
-                    sale.write(sale_vals)
+                sale.write(sale_vals)
                     
                     
-                except:
-                    raise UserError(_('Tracking code cannot pushed to prestashop.'))
+                #except:
+                #    raise UserError(_('Tracking code cannot pushed to prestashop.'))
         return True
     
     @api.model
