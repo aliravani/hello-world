@@ -2321,6 +2321,8 @@ class PrestashopConfig(models.Model):
                 if presta_order:
                     sale_vals.update({'presta_order_state': presta_order.id})
                     order_vals = {'order': {
+                              'id_address_delivery': str(sale.partner_shipping_id.presta_address_id),
+                              'id_address_invoice': str(sale.partner_invoice_id.presta_address_id),
                               'current_state': str(presta_order.prestashop_id),
                               'id': sale.presta_id,
                               'id_shop': '1',
