@@ -2323,6 +2323,12 @@ class PrestashopConfig(models.Model):
                     order_vals = {'order': {
                               'id_address_delivery': str(sale.partner_shipping_id.presta_address_id),
                               'id_address_invoice': str(sale.partner_invoice_id.presta_address_id),
+                              'id_cart': '1',
+                              'id_currency': '1',
+                              'id_customer': str(sale.partner_id.presta_customer_id),
+                              'id_lang': '1',
+                              'id_shop': '1',
+                              'id_shop_group': '1',
                               'current_state': str(presta_order.prestashop_id),
                               'id': sale.presta_id,
                               'id_shop': '1',
