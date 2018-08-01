@@ -2333,6 +2333,7 @@ class PrestashopConfig(models.Model):
                               'id': sale.presta_id,
                               'id_shop': '1',
                               'id_shop_group': '1',
+                              'id_carrier': '2',
                               }}
 
                     order_resp = prestashop.edit('orders', order_vals)
