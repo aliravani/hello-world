@@ -2288,7 +2288,8 @@ class PrestashopConfig(models.Model):
     
     @api.multi
     def push_trackingcode(self, sale):
-        if sale and not sale.tracking_code_push:
+        #if sale and not sale.tracking_code_push:
+        if sale:
             for presta in self:
                 prestashop = PrestaShopWebServiceDict(presta.url, presta.api_key)
                 today = datetime.now()
@@ -2314,7 +2315,23 @@ class PrestashopConfig(models.Model):
                                       }}
                     
                     ship_resp = prestashop.edit('order_carriers', shipping_vals)
-                    sale.write({'tracking_code_push' : True})
+                    sale_vals = {'tracking_code_push' : True}
+                    
+                    presta_order = self.env['presta.order.state'].search([('name','=','Shipped')])
+                    if presta_order:
+                        sale_vals.update({'presta_order_state': presta_order.id})
+                        order_vals = {'order': {
+                                  'current_state': str(presta_order.prestashop_id),
+                                  'id': sale.presta_id,
+                                  'id_shop': '1',
+                                  'id_shop_group': '1',
+                                  }}
+
+                        order_resp = prestashop.edit('orders', order_vals)
+
+                    sale.write(sale_vals)
+                    
+                    
                 except:
                     raise UserError(_('Tracking code cannot pushed to prestashop.'))
         return True
