@@ -2317,7 +2317,7 @@ class PrestashopConfig(models.Model):
                 ship_resp = prestashop.edit('order_carriers', shipping_vals)
                 sale_vals = {'tracking_code_push' : True}
                 
-                presta_order = self.env['presta.order.state'].search([('name','=','Shipped')])
+                presta_order = self.env['prestashop.order.state'].search([('name','=','Shipped')])
                 if presta_order:
                     sale_vals.update({'presta_order_state': presta_order.id})
                     order_vals = {'order': {
