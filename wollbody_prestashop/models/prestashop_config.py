@@ -2250,7 +2250,6 @@ class PrestashopConfig(models.Model):
                                             'message_type': 'comment', }        
                                  
                                 self.env['mail.message'].create(vals)
-                                
                                 _logger.info('Pakdo Push order created successfully........ from presta automatic creation')
                             except:
                                 if 'error' in resp_dict:
@@ -2351,38 +2350,38 @@ class PrestashopConfig(models.Model):
     @api.model
     def push_trackingcode_cron(self, use_new_cursor=False):
         sales = self.env['sale.order'].search([('is_presta','=',True),('tracking_code_push','=',False),('pakdo_tracking_code','!=',False)])
-        _logger.info('Push tracking code '+ str(sales))
-        for presta in self:
-            prestashop = PrestaShopWebServiceDict(presta.url, presta.api_key)
-            today = datetime.now()
-            today = today.strftime("%Y-%m-%d %H:%M:%S")
+        
+        for sale in sales:
+            _logger.info('Push tracking code '+str(sale))
+            for presta in self:
+                prestashop = PrestaShopWebServiceDict(presta.url, presta.api_key)
+                today = datetime.now()
+                today = today.strftime("%Y-%m-%d %H:%M:%S")
             
-            for sale in sales:
+            
                 #Getting
-                #try:
-                ship_get = prestashop.get('order_carriers', sale.presta_id)
-                _logger.info('Push tracking code '+ str(ship_get))
-                #except:
-                #    raise UserError(_('Shipping is not generated in prestashop.'))
+                try:
+                    ship_get = prestashop.get('order_carriers', sale.presta_id)
+                except:
+                    raise UserError(_('Shipping is not generated in prestashop.'))
                 
                 #Updating
-                #try:
-                shipping_vals = {'order_carrier': {'date_add': today,
-                                  'id': ship_get['order_carrier']['id'],
-                                  'id_carrier': ship_get['order_carrier']['id_carrier'],
-                                  'id_order': sale.presta_id,
-                                  #'id_order_invoice': '2',
-                                  #'shipping_cost_tax_excl': '1.000000',
-                                  #'shipping_cost_tax_incl': '1.000000',
-                                  'tracking_number': sale.pakdo_tracking_code
-                                  #'weight': '0.000000'
-                                  }}
-                
-                ship_resp = prestashop.edit('order_carriers', shipping_vals)
-                _logger.info('Push tracking code '+ str(ship_resp))
-                sale.write({'tracking_code_push' : True})
-                #except:
-                #    raise UserError(_('Tracking code cannot pushed to prestashop.'))
+                try:
+                    shipping_vals = {'order_carrier': {'date_add': today,
+                                      'id': ship_get['order_carrier']['id'],
+                                      'id_carrier': ship_get['order_carrier']['id_carrier'],
+                                      'id_order': sale.presta_id,
+                                      #'id_order_invoice': '2',
+                                      #'shipping_cost_tax_excl': '1.000000',
+                                      #'shipping_cost_tax_incl': '1.000000',
+                                      'tracking_number': sale.pakdo_tracking_code
+                                      #'weight': '0.000000'
+                                      }}
+                    
+                    ship_resp = prestashop.edit('order_carriers', shipping_vals)
+                    sale.write({'tracking_code_push' : True})
+                except:
+                    raise UserError(_('Tracking code cannot pushed to prestashop.'))
         
 
     @api.multi
