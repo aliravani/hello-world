@@ -2169,7 +2169,7 @@ class PrestashopConfig(models.Model):
                          
                         if 'True' in street_number:
                             street_len = len(partner.street) - partner.street.count(' ') 
-                            if street_len < 5:
+                            if not street_len >= 5:
                                 flag_list.append('False')
                          
                         zip_len = len(partner.zip) - partner.zip.count(' ')
