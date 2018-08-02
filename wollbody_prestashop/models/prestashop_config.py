@@ -7,6 +7,14 @@ import time
 import io
 from prestapyt import PrestaShopWebServiceDict
 import tempfile
+
+import httplib2 as http
+import json
+import base64
+import urllib
+import urllib2
+import requests
+
 #from prestapyt.dict2xml import prestashop
 
 import logging
