@@ -2361,6 +2361,7 @@ class PrestashopConfig(models.Model):
                 #Getting
                 #try:
                 ship_get = prestashop.get('order_carriers', sale.presta_id)
+                _logger.info('Push tracking code '+ str(ship_get))
                 #except:
                 #    raise UserError(_('Shipping is not generated in prestashop.'))
                 
@@ -2378,6 +2379,7 @@ class PrestashopConfig(models.Model):
                                   }}
                 
                 ship_resp = prestashop.edit('order_carriers', shipping_vals)
+                _logger.info('Push tracking code '+ str(ship_resp))
                 sale.write({'tracking_code_push' : True})
                 #except:
                 #    raise UserError(_('Tracking code cannot pushed to prestashop.'))
