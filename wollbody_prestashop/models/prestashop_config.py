@@ -2353,37 +2353,38 @@ class PrestashopConfig(models.Model):
         _logger.info('Push tracking code '+str(sales))
         for sale in sales:
             _logger.info('Push tracking code '+str(sale))
-            for presta in self:
-                prestashop = PrestaShopWebServiceDict(presta.url, presta.api_key)
-                today = datetime.now()
-                today = today.strftime("%Y-%m-%d %H:%M:%S")
+            presta = self.env['prestashop.config'].search([], limit=1)[0]
             
+            prestashop = PrestaShopWebServiceDict(presta.url, presta.api_key)
+            today = datetime.now()
+            today = today.strftime("%Y-%m-%d %H:%M:%S")
+        
+        
+            #Getting
+            #try:
+            ship_get = prestashop.get('order_carriers', sale.presta_id)
+            _logger.info('Push tracking code '+str(ship_get))
+            #except:
+            #    raise UserError(_('Shipping is not generated in prestashop.'))
             
-                #Getting
-                #try:
-                ship_get = prestashop.get('order_carriers', sale.presta_id)
-                _logger.info('Push tracking code '+str(ship_get))
-                #except:
-                #    raise UserError(_('Shipping is not generated in prestashop.'))
-                
-                #Updating
-                #try:
-                shipping_vals = {'order_carrier': {'date_add': today,
-                                  'id': ship_get['order_carrier']['id'],
-                                  'id_carrier': ship_get['order_carrier']['id_carrier'],
-                                  'id_order': sale.presta_id,
-                                  #'id_order_invoice': '2',
-                                  #'shipping_cost_tax_excl': '1.000000',
-                                  #'shipping_cost_tax_incl': '1.000000',
-                                  'tracking_number': sale.pakdo_tracking_code
-                                  #'weight': '0.000000'
-                                  }}
-                
-                ship_resp = prestashop.edit('order_carriers', shipping_vals)
-                _logger.info('Push tracking code '+str(ship_resp))
-                sale.write({'tracking_code_push' : True})
-                #except:
-                #    raise UserError(_('Tracking code cannot pushed to prestashop.'))
+            #Updating
+            #try:
+            shipping_vals = {'order_carrier': {'date_add': today,
+                              'id': ship_get['order_carrier']['id'],
+                              'id_carrier': ship_get['order_carrier']['id_carrier'],
+                              'id_order': sale.presta_id,
+                              #'id_order_invoice': '2',
+                              #'shipping_cost_tax_excl': '1.000000',
+                              #'shipping_cost_tax_incl': '1.000000',
+                              'tracking_number': sale.pakdo_tracking_code
+                              #'weight': '0.000000'
+                              }}
+            
+            ship_resp = prestashop.edit('order_carriers', shipping_vals)
+            _logger.info('Push tracking code '+str(ship_resp))
+            sale.write({'tracking_code_push' : True})
+            #except:
+            #    raise UserError(_('Tracking code cannot pushed to prestashop.'))
         
 
     @api.multi
