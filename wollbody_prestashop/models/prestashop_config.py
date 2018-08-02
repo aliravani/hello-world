@@ -2230,32 +2230,32 @@ class PrestashopConfig(models.Model):
                              
                             order_data.update({"products_sku" : sku_list,"products_quantity" : qty_list, "products_price" : price_list, "products_vat": vat_list})
                              
-                            try:
-                                json_order = json.dumps(order_data)
-                                resp = requests.post('https://api.app2.de/v1/orders/',json_order,headers=headers)
-                                 
-                                resp_dict = json.loads(resp.content)
-                                if 'error' in resp_dict:
-                                    raise UserError(_(resp_dict.get('error')[0]))
-                                 
-                                for l in line_lists:
-                                    l.write({'shipped_type':'pakdo'})
-                                user = self.env['res.users'].browse(self.env.uid)
-                                vals = {
-                                            'body': u'<p><br/>Pakdo Order <b>%s</b> Created <br/> By <b>%s</b> at <b>%s</b></p><br/>' %(sale_order.name ,user.name, datetime.today()), 
-                                            'model': 'sale.order', 
-                                            'res_id': sale_order.id, 
-                                            'subtype_id': False, 
-                                            'author_id': user.partner_id.id, 
-                                            'message_type': 'comment', }        
-                                 
-                                self.env['mail.message'].create(vals)
-                                _logger.info('Pakdo Push order created successfully........ from presta automatic creation')
-                            except:
-                                if 'error' in resp_dict:
-                                    raise UserError(_('Please try after some times, other process in que.....or ' + str(resp_dict.get('error')[0])))
-                                else:
-                                    raise UserError(_('Please try after some times, other process in que.....'))
+                            #try:
+                            json_order = json.dumps(order_data)
+                            resp = requests.post('https://api.app2.de/v1/orders/',json_order,headers=headers)
+                             
+                            resp_dict = json.loads(resp.content)
+                            if 'error' in resp_dict:
+                                raise UserError(_(resp_dict.get('error')[0]))
+                             
+                            for l in line_lists:
+                                l.write({'shipped_type':'pakdo'})
+                            user = self.env['res.users'].browse(self.env.uid)
+                            vals = {
+                                        'body': u'<p><br/>Pakdo Order <b>%s</b> Created <br/> By <b>%s</b> at <b>%s</b></p><br/>' %(sale_order.name ,user.name, datetime.today()), 
+                                        'model': 'sale.order', 
+                                        'res_id': sale_order.id, 
+                                        'subtype_id': False, 
+                                        'author_id': user.partner_id.id, 
+                                        'message_type': 'comment', }        
+                             
+                            self.env['mail.message'].create(vals)
+                            _logger.info('Pakdo Push order created successfully........ from presta automatic creation')
+                            #except:
+                            #    if 'error' in resp_dict:
+                            #        raise UserError(_('Please try after some times, other process in que.....or ' + str(resp_dict.get('error')[0])))
+                            #    else:
+                            #        raise UserError(_('Please try after some times, other process in que.....'))
                                  
                         
                         
