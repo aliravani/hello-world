@@ -2195,7 +2195,7 @@ class PrestashopConfig(models.Model):
                             session = conn[-1]
                             print 'token token token      ',token
                             headers = {'Authorization': 'Token token='+token}
-                             
+                            _logger.info('second stepssssssssssssssssssssssssssssss')
                             #unixtime_order_date = time.mktime(self.order_date.timetuple())
                             unixtime_order_date = time.mktime(datetime.strptime(sale_order.order_date, "%Y-%m-%d").timetuple())
                              
@@ -2205,7 +2205,7 @@ class PrestashopConfig(models.Model):
                                           "region":sale_order.partner_id.state_id.name if sale_order.partner_id.state_id else '',
                                           'separate_picking':''}
                              
-                             
+                            _logger.info(str(order_data))
                             sku_list = []
                             qty_list = []
                             price_list = []
@@ -2227,7 +2227,8 @@ class PrestashopConfig(models.Model):
                                         _logger.info('Error in Pakdo get product  ' + str(line.product_id.barcode))
                                         continue
                                     if line.product_id.pakdo_qty < line.product_uom_qty:
-                                        raise UserError(_(line.product_id.default_code + ' has Qty less.Required Qty ' + str(line.product_uom_qty) + ' but Pakdo has qty ' + str(line.product_id.pakdo_qty)))
+                                        #raise UserError(_(line.product_id.default_code + ' has Qty less.Required Qty ' + str(line.product_uom_qty) + ' but Pakdo has qty ' + str(line.product_id.pakdo_qty)))
+                                        _logger.info('Not engough qty error ******************')
                                     else:
                                         sku_list.append(line.product_id.barcode)
                                         qty_list.append(line.product_uom_qty)
@@ -2245,26 +2246,28 @@ class PrestashopConfig(models.Model):
                              
                             resp_dict = json.loads(resp.content)
                             if 'error' in resp_dict:
-                                raise UserError(_(resp_dict.get('error')[0]))
+                                #raise UserError(_(resp_dict.get('error')[0]))
+                                _logger.info('pakdo creation error ******************')
+                            else:
                              
-                            for l in line_lists:
-                                l.write({'shipped_type':'pakdo'})
-                            user = self.env['res.users'].browse(self.env.uid)
-                            vals = {
-                                        'body': u'<p><br/>Pakdo Order <b>%s</b> Created <br/> By <b>%s</b> at <b>%s</b></p><br/>' %(sale_order.name ,user.name, datetime.today()), 
-                                        'model': 'sale.order', 
-                                        'res_id': sale_order.id, 
-                                        'subtype_id': False, 
-                                        'author_id': user.partner_id.id, 
-                                        'message_type': 'comment', }        
-                             
-                            self.env['mail.message'].create(vals)
-                            _logger.info('Pakdo Push order created successfully........ from presta automatic creation')
-                            #except:
-                            #    if 'error' in resp_dict:
-                            #        raise UserError(_('Please try after some times, other process in que.....or ' + str(resp_dict.get('error')[0])))
-                            #    else:
-                            #        raise UserError(_('Please try after some times, other process in que.....'))
+                                for l in line_lists:
+                                    l.write({'shipped_type':'pakdo'})
+                                user = self.env['res.users'].browse(self.env.uid)
+                                vals = {
+                                            'body': u'<p><br/>Pakdo Order <b>%s</b> Created <br/> By <b>%s</b> at <b>%s</b></p><br/>' %(sale_order.name ,user.name, datetime.today()), 
+                                            'model': 'sale.order', 
+                                            'res_id': sale_order.id, 
+                                            'subtype_id': False, 
+                                            'author_id': user.partner_id.id, 
+                                            'message_type': 'comment', }        
+                                 
+                                self.env['mail.message'].create(vals)
+                                _logger.info('Pakdo Push order created successfully........ from presta automatic creation')
+                                #except:
+                                #    if 'error' in resp_dict:
+                                #        raise UserError(_('Please try after some times, other process in que.....or ' + str(resp_dict.get('error')[0])))
+                                #    else:
+                                #        raise UserError(_('Please try after some times, other process in que.....'))
                                  
                         
                         
