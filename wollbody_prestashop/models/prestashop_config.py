@@ -2350,7 +2350,7 @@ class PrestashopConfig(models.Model):
     @api.model
     def push_trackingcode_cron(self, use_new_cursor=False):
         sales = self.env['sale.order'].search([('is_presta','=',True),('tracking_code_push','=',False),('pakdo_tracking_code','!=',False)])
-        
+        _logger.info('Push tracking code '+str(sales))
         for sale in sales:
             _logger.info('Push tracking code '+str(sale))
             for presta in self:
