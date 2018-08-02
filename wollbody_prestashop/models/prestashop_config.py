@@ -2251,7 +2251,7 @@ class PrestashopConfig(models.Model):
                                  
                                 self.env['mail.message'].create(vals)
                                 
-                                logger.info('Pakdo Push order created successfully........ from presta automatic creation')
+                                _logger.info('Pakdo Push order created successfully........ from presta automatic creation')
                             except:
                                 if 'error' in resp_dict:
                                     raise UserError(_('Please try after some times, other process in que.....or ' + str(resp_dict.get('error')[0])))
@@ -2351,7 +2351,7 @@ class PrestashopConfig(models.Model):
     @api.model
     def push_trackingcode_cron(self, use_new_cursor=False):
         sales = self.env['sale.order'].search([('is_presta','=',True),('tracking_code_push','=',False),('pakdo_tracking_code','!=',False)])
-        logger.info('Push tracking code '+ str(sales))
+        _logger.info('Push tracking code '+ str(sales))
         for presta in self:
             prestashop = PrestaShopWebServiceDict(presta.url, presta.api_key)
             today = datetime.now()
