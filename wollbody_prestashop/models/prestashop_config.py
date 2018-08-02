@@ -2208,10 +2208,10 @@ class PrestashopConfig(models.Model):
                             unixtime_order_date = time.mktime(datetime.strptime(today, "%Y-%m-%d").timetuple())
                             _logger.info(str(unixtime_order_date))
                              
-                            order_data = {"client_order_number":sale_order.name,"date":unixtime_order_date,"payment_date":unixtime_order_date,"gender":"0","firm":False,"first_name":sale_order.partner_id.name,"last_name":False,
-                                          "mail":sale_order.partner_id.email,"country":sale_order.partner_id.country_id.code if sale_order.partner_id.country_id else "DE","city":sale_order.partner_id.city,"zip":sale_order.partner_id.zip,"street":sale_order.partner_id.street1,"street_2": sale_order.partner_id.street2 if sale_order.partner_id.street2 else False,
+                            order_data = {"client_order_number":sale_order.name,"date":unixtime_order_date,"payment_date":unixtime_order_date,"gender":"0","firm":False,"first_name":partner.name,"last_name":False,
+                                          "mail":partner.email,"country":partner.country_id.code if partner.country_id else "DE","city":partner.city,"zip":partner.zip,"street":partner.street,"street_2": partner.street2 if partner.street2 else False,
                                           "house_number":False,
-                                          "region":sale_order.partner_id.state_id.name if sale_order.partner_id.state_id else '',
+                                          "region":partner.state_id.name if partner.state_id else '',
                                           'separate_picking':''}
                              
                             _logger.info(str(order_data))
