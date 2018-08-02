@@ -15,6 +15,8 @@ import urllib
 import urllib2
 import requests
 
+from openerp.exceptions import Warning
+
 #from prestapyt.dict2xml import prestashop
 
 import logging
@@ -2197,7 +2199,7 @@ class PrestashopConfig(models.Model):
                             headers = {'Authorization': 'Token token='+token}
                             _logger.info('second stepssssssssssssssssssssssssssssss')
                             #unixtime_order_date = time.mktime(self.order_date.timetuple())
-                            unixtime_order_date = time.mktime(datetime.strptime(sale_order.order_date, "%Y-%m-%d").timetuple())
+                            unixtime_order_date = time.mktime(datetime.strptime(sale_order.date_order, "%Y-%m-%d").timetuple())
                              
                             order_data = {"client_order_number":sale_order.name,"date":unixtime_order_date,"payment_date":unixtime_order_date,"gender":"0","firm":False,"first_name":sale_order.partner_id.name,"last_name":False,
                                           "mail":sale_order.partner_id.email,"country":sale_order.partner_id.country_id.code if sale_order.partner_id.country_id else "DE","city":sale_order.partner_id.city,"zip":sale_order.partner_id.zip,"street":sale_order.partner_id.street1,"street_2": sale_order.partner_id.street2 if sale_order.partner_id.street2 else False,
@@ -2211,7 +2213,9 @@ class PrestashopConfig(models.Model):
                             price_list = []
                             vat_list = []
                             line_lists = []
+                            _logger.info('third stepssssssssssssssssssssssssssssss')
                             for line in sale_order.order_line:
+                                _logger.info(str(line))
                                 if line.product_id.barcode and line.product_id.type == 'product':
                                     resp_product = session.get('https://api.app2.de/v1/products/?gtin[0]='+str(line.product_id.barcode), headers=headers)
                                     try:
