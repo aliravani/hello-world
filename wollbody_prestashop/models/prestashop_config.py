@@ -2154,109 +2154,111 @@ class PrestashopConfig(models.Model):
                         
                         
                         #code for automatic pakdo creation
-#                         flag_list = []
-#                         partner = sale_order.partner_id
-#                         
-#                         name_len = len(partner.name)
-#                         if name_len > 30:
-#                             flag_list.append('False')
-#                         
-#                         street_number = []
-#                         
-#                         for s in partner.street:
-#                             if s.isdigit():
-#                                 street_number.append('True')
-#                         
-#                         if 'True' in street_number:
-#                             street_len = len(partner.street) - partner.street.count(' ') 
-#                             if street_len < 5:
-#                                 flag_list.append('False')
-#                         
-#                         zip_len = len(partner.zip) - partner.zip.count(' ')
-#                         if zip_len != 5:
-#                             flag_list.append('False')
-#                         
-#                         if not 'False' in flag_list:
-#                             print 'automatic pakdo creation'
-#                             pakdo = self.env['pakdo.config'].search([])
-#         
-#                             #Push order code
-#                             conn = pakdo.test_connection()[0]
-#                             token = conn[0]
-#                             session = conn[-1]
-#                             print 'token token token      ',token
-#                             headers = {'Authorization': 'Token token='+token}
-#                             
-#                             #unixtime_order_date = time.mktime(self.order_date.timetuple())
-#                             unixtime_order_date = time.mktime(datetime.strptime(sale_order.order_date, "%Y-%m-%d").timetuple())
-#                             
-#                             order_data = {"client_order_number":sale_order.name,"date":unixtime_order_date,"payment_date":unixtime_order_date,"gender":"0","firm":False,"first_name":sale_order.partner_id.name,"last_name":False,
-#                                           "mail":sale_order.partner_id.email,"country":sale_order.partner_id.country_id.code if sale_order.partner_id.country_id else "DE","city":sale_order.partner_id.city,"zip":sale_order.partner_id.zip,"street":sale_order.partner_id.street1,"street_2": sale_order.partner_id.street2 if sale_order.partner_id.street2 else False,
-#                                           "house_number":False,
-#                                           "region":sale_order.partner_id.state_id.name if sale_order.partner_id.state_id else '',
-#                                           'separate_picking':''}
-#                             
-#                             
-#                             sku_list = []
-#                             qty_list = []
-#                             price_list = []
-#                             vat_list = []
-#                             line_lists = []
-#                             for line in sale_order.order_line:
-#                                 if line.product_id.barcode and line.product_id.type == 'product':
-#                                     resp_product = session.get('https://api.app2.de/v1/products/?gtin[0]='+str(line.product_id.barcode), headers=headers)
-#                                     try:
-#                                         product_dict = json.loads(resp_product.content)
-#                                         if 'id' in product_dict:
-#                                             product_id = product_dict.get('id')[0]
-#                                             #print 'product_id product_id        ',product_id
-#                                             qty = product_dict.get('products')[str(product_id)]['quantity']['2']['total_quantity']
-#                                             _logger.info('importing >>>>>>>>>>>>>>>>>>>>>>>>    ' +  str(line.product_id.default_code) + '-' +  str(qty))
-#                                             line.product_id.write({'pakdo_qty': qty,'pakdo':True})
-#                                             self.env.cr.commit()
-#                                     except:
-#                                         _logger.info('Error in Pakdo get product  ' + str(line.product_id.barcode))
-#                                         continue
-#                                     if line.product_id.pakdo_qty < line.product_uom_qty:
-#                                         raise UserError(_(line.product_id.default_code + ' has Qty less.Required Qty ' + str(line.product_uom_qty) + ' but Pakdo has qty ' + str(line.product_id.pakdo_qty)))
-#                                     else:
-#                                         sku_list.append(line.product_id.barcode)
-#                                         qty_list.append(line.product_uom_qty)
-#                                         vat_list.append('19')
-#                                         price_list.append(line.price_unit)
-#                                         line_lists.append(line)
-#                                         
-#                                         
-#                             
-#                             order_data.update({"products_sku" : sku_list,"products_quantity" : qty_list, "products_price" : price_list, "products_vat": vat_list})
-#                             
-#                             try:
-#                                 json_order = json.dumps(order_data)
-#                                 resp = requests.post('https://api.app2.de/v1/orders/',json_order,headers=headers)
-#                                 
-#                                 resp_dict = json.loads(resp.content)
-#                                 if 'error' in resp_dict:
-#                                     raise UserError(_(resp_dict.get('error')[0]))
-#                                 
-#                                 for l in line_lists:
-#                                     l.write({'shipped_type':'pakdo'})
-#                                 user = self.env['res.users'].browse(self.env.uid)
-#                                 vals = {
-#                                             'body': u'<p><br/>Pakdo Order <b>%s</b> Created <br/> By <b>%s</b> at <b>%s</b></p><br/>' %(sale_order.name ,user.name, datetime.today()), 
-#                                             'model': 'sale.order', 
-#                                             'res_id': sale_order.id, 
-#                                             'subtype_id': False, 
-#                                             'author_id': user.partner_id.id, 
-#                                             'message_type': 'comment', }        
-#                                 
-#                                 self.env['mail.message'].create(vals)
-#                             except:
-#                                 if 'error' in resp_dict:
-#                                     raise UserError(_('Please try after some times, other process in que.....or ' + str(resp_dict.get('error')[0])))
-#                                 else:
-#                                     raise UserError(_('Please try after some times, other process in que.....'))
-#                                 
-#                            _logger.info('Pakdo Push order created successfully........ from presta automatic creation')
+                        flag_list = []
+                        partner = sale_order.partner_id
+                         
+                        name_len = len(partner.name)
+                        if name_len > 30:
+                            flag_list.append('False')
+                         
+                        street_number = []
+                         
+                        for s in partner.street:
+                            if s.isdigit():
+                                street_number.append('True')
+                         
+                        if 'True' in street_number:
+                            street_len = len(partner.street) - partner.street.count(' ') 
+                            if street_len < 5:
+                                flag_list.append('False')
+                         
+                        zip_len = len(partner.zip) - partner.zip.count(' ')
+                        if zip_len != 5:
+                            flag_list.append('False')
+                         
+                        if not 'False' in flag_list:
+                            print 'automatic pakdo creation'
+                            pakdo = self.env['pakdo.config'].search([])
+         
+                            #Push order code
+                            conn = pakdo.test_connection()[0]
+                            token = conn[0]
+                            session = conn[-1]
+                            print 'token token token      ',token
+                            headers = {'Authorization': 'Token token='+token}
+                             
+                            #unixtime_order_date = time.mktime(self.order_date.timetuple())
+                            unixtime_order_date = time.mktime(datetime.strptime(sale_order.order_date, "%Y-%m-%d").timetuple())
+                             
+                            order_data = {"client_order_number":sale_order.name,"date":unixtime_order_date,"payment_date":unixtime_order_date,"gender":"0","firm":False,"first_name":sale_order.partner_id.name,"last_name":False,
+                                          "mail":sale_order.partner_id.email,"country":sale_order.partner_id.country_id.code if sale_order.partner_id.country_id else "DE","city":sale_order.partner_id.city,"zip":sale_order.partner_id.zip,"street":sale_order.partner_id.street1,"street_2": sale_order.partner_id.street2 if sale_order.partner_id.street2 else False,
+                                          "house_number":False,
+                                          "region":sale_order.partner_id.state_id.name if sale_order.partner_id.state_id else '',
+                                          'separate_picking':''}
+                             
+                             
+                            sku_list = []
+                            qty_list = []
+                            price_list = []
+                            vat_list = []
+                            line_lists = []
+                            for line in sale_order.order_line:
+                                if line.product_id.barcode and line.product_id.type == 'product':
+                                    resp_product = session.get('https://api.app2.de/v1/products/?gtin[0]='+str(line.product_id.barcode), headers=headers)
+                                    try:
+                                        product_dict = json.loads(resp_product.content)
+                                        if 'id' in product_dict:
+                                            product_id = product_dict.get('id')[0]
+                                            #print 'product_id product_id        ',product_id
+                                            qty = product_dict.get('products')[str(product_id)]['quantity']['2']['total_quantity']
+                                            _logger.info('importing >>>>>>>>>>>>>>>>>>>>>>>>    ' +  str(line.product_id.default_code) + '-' +  str(qty))
+                                            line.product_id.write({'pakdo_qty': qty,'pakdo':True})
+                                            self.env.cr.commit()
+                                    except:
+                                        _logger.info('Error in Pakdo get product  ' + str(line.product_id.barcode))
+                                        continue
+                                    if line.product_id.pakdo_qty < line.product_uom_qty:
+                                        raise UserError(_(line.product_id.default_code + ' has Qty less.Required Qty ' + str(line.product_uom_qty) + ' but Pakdo has qty ' + str(line.product_id.pakdo_qty)))
+                                    else:
+                                        sku_list.append(line.product_id.barcode)
+                                        qty_list.append(line.product_uom_qty)
+                                        vat_list.append('19')
+                                        price_list.append(line.price_unit)
+                                        line_lists.append(line)
+                                         
+                                         
+                             
+                            order_data.update({"products_sku" : sku_list,"products_quantity" : qty_list, "products_price" : price_list, "products_vat": vat_list})
+                             
+                            try:
+                                json_order = json.dumps(order_data)
+                                resp = requests.post('https://api.app2.de/v1/orders/',json_order,headers=headers)
+                                 
+                                resp_dict = json.loads(resp.content)
+                                if 'error' in resp_dict:
+                                    raise UserError(_(resp_dict.get('error')[0]))
+                                 
+                                for l in line_lists:
+                                    l.write({'shipped_type':'pakdo'})
+                                user = self.env['res.users'].browse(self.env.uid)
+                                vals = {
+                                            'body': u'<p><br/>Pakdo Order <b>%s</b> Created <br/> By <b>%s</b> at <b>%s</b></p><br/>' %(sale_order.name ,user.name, datetime.today()), 
+                                            'model': 'sale.order', 
+                                            'res_id': sale_order.id, 
+                                            'subtype_id': False, 
+                                            'author_id': user.partner_id.id, 
+                                            'message_type': 'comment', }        
+                                 
+                                self.env['mail.message'].create(vals)
+                                
+                                logger.info('Pakdo Push order created successfully........ from presta automatic creation')
+                            except:
+                                if 'error' in resp_dict:
+                                    raise UserError(_('Please try after some times, other process in que.....or ' + str(resp_dict.get('error')[0])))
+                                else:
+                                    raise UserError(_('Please try after some times, other process in que.....'))
+                                 
+                        
                         
                         
                         
