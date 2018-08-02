@@ -2350,7 +2350,7 @@ class PrestashopConfig(models.Model):
     
     @api.model
     def push_trackingcode_cron(self, use_new_cursor=False):
-        sales = self.env['sale.order'].search([('is_presta','=',True),('tracking_code_push','=',False),('pakdo_tracking_code','!=','')])
+        sales = self.env['sale.order'].search([('is_presta','=',True),('tracking_code_push','=',False),('pakdo_tracking_code','!=',False)])
         for presta in self:
             prestashop = PrestaShopWebServiceDict(presta.url, presta.api_key)
             today = datetime.now()
