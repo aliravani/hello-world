@@ -2199,7 +2199,11 @@ class PrestashopConfig(models.Model):
                             headers = {'Authorization': 'Token token='+token}
                             _logger.info('second stepssssssssssssssssssssssssssssss')
                             #unixtime_order_date = time.mktime(self.order_date.timetuple())
-                            unixtime_order_date = time.mktime(datetime.strptime(sale_order.date_order, "%Y-%m-%d").timetuple())
+                            #unixtime_order_date = time.mktime(datetime.strptime(sale_order.date_order, "%Y-%m-%d").timetuple())
+                            
+                            today = datetime.now()
+                            today = today.strftime("%Y-%m-%d")
+                            unixtime_order_date = time.mktime(datetime.strptime(today, "%Y-%m-%d").timetuple())
                              
                             order_data = {"client_order_number":sale_order.name,"date":unixtime_order_date,"payment_date":unixtime_order_date,"gender":"0","firm":False,"first_name":sale_order.partner_id.name,"last_name":False,
                                           "mail":sale_order.partner_id.email,"country":sale_order.partner_id.country_id.code if sale_order.partner_id.country_id else "DE","city":sale_order.partner_id.city,"zip":sale_order.partner_id.zip,"street":sale_order.partner_id.street1,"street_2": sale_order.partner_id.street2 if sale_order.partner_id.street2 else False,
