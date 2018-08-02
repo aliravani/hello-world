@@ -2186,6 +2186,7 @@ class PrestashopConfig(models.Model):
                          
                         if not 'False' in flag_list:
                             print 'automatic pakdo creation'
+                            _logger.info('Automatic pakdo creation is started from prestashop order ************************')
                             pakdo = self.env['pakdo.config'].search([])
          
                             #Push order code
