@@ -2365,7 +2365,8 @@ class PrestashopConfig(models.Model):
                 ship_get = prestashop.get('order_carriers', sale.presta_id)
                 _logger.info('Push tracking code '+str(ship_get))
             except:
-                raise UserError(_('Shipping is not generated in prestashop.'))
+                print ('a')
+                #raise UserError(_('Shipping is not generated in prestashop.'))
             
             #Updating
             try:
@@ -2384,7 +2385,8 @@ class PrestashopConfig(models.Model):
                 _logger.info('Push tracking code '+str(ship_resp))
                 sale.write({'tracking_code_push' : True})
             except:
-                raise UserError(_('Tracking code cannot pushed to prestashop.'))
+                print ('a')
+                #raise UserError(_('Tracking code cannot pushed to prestashop.'))
         
 
     @api.multi
