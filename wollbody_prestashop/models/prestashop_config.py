@@ -2165,7 +2165,7 @@ class PrestashopConfig(models.Model):
                         
                         #code for automatic pakdo creation
                         flag_list = []
-                        partner = sale_order.partner_id
+                        partner = sale_order.partner_shipping_id
                          
                         name_len = len(partner.name)
                         if name_len > 30:
