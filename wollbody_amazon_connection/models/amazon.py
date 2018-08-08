@@ -726,6 +726,7 @@ class AmazonConfig(models.Model):
                 resp = self.env.cr.dictfetchone()
                 #resp = {'last_update_date' : '2011-01-01 00:00:00'}
                 if resp['last_update_date']:
+                    _logger.info('*****************************************      ' + str(resp))
                     _logger.info('*****************************************      ' + str(resp['last_update_date']))
                     import_from = datetime.strptime(resp['last_update_date'], '%Y-%m-%d %H:%M:%S')
                 request = {'Action': 'ListOrders', 'LastUpdatedAfter'   : import_from.strftime('%Y-%m-%dT%H:%M:%SZ'),}
