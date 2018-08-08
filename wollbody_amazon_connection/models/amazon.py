@@ -513,7 +513,7 @@ class AmazonConfig(models.Model):
         try:
             amazon_obj.import_order()
         except:
-            pass
+            _logger.info('Amazon : Erorrrrrrrrrrrrrrrrr      Importing Order started........')
          
         #try:
         #    shopware_obj.import_orders()
