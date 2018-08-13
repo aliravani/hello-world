@@ -2185,7 +2185,7 @@ class PrestashopConfig(models.Model):
                         zip_len = len(partner.zip) - partner.zip.count(' ')
                         if zip_len != 5:
                             flag_list.append('False')
-                         
+                        no_create = 'True'
                         if not 'False' in flag_list:
                             print 'automatic pakdo creation'
                             _logger.info('Automatic pakdo creation is started from prestashop order ************************')
@@ -2239,6 +2239,7 @@ class PrestashopConfig(models.Model):
                                         continue
                                     if line.product_id.pakdo_qty < line.product_uom_qty:
                                         #raise UserError(_(line.product_id.default_code + ' has Qty less.Required Qty ' + str(line.product_uom_qty) + ' but Pakdo has qty ' + str(line.product_id.pakdo_qty)))
+                                        no_create = 'False'
                                         _logger.info('Not engough qty error ******************')
                                     else:
                                         sku_list.append(line.product_id.barcode)
@@ -2252,28 +2253,29 @@ class PrestashopConfig(models.Model):
                             order_data.update({"products_sku" : sku_list,"products_quantity" : qty_list, "products_price" : price_list, "products_vat": vat_list})
                              
                             #try:
-                            json_order = json.dumps(order_data)
-                            resp = requests.post('https://api.app2.de/v1/orders/',json_order,headers=headers)
-                             
-                            resp_dict = json.loads(resp.content)
-                            if 'error' in resp_dict:
-                                #raise UserError(_(resp_dict.get('error')[0]))
-                                _logger.info('pakdo creation error ******************')
-                            else:
-                             
-                                for l in line_lists:
-                                    l.write({'shipped_type':'pakdo'})
-                                user = self.env['res.users'].browse(self.env.uid)
-                                vals = {
-                                            'body': u'<p><br/>Pakdo Order <b>%s</b> Created <br/> By <b>%s</b> at <b>%s</b></p><br/>' %(sale_order.name ,user.name, datetime.today()), 
-                                            'model': 'sale.order', 
-                                            'res_id': sale_order.id, 
-                                            'subtype_id': False, 
-                                            'author_id': user.partner_id.id, 
-                                            'message_type': 'comment', }        
+                            if no_create == 'True':
+                                json_order = json.dumps(order_data)
+                                resp = requests.post('https://api.app2.de/v1/orders/',json_order,headers=headers)
                                  
-                                self.env['mail.message'].create(vals)
-                                _logger.info('Pakdo Push order created successfully........ from presta automatic creation')
+                                resp_dict = json.loads(resp.content)
+                                if 'error' in resp_dict:
+                                    #raise UserError(_(resp_dict.get('error')[0]))
+                                    _logger.info('pakdo creation error ******************')
+                                else:
+                                 
+                                    for l in line_lists:
+                                        l.write({'shipped_type':'pakdo'})
+                                    user = self.env['res.users'].browse(self.env.uid)
+                                    vals = {
+                                                'body': u'<p><br/>Pakdo Order <b>%s</b> Created <br/> By <b>%s</b> at <b>%s</b></p><br/>' %(sale_order.name ,user.name, datetime.today()), 
+                                                'model': 'sale.order', 
+                                                'res_id': sale_order.id, 
+                                                'subtype_id': False, 
+                                                'author_id': user.partner_id.id, 
+                                                'message_type': 'comment', }        
+                                     
+                                    self.env['mail.message'].create(vals)
+                                    _logger.info('Pakdo Push order created successfully........ from presta automatic creation')
                                 #except:
                                 #    if 'error' in resp_dict:
                                 #        raise UserError(_('Please try after some times, other process in que.....or ' + str(resp_dict.get('error')[0])))
