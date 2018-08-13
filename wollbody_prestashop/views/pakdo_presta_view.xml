@@ -100,6 +100,7 @@
           <field name="product_id" />
           <field name="default_code"/>
           <field name="price" />
+          <field name="price_percent"/>
           <field name="date_from" />
           <field name="date_to" />
         </tree>
