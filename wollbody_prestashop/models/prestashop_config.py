@@ -2172,15 +2172,17 @@ class PrestashopConfig(models.Model):
                             flag_list.append('False')
                          
                         street_number = []
-                         
                         for s in partner.street:
                             if s.isdigit():
                                 street_number.append('True')
-                         
-                        if 'True' in street_number:
-                            street_len = len(partner.street) - partner.street.count(' ') 
-                            if not street_len >= 5:
-                                flag_list.append('False')
+                        if street_number: 
+                            if 'True' in street_number:
+                                street_len = len(partner.street) - partner.street.count(' ') 
+                                if not street_len >= 5:
+                                    flag_list.append('False')
+                        else:
+                            flag_list.append('False')
+                                    
                          
                         zip_len = len(partner.zip) - partner.zip.count(' ')
                         if zip_len != 5:
