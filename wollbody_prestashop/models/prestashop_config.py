@@ -525,7 +525,10 @@ class PrestashopConfig(models.Model):
                                   'out_of_stock': '1',
                                   'quantity': stock.qty}}
                         print 'stock_vals stock_vals        ',stock_vals
-                        stock_resp = prestashop.edit('stock_availables',stock_vals)
+                        try:
+                            stock_resp = prestashop.edit('stock_availables',stock_vals)
+                        except:
+                            _logger.info("Prestashop Exporting stock errorrrrrrrrrrrrrrrr    ..............." + str(stock.product_id.default_code) )
                         
                 
         
