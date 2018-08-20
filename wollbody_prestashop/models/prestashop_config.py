@@ -2175,6 +2175,10 @@ class PrestashopConfig(models.Model):
                             flag_list.append('False')
                          
                         street_number = []
+                        
+                        if 'Packstation' in partner.street or 'packstation' in partner.street:
+                            flag_list.append('False')
+                            
                         for s in partner.street:
                             if s.isdigit():
                                 street_number.append('True')
@@ -2212,8 +2216,14 @@ class PrestashopConfig(models.Model):
                             _logger.info(str(today))
                             unixtime_order_date = time.mktime(datetime.strptime(today, "%Y-%m-%d").timetuple())
                             _logger.info(str(unixtime_order_date))
-                             
-                            order_data = {"client_order_number":sale_order.name,"date":unixtime_order_date,"payment_date":unixtime_order_date,"gender":"0","firm":False,"first_name":partner.name,"last_name":False,
+                            
+                            customer_name = partner.name
+                            if partner.shopware_company_name:
+                                customer_name = partner.shopware_company_name + ',' + partner.name
+                            
+                                 
+                            
+                            order_data = {"client_order_number":sale_order.name,"date":unixtime_order_date,"payment_date":unixtime_order_date,"gender":"0","firm":False,"first_name":customer_name,"last_name":False,
                                           "mail":partner.email,"country":partner.country_id.code if partner.country_id else "DE","city":partner.city,"zip":partner.zip,"street":partner.street,"street_2": partner.street2 if partner.street2 else False,
                                           "house_number":False,
                                           "region":partner.state_id.name if partner.state_id else '',
