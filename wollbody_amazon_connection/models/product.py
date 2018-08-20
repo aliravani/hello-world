@@ -52,7 +52,7 @@ class ProductProduct(models.Model):
             tmpl = product.product_tmpl_id
             if tmpl.color_no and product.get_size:
                 if tmpl.art_no_original:
-                    int_no = tmpl.art_no_original + tmpl.color_no + str(product.get_size)
+                    int_no = tmpl.art_no_original + tmpl.color_no + str(product.get_size.encode('utf8'))
                 else:
                     int_no = tmpl.art_no + tmpl.color_no + str(product.get_size.encode('utf8'))
                 product.update({'get_int_no' : int_no })
