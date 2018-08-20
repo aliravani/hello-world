@@ -18,7 +18,8 @@ class ProductProduct(models.Model):
     def _get_size(self):
         for product in self:
             for size in product.attribute_value_ids:
-                product.update({'get_size' : str(size.name)})
+                #unicode(str(size.name), 'utf-8')
+                product.update({'get_size' : unicode(str(size.name), 'utf-8')})
     
     @api.depends('standard_price')
     def _compute_sale_price(self):
