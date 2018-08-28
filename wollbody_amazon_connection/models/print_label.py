@@ -255,7 +255,7 @@ class PrintBarcode(models.Model):
                       'size'                : product_obj.get_size,
                       'barcode'             : product_obj.barcode,
                       'logo'                : product_obj.related_supplier_id.company_id.logo,
-                      'image'               : product_obj.image
+                      'image'               : product_obj.image_medium
                     }
                 )
                 label_obj = self.env['print.barcode'].search([('barcode','=',product_obj.barcode)], limit=1)
