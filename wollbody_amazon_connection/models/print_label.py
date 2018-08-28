@@ -216,8 +216,8 @@ class PrintBarcode(models.Model):
     def _get_barcode(self, data):
         
         # name = generate('EAN13', barcode, output='barcode')
-        #EAN = barcode.get_barcode_class('ean13')
-        EAN = barcode.get_barcode_class('code128')
+        EAN = barcode.get_barcode_class('ean13')
+        #EAN = barcode.get_barcode_class('code128')
         ean = EAN(data, writer=ImageWriter())
         try:
             name = ean.save('ean13_barcode_print')
@@ -255,6 +255,7 @@ class PrintBarcode(models.Model):
                       'size'                : product_obj.get_size,
                       'barcode'             : product_obj.barcode,
                       'logo'                : product_obj.related_supplier_id.company_id.logo,
+                      'image'               : product_obj.image
                     }
                 )
                 label_obj = self.env['print.barcode'].search([('barcode','=',product_obj.barcode)], limit=1)
@@ -270,6 +271,7 @@ class PrintBarcode(models.Model):
                                     'barcode_img': unicode(barocde_str, "utf-8"),
                                     
                             })
+                    vals['name'] = False
                     self.update(vals)
             else:
                 raise UserError(_('Record not found....'))
