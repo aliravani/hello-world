@@ -216,8 +216,8 @@ class PrintBarcode(models.Model):
     def _get_barcode(self, data):
         
         # name = generate('EAN13', barcode, output='barcode')
-        EAN = barcode.get_barcode_class('ean13')
-        #EAN = barcode.get_barcode_class('code128')
+        #EAN = barcode.get_barcode_class('ean13')
+        EAN = barcode.get_barcode_class('code128')
         ean = EAN(data, writer=ImageWriter())
         try:
             name = ean.save('ean13_barcode_print')
@@ -271,6 +271,8 @@ class PrintBarcode(models.Model):
                                     'barcode_img': unicode(barocde_str, "utf-8"),
                                     
                             })
+                    
+                    line = self.env['print.barcode.line'].create({'print_barcode_id':self.id, 'name':self.name, 'product_id':product_obj.id})
                     vals['name'] = False
                     self.update(vals)
             else:
@@ -315,7 +317,11 @@ class PrintBarcode(models.Model):
         
         return True
 
-
+class PrintBarcodeLine(models.Model):
+    _name = "print.barcode.line"
+    
+    name          = fields.Char('Search Product')
+    product_id      = fields.Many2one('product.product','Product')
 
 
 class PrintFNSKU(models.Model):

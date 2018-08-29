@@ -182,7 +182,27 @@
    
     <menuitem id="menu_print_barcode" parent="menu_print_label_label" sequence="3" action="action_print_barcode" groups="wollbody_amazon_connection.group_print_label"/>
     
- 
+ 	
+ 	<record id="view_print_barcode_line_tree" model="ir.ui.view">
+      <field name="name">print.barcode.line.tree</field>
+      <field name="model">print.barcode.line</field>
+      <field name="arch" type="xml">
+        <tree string="Barcode Lines">
+          <field name="name" />
+          <field name="product_id"/>
+        </tree>
+      </field>
+    </record>
+    
+    <record id="action_print_barcode_line" model="ir.actions.act_window">
+      <field name="name">Barcode Line</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">print.barcode.line</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+   
+    <menuitem id="menu_print_barcode_line" parent="menu_print_label_label" sequence="4" action="action_print_barcode_line" groups="wollbody_amazon_connection.group_print_label"/>
  
  <!--     Print FNSKU -->
     <record id="view_print_fnsku_tree" model="ir.ui.view">

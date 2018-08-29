@@ -10,3 +10,4 @@ access_csv_template,csv.template,model_csv_template,,1,1,1,1
 access_csv_template_column,csv.template.column,model_csv_template_column,,1,1,1,1
 access_print_barcode,print.barcode,model_print_barcode,,1,1,1,1
 access_print_fnsku,print.fnsku,model_print_fnsku,,1,1,1,1
+access_print_barcode_line,print.barcode.line,model_print_barcode_line,,1,1,1,1
