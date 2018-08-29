@@ -187,7 +187,7 @@
       <field name="name">print.barcode.line.tree</field>
       <field name="model">print.barcode.line</field>
       <field name="arch" type="xml">
-        <tree string="Barcode Lines">
+        <tree string="Print Barcode List">
           <field name="name" />
           <field name="product_id"/>
         </tree>
@@ -195,7 +195,7 @@
     </record>
     
     <record id="action_print_barcode_line" model="ir.actions.act_window">
-      <field name="name">Barcode Line</field>
+      <field name="name">Print Barcode List</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">print.barcode.line</field>
       <field name="view_type">form</field>
