@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+  
+    
+    <record id="view_export_sale_csv" model="ir.ui.view">
+      <field name="name">Export Sale CSV</field>
+      <field name="model">export.sale.csv</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="CSV Update Note">
+          <sheet>
+          	<group>
+          		<field name="file" filename="file_name" attrs="{'invisible':[('file','=',False)]}" readonly="1" />
+              	<field name="file_name" invisible="1" colspan="4" />
+          	</group>
+          	<field name="sale_csv_line" invisible="1">
+          		<tree>
+          			<field name="product_id"/>
+          			<field name="barcode"/>
+          			<field name="days_30"/>
+          			<field name="days_90"/>
+          			<field name="days_365"/>
+          			<field name="sale_pirce"/>
+          			<field name="qty"/>
+          		</tree>
+          	
+          	</field>
+            <footer>
+              <button name="action_export" string="Export" type="object" class="btn-primary" />
+              <button special="cancel" string="Close" type="object" class="oe_link oe_inline" />
+            </footer>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    
+   
+    
+    <record id="export_sale_csv_action" model="ir.actions.act_window">
+      <field name="name">Export Sales</field>
+      <field name="res_model">export.sale.csv</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+      <field name="view_id" ref="view_export_sale_csv" />
+    </record>
+   
+    
+    <!-- menu created in warehouse -->
+    <menuitem action="export_sale_csv_action" id="menu_export_sale_csv" parent="wollbody_amazon_connection.menu_product_update" sequence="30" />
+    
+  </data>
+</odoo>
