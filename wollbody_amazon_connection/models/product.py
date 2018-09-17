@@ -93,6 +93,35 @@ class ProductProduct(models.Model):
         return r
     
     @api.multi
+    def _sales_count_90(self):
+        today = datetime.now()
+        day_90  = datetime.now() - timedelta(90)
+        
+        tz_name = 'Europe/Berlin'
+        utc             = pytz.timezone('UTC')
+        context_tz      = pytz.timezone(tz_name)
+        local_timestamp_today = utc.localize(today, is_dst=False)
+        local_timestamp_day_90 = utc.localize(day_90, is_dst=False)
+        user_datetime_today   = local_timestamp_today.astimezone(context_tz)
+        user_datetime_day_90   = local_timestamp_day_90.astimezone(context_tz)
+        
+        start_date = user_datetime_today.strftime("%m/%d/%Y 00:00:00")
+        end_date = user_datetime_day_90.strftime("%m/%d/%Y 23:59:59")
+        
+        r = {}
+        domain = [
+            ('state', 'in', ['sale', 'done']),
+            ('product_id', 'in', self.ids),
+            ('date','<=',start_date),
+            ('date','>=',end_date)
+        ]
+        for group in self.env['sale.report'].read_group(domain, ['product_id', 'product_uom_qty'], ['product_id']):
+            r[group['product_id'][0]] = group['product_uom_qty']
+        for product in self:
+            product.sales_count_90 = r.get(product.id, 0)
+        return r
+    
+    @api.multi
     def _sales_count_365(self):
         today = datetime.now()
         day_30  = datetime.now() - timedelta(365)
@@ -152,6 +181,7 @@ class ProductProduct(models.Model):
         return r
     
     sales_count_30        = fields.Integer(compute='_sales_count_30', string='# Sales 30')
+    sales_count_90        = fields.Integer(compute='_sales_count_90', string='# Sales 90')
     sales_count_365       = fields.Integer(compute='_sales_count_365', string='# Sales 365')
     sales_count_365_30    = fields.Integer(compute='_sales_count_365_30', string='# Sales 365-30')
     get_size              = fields.Char(string='Size', store=False, readonly=True, compute='_get_size')

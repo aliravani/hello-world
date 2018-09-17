@@ -482,6 +482,26 @@ class SaleOrderLine(models.Model):
             args.append(('order_date', '>=', end_date))
             args.append(('state', 'in', ['sale', 'done']))
             
+        if self._context.get('day_90'):
+            
+            day_90  = datetime.now() - timedelta(90)
+            
+            tz_name = 'Europe/Berlin'
+            utc             = pytz.timezone('UTC')
+            context_tz      = pytz.timezone(tz_name)
+            local_timestamp_today = utc.localize(today, is_dst=False)
+            local_timestamp_day_90 = utc.localize(day_90, is_dst=False)
+            user_datetime_today   = local_timestamp_today.astimezone(context_tz)
+            user_datetime_day_90   = local_timestamp_day_90.astimezone(context_tz)
+            
+            start_date = user_datetime_today.strftime("%m/%d/%Y 00:00:00")
+            end_date = user_datetime_day_90.strftime("%m/%d/%Y 23:59:59")
+            args = []
+            args.append(('product_id', '=', self._context.get('search_default_product_id')[0]))
+            args.append(('order_date', '<=', start_date))
+            args.append(('order_date', '>=', end_date))
+            args.append(('state', 'in', ['sale', 'done']))
+            
         
         if self._context.get('day_365'):
             day_30  = datetime.now() - timedelta(365)

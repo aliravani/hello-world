@@ -80,6 +80,12 @@
        <field name="context">{'search_default_product_id': [active_id], 'default_product_id': active_id, 'day_30': 'True'}</field>
    </record>
    
+   <record id="action_product_sale_list_90_day" model="ir.actions.act_window">
+       <field name="name">Sale Order Lines</field>
+       <field name="res_model">sale.order.line</field>
+       <field name="context">{'search_default_product_id': [active_id], 'default_product_id': active_id, 'day_90': 'True'}</field>
+   </record>
+   
     <record id="action_product_sale_list_365_day" model="ir.actions.act_window">
        <field name="name">Sale Order Lines</field>
        <field name="res_model">sale.order.line</field>
@@ -106,6 +112,10 @@
                  <button class="oe_stat_button" name="%(action_product_sale_list_30_day)d"
                      type="action" icon="fa-usd">
                      <field string="Last 30 Tage" name="sales_count_30" widget="statinfo" />
+                 </button>
+                 <button class="oe_stat_button" name="%(action_product_sale_list_90_day)d"
+                     type="action" icon="fa-usd">
+                     <field string="Last 90 Tage" name="sales_count_90" widget="statinfo" />
                  </button>
                  <button class="oe_stat_button" name="%(action_product_sale_list_365_day)d"
                      type="action" icon="fa-usd">
