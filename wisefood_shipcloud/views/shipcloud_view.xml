@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+  
+    <!-- Top menu item -->
+    <menuitem id="shipcloud_menu_root" name="Shipcloud" sequence="2" />
+    <menuitem id="shipcloud_menu_label" name="Shipcloud" parent="shipcloud_menu_root" sequence="1" />
+    
+    <record id="view_ship_cloud_tree" model="ir.ui.view">
+      <field name="name">ship.cloud.tree</field>
+      <field name="model">ship.cloud</field>
+      <field name="arch" type="xml">
+        <tree string="Shipcloud">
+          <field name="name" />
+          <field name="api_url" />
+          <field name="api_key" />
+        </tree>
+      </field>
+    </record>
+    
+    <record id="view_ship_cloud_form" model="ir.ui.view">
+      <field name="name">ship.cloud.form</field>
+      <field name="model">ship.cloud</field>
+      <field name="arch" type="xml">
+        <form string="Shipcloud">
+          <header>
+            <button name="action_import_carrier" string="Import Carrier" type="object" class="btn-primary" />
+          </header>
+          <sheet>
+            <group>
+              <field name="name" required="1" />
+              <field name="api_url" required="1" />
+              <field name="api_key" required="1" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    
+    <record id="action_ship_cloud" model="ir.actions.act_window">
+      <field name="name">Shipcloud</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">ship.cloud</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain" />
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">Create a Shipcloud.</p>
+      </field>
+    </record>
+    
+    <menuitem id="menu_ship_cloud" name="Shipcloud" action="action_ship_cloud" parent="shipcloud_menu_label" sequence="10" />
+    
+    <record id="view_shipcloud_carrier_tree" model="ir.ui.view">
+      <field name="name">shipcloud.carrier.tree</field>
+      <field name="model">shipcloud.carrier</field>
+      <field name="arch" type="xml">
+        <tree string="Shipcloud Carriers">
+          <field name="carrier_name" />
+          <field name="name" />
+        </tree>
+      </field>
+    </record>
+    
+    <record id="view_shipcloud_carrier_form" model="ir.ui.view">
+      <field name="name">shipcloud.carrier.form</field>
+      <field name="model">shipcloud.carrier</field>
+      <field name="arch" type="xml">
+        <form string="Shipcloud Carriers">
+          <sheet>
+            <group>
+              <field name="carrier_name" readonly="1"/>
+              <field name="name" readonly="1"/>
+              <field name="carrier_services_ids" widget="many2many_tags" readonly="1"/>
+              <field name="package_type_ids" widget="many2many_tags" readonly="1"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    
+    <record id="action_shipcloud_carrier" model="ir.actions.act_window">
+      <field name="name">Shipcloud Carriers</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">shipcloud.carrier</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain" />
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">Create a Shipcloud Carriers.</p>
+      </field>
+    </record>
+    
+    <menuitem id="menu_shipcloud_carrier" name="Shipcloud Carriers" action="action_shipcloud_carrier" parent="shipcloud_menu_label" sequence="20" />
+    
+  </data>
+</odoo>

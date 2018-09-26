@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+  	
+  	<record model="ir.ui.view" id="wisefood_shipcloud_order_form_view">
+	    <field name="name">view.order.form</field>
+	    <field name="model">sale.order</field>
+	    <field name="inherit_id" ref="sale.view_order_form"/>
+	    <field name="arch" type="xml">
+	    <button name="action_quotation_send" position="after">
+	    	<button name="action_create_shipment" string="Create Shipment" type="object" states="draft" class="btn-primary"/>
+	    </button>
+	    <field name="payment_term_id" position="after">
+	    	<field name="shipcloud_carrier_id" options="{'no_create_edit': True}"/>
+	    	<field name="carrier_services_id" domain="[('id','=',carrier_services_ids)]" options="{'no_create_edit': True}"/>
+	    	<field name="package_type_id" domain="[('id','=',package_type_ids)]" options="{'no_create_edit': True}"/>
+	    	<field name="carrier_services_ids" invisible="1"/>
+	    	<field name="package_type_ids" invisible="1"/>
+	    </field>
+		    
+	</field>
+	</record>
+	
+  
+  </data>
+</odoo>
