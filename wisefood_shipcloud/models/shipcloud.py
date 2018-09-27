@@ -18,6 +18,8 @@ from odoo.addons import decimal_precision as dp
 import requests
 import json
 
+headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+
 class ShipCloud(models.Model):
     _name = 'ship.cloud'
     
@@ -61,7 +63,49 @@ class ShipCloud(models.Model):
                     shipcloud_carriers.write({'name':carrier.get('name'), 'carrier_name':carrier.get('display_name'),
                                               'carrier_services_ids':[(6,0,service_list)], 'package_type_ids': [(6,0,package_list)]})
 
-
+    @api.multi
+    def action_create_shipment(self,sale):
+        for cloud in self:
+            if sale:
+                partner = sale.partner_id
+                shipment={
+        
+                      "to": {
+                          "company": partner.custom_company_name if partner.custom_company_name else '',
+                          "first_name": partner.first_name,
+                          "last_name": partner.last_name,
+                          "street": partner.street2,
+                          "street_no": partner.street,
+                          "city": partner.city,
+                          "zip_code": partner.zip,
+                          "country": partner.country_id.code
+                      },
+                      "package": {
+                          "weight": sale.weight,
+                          "length": sale.length,
+                          "width": sale.width,
+                          "height": sale.height,
+                          "type": sale.package_type_id.name
+                      },
+                      "carrier": sale.shipcloud_carrier_id.name,
+                      "service": sale.carrier_services_id.name,
+                      "reference_number": sale.name,
+                      "notification_email": partner.email if partner.email else '',
+                      "create_shipping_label": True
+                    }
+                json_shipment = json.dumps(shipment)
+                resp = requests.post(cloud.api_url +'shipments/',auth=(cloud.api_key, ''), data = json_shipment, headers=headers)
+                print(resp.text)
+                shipment_dict = json.loads(resp.text)
+                if shipment_dict.get('errors'):
+                    raise UserError(_('Shipcloud Server Response \n %s') % (shipment_dict.get('errors')[0]))
+                sale.write({'shipcloud_shipment_id':shipment_dict.get('id'),'carrier_tracking_no':shipment_dict.get('carrier_tracking_no'),
+                            'tracking_url': shipment_dict.get('tracking_url'),'shipcloud_shipment_price':shipment_dict.get('price'),
+                            'label_url':shipment_dict.get('label_url')})
+            
+        return True
+    
+    
 class ShipCloudCarrier(models.Model):
     _name = 'shipcloud.carrier'
     

@@ -11,12 +11,27 @@
 	    	<button name="action_create_shipment" string="Create Shipment" type="object" states="draft" class="btn-primary"/>
 	    </button>
 	    <field name="payment_term_id" position="after">
-	    	<field name="shipcloud_carrier_id" options="{'no_create_edit': True}"/>
-	    	<field name="carrier_services_id" domain="[('id','=',carrier_services_ids)]" options="{'no_create_edit': True}"/>
-	    	<field name="package_type_id" domain="[('id','=',package_type_ids)]" options="{'no_create_edit': True}"/>
+	    	<field name="shipcloud_carrier_id" options="{'no_create_edit': True}" required="1"/>
+	    	<field name="carrier_services_id" domain="[('id','in',carrier_services_ids)]" options="{'no_create_edit': True}" required="1"/>
+	    	<field name="package_type_id" domain="[('id','in',package_type_ids)]" options="{'no_create_edit': True}" required="1"/>
 	    	<field name="carrier_services_ids" invisible="1"/>
 	    	<field name="package_type_ids" invisible="1"/>
 	    </field>
+	    <notebook position="inside">
+	    	<page string="Shipcloud" name="shipcloud">
+	    		<group>
+	    			<field name="weight" required="1"/>
+	    			<field name="length" required="1"/>
+            		<field name="width" required="1"/>
+            		<field name="height" required="1"/>
+	    			<field name="shipcloud_shipment_id"/>
+	    			<field name="carrier_tracking_no"/>
+	    			<field name="tracking_url" widget="url"/>
+	    			<field name="shipcloud_shipment_price"/>
+	    			<field name="label_url" widget="url"/>
+	    		</group>
+	    	</page>
+	    </notebook>
 		    
 	</field>
 	</record>

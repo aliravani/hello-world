@@ -9,10 +9,12 @@
     'description': """
     Wisefood Shipcloud
     """,
-    'depends': ['sale'],
+    'depends': ['sale','stock'],
     'data': [
             'views/shipcloud_view.xml',
-            'views/sale_view.xml'
+            'views/sale_view.xml',
+            'views/product_view.xml',
+            'views/res_partner_view.xml',
     ],
     
     'installable': True,

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    
+    <record id="view_partner_form_wisefood_shipcloud" model="ir.ui.view">
+      <field name="name">res.partner.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form" />
+      <field name="arch" type="xml">
+      	<field name="parent_id" position="attributes">
+      		<attribute name="invisible">1</attribute>
+      	</field>
+      	<field name="type" position="after">
+      		<field name="custom_company_name" placeholder="Company"/>
+      		<field name="first_name" required="1"/>
+      		<field name="last_name" required="1"/>
+      	</field>
+      </field>
+   </record>
+    </data>
+</odoo>
