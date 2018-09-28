@@ -21,10 +21,10 @@ import json
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
     
-    weight                          = fields.Float('Weight',copy=False)
-    length                          = fields.Float('Length',copy=False)
-    width                           = fields.Float('Width',copy=False)
-    height                          = fields.Float('Height',copy=False)
+    weight                          = fields.Float('Weight',compute='_get_weight')
+    length                          = fields.Float('Length',compute='_get_length')
+    width                           = fields.Float('Width',compute='_get_width')
+    height                          = fields.Float('Height',compute='_get_height')
     
     shipcloud_carrier_id            = fields.Many2one('shipcloud.carrier','Shipcloud Carrier',copy=False)
     carrier_services_id             = fields.Many2one('carrier.services','Shipcloud Service',copy=False)
@@ -38,7 +38,50 @@ class SaleOrder(models.Model):
     shipcloud_shipment_price        = fields.Float('Price',copy=False)
     label_url                       = fields.Char('Label URL',copy=False)
     
-
+    @api.multi
+    def _get_weight(self):
+        for sale in self:
+            total_weight = 0
+            if sale.order_line:
+                for line in sale.order_line:
+                    if line.product_id.weight:
+                        total_weight += line.product_id.weight * line.product_uom_qty
+            sale.weight = total_weight    
+    
+    @api.multi
+    def _get_length(self):
+        for sale in self:
+            length_list = []
+            if sale.order_line:
+                for line in sale.order_line:
+                    if line.product_id.length:
+                        length_list.append(line.product_id.length)
+            if length_list:
+                sale.length = max(length_list)
+    
+    @api.multi
+    def _get_width(self):
+        for sale in self:
+            width_list = []
+            if sale.order_line:
+                for line in sale.order_line:
+                    if line.product_id.width:
+                        width_list.append(line.product_id.width)
+            if width_list:
+                sale.width = max(width_list)
+    
+    @api.multi
+    def _get_height(self):
+        for sale in self:
+            height_list = []
+            qty_list = []
+            if sale.order_line:
+                for line in sale.order_line:
+                    if line.product_id.width:
+                        height_list.append(line.product_id.height * line.product_uom_qty)
+            if height_list:
+                sale.height = sum(height_list)
+                
 #    {'id': 'a72add51b506cf4ab7773257a2a0cee1bbb9a206', 'carrier_tracking_no': 'H1001060000000401031', 
 #    'tracking_url': 'https://track.shipcloud.io/de/a72add51b5', 'price': 0.0, 
 #    'label_url': 'https://sc-labels.s3.amazonaws.com/shipments/b3149b05/a72add51b5/label/shipping_label_a72add51b5.pdf'}
