@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_bulk_confirm_order" model="ir.ui.view">
+            <field name="name">Confirm Order</field>
+            <field name="model">bulk.confirm.order</field>
+            <field name="arch" type="xml">
+                <form string="Confirm Sales Order">
+                    <footer>
+                        <button name="action_confirm" string="Confirm" type="object"
+                            class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_bulk_confirm_order" model="ir.actions.act_window">
+            <field name="name">Confirm Order</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bulk.confirm.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="sale.model_sale_order" />
+        </record>
+
+</odoo>

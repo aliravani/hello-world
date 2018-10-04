@@ -17,6 +17,7 @@
             'views/res_partner_view.xml',
             'views/control_center_view.xml',
             
+            'wizard/bulk_confirm_order_view.xml',
     ],
     
     'installable': True,
