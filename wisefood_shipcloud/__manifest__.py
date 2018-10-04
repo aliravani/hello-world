@@ -15,6 +15,7 @@
             'views/sale_view.xml',
             'views/product_view.xml',
             'views/res_partner_view.xml',
+            'views/control_center_view.xml',
     ],
     
     'installable': True,
