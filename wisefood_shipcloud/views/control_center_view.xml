@@ -2,6 +2,7 @@
 <odoo>
   <data>
   
+  
   <!-- Top menu item -->
     <menuitem id="control_center_menu_root" name="Control Center" sequence="2" />
     <menuitem id="control_center_label" name="Control Center" parent="control_center_menu_root" sequence="1" />

@@ -18,6 +18,7 @@ from odoo.addons import decimal_precision as dp
 import requests
 import json
 
+
 headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 
 class ShipCloud(models.Model):

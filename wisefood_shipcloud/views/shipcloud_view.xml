@@ -2,6 +2,7 @@
 <odoo>
   <data>
   
+  
     <!-- Top menu item -->
     <menuitem id="shipcloud_menu_root" name="Shipcloud" sequence="2" />
     <menuitem id="shipcloud_menu_label" name="Shipcloud" parent="shipcloud_menu_root" sequence="1" />

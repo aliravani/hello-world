@@ -2,7 +2,6 @@
 <odoo>
     <data>
     
-    
     <record id="view_template_property_form_wisefood_shipcloud" model="ir.ui.view">
             <field name="name">product.template.stock.property.form.inherit</field>
             <field name="model">product.template</field>

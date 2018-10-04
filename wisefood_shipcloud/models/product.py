@@ -18,6 +18,7 @@ from odoo.addons import decimal_precision as dp
 import requests
 import json
 
+
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
     

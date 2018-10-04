@@ -22,6 +22,7 @@ from PyPDF2 import PdfFileMerger
 
 import os
 import tempfile
+
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
     

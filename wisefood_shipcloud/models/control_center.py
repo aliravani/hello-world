@@ -23,6 +23,7 @@ from PyPDF2 import PdfFileMerger
 import os
 import tempfile
 
+
 class ControlCenter(models.Model):
     _name = 'control.center'
     
