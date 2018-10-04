@@ -17,6 +17,9 @@
             'views/res_partner_view.xml',
             'views/control_center_view.xml',
             
+            'report/report.xml',
+            'report/sale_report_template.xml',
+            
             'wizard/bulk_confirm_order_view.xml',
     ],
     
