@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+  	
+    <record id="view_sale_csv_import" model="ir.ui.view">
+      <field name="name">Sale CSV Import</field>
+      <field name="model">sale.csv.import</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Sale CSV Import" create="false" edit="false">
+          <sheet>	
+          	<label string="Make sure CSV file is seprated by TAB"/>
+            <separator string="Select File" colspan="4" />
+              <div>
+              	<field name="filename" placeholder="File Name" style="width:30%%" readonly="0"/>
+              	<field widget="binary"  name="file" filename="filename" required="1" />
+              	
+              	<button name="action_import" string="Import" type="object" class="btn-primary" />
+              </div>
+            <group>  
+            </group>
+            <separator string="" colspan="4" />
+            <label string="" colspan="2" />
+          </sheet>
+        </form>
+      </field>
+    </record>
+    
+    <record id="sale_csv_import_action" model="ir.actions.act_window">
+      <field name="name">Sale Order Import</field>
+      <field name="res_model">sale.csv.import</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+      <field name="view_id" ref="view_sale_csv_import" />
+    </record>
+    
+    
+    <menuitem id="menu_import_label" name="Import" parent="sale.sale_menu_root" sequence="4"/>
+    
+    <menuitem action="sale_csv_import_action" id="menu_sale_csv_import" parent="menu_import_label" sequence="14" />
+    
+    
+  </data>
+</odoo>

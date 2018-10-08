@@ -21,6 +21,7 @@
             'report/sale_report_template.xml',
             
             'wizard/bulk_confirm_order_view.xml',
+            'wizard/sale_csv_import_view.xml',
     ],
     
     'installable': True,
