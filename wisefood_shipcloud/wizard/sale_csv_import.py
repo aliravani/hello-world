@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 # -*- encoding: utf-8 -*-
 from openerp import models, api,exceptions, fields, _

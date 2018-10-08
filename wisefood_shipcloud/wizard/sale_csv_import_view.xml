@@ -41,6 +41,5 @@
     
     <menuitem action="sale_csv_import_action" id="menu_sale_csv_import" parent="menu_import_label" sequence="14" />
     
-    
   </data>
 </odoo>
