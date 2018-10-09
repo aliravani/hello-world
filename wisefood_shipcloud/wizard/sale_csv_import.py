@@ -18,6 +18,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 from io import BytesIO
+import re
 
 
 class SaleCSVImport(models.TransientModel):
@@ -61,6 +62,9 @@ class SaleCSVImport(models.TransientModel):
                         customer_country    = row[42]
                         customer_phone      = row[43]
                         
+                        name = re.sub('[!@#$]', '', name)
+                        customer_zip = customer_zip.replace("'","")
+                        
                         
                         partner = self.env['res.partner'].search([('email','=',customer_email),('street','=',customer_street),('street2','=',customer_street2)], limit=1)
                         if not partner:
@@ -92,7 +96,7 @@ class SaleCSVImport(models.TransientModel):
                             partner = self.env['res.partner'].create(partner_vals)
                         
                         if partner:
-                            if shipping_method == 'Standard Versand':
+                            if shipping_method == 'Standard Versand' or shipping_method == 'Free Shipping':
                                 carrier = self.env['shipcloud.carrier'].search([('name','=','hsi')])
                                 service = self.env['carrier.services'].search([('name','=','standard')])
                                 package_type = self.env['package.type'].search([('name','=','parcel')])
