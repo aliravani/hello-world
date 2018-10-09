@@ -44,6 +44,7 @@ class SaleCSVImport(models.TransientModel):
             
             reader = csv.reader(csv_data, delimiter='\t')
             reader = list(reader)
+            error_email = ''
             try:
                 for row in reader:
                     if not row[0] == 'Name' and not row[1] == 'Email':
@@ -65,6 +66,7 @@ class SaleCSVImport(models.TransientModel):
                         name = re.sub('[!@#$]', '', name)
                         customer_zip = customer_zip.replace("'","")
                         
+                        error_email = customer_email
                         
                         partner = self.env['res.partner'].search([('email','=',customer_email),('street','=',customer_street),('street2','=',customer_street2)], limit=1)
                         if not partner:
@@ -114,5 +116,5 @@ class SaleCSVImport(models.TransientModel):
                                                                                        })
                         
             except:
-                raise UserError(_('Please Check CSV file, i.e csv file must be seprated by TAB'))
+                raise UserError(_('Please Check CSV file, i.e csv file must be seprated by TAB or check line with email : %s') % (error_email))
             

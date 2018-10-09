@@ -17,4 +17,6 @@ class BulkConfirmOrder(models.TransientModel):
         for sale in sale_orders:
             if sale.state == 'draft':
                 sale.action_confirm()
+                sale.action_create_shipment()
+                self.env.cr.commit()
         return True
