@@ -54,7 +54,8 @@ class SaleCSVImport(models.TransientModel):
                         shipping_method     = row[14]
                         qty                 = row[16]
                         product             = row[17]
-                        customer_name         = row[34]
+                        default_code        = row[20]
+                        customer_name       = row[34]
                         customer_street2    = row[35]
                         customer_street     = row[37]
                         customer_company    = row[38]
@@ -109,7 +110,7 @@ class SaleCSVImport(models.TransientModel):
                                                                            })
                         
                                     if sales:
-                                        product = self.env['product.product'].search([('name','=',product)])
+                                        product = self.env['product.product'].search([('default_code','=',default_code)],limit=1)
                                         if product:
                                             line = self.env['sale.order.line'].create({'order_id':sales.id,'product_id':product.id,
                                                                                        'product_uom_qty': qty
