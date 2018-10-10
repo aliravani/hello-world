@@ -43,6 +43,18 @@ class SaleOrder(models.Model):
     shipcloud_shipment_price        = fields.Float('Price',copy=False)
     label_url                       = fields.Char('Label URL',copy=False)
     
+    name_int                        = fields.Integer('Name Int',compute='_name_int',store=True)
+    
+    @api.depends('name')
+    @api.multi
+    def _name_int(self):
+        for sale in self:
+            if sale.name:
+                try:
+                    sale.name_int = int(sale.name)
+                except:
+                    sale.name_int = 0
+    
     @api.multi
     def _get_weight(self):
         for sale in self:

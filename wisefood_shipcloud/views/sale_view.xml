@@ -29,6 +29,7 @@
 	    			<field name="tracking_url" widget="url"/>
 	    			<field name="shipcloud_shipment_price"/>
 	    			<field name="label_url" widget="url"/>
+	    			<field name="name_int"/>
 	    		</group>
 	    	</page>
 	    </notebook>

@@ -34,8 +34,7 @@ class ControlCenter(models.Model):
     @api.multi
     def action_print_all_labels(self):
         
-        sales = self.env['sale.order'].search([('id','>=',self.sale_start.id),('id','<=',self.sale_end.id),('label_url','!=',False)])
-        print ('sales sales sales          ',sales)
+        sales = self.env['sale.order'].search([('name_int','>=',self.sale_start.name_int),('name_int','<=',self.sale_end.name_int),('label_url','!=',False)])
         pdfs = []
         for sale in sales:
             tmp_dir = tempfile.gettempdir()
