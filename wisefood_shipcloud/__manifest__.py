@@ -22,6 +22,7 @@
             
             'wizard/bulk_confirm_order_view.xml',
             'wizard/sale_csv_import_view.xml',
+            'wizard/bulk_print_label_view.xml',
             
     ],
     

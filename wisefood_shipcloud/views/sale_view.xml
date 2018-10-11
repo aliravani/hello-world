@@ -36,6 +36,18 @@
 	</field>
 	</record>
 	
+	
+	<record id="view_sales_order_filter_wisefood_shipcloud" model="ir.ui.view">
+            <field name="name">sale.order.list.select</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+            <filter name="activities_my" position="after">
+            	<filter string="Today" domain="[('date_order','&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0))), ('date_order','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)))]"/>
+            </filter>
+            </field>
+     </record>
+	
   
   </data>
 </odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_bulk_print_label" model="ir.ui.view">
+            <field name="name">Print Labels</field>
+            <field name="model">bulk.print.label</field>
+            <field name="arch" type="xml">
+                <form string="Print Labels">
+                    <footer>
+                        <button name="action_print" string="Print" type="object"
+                            class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_bulk_print_label" model="ir.actions.act_window">
+            <field name="name">Print Labels</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bulk.print.label</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="sale.model_sale_order" />
+        </record>
+
+</odoo>
