@@ -25,4 +25,6 @@ class ProductTemplate(models.Model):
     length      = fields.Float('Length')
     width       = fields.Float('Width')
     height      = fields.Float('Height')
+    origin_country_id = fields.Many2one('res.country','Origin Country')
+    hs_tariff_number  = fields.Char('HS Tariff Number')
     

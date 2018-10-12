@@ -20,6 +20,12 @@
 	    <notebook position="inside">
 	    	<page string="Shipcloud" name="shipcloud">
 	    		<group>
+	    			<field name="customs_declaration" />
+	    			<field name="contents_type_id" attrs="{'invisible':[('customs_declaration','=',False)], 'required': [('customs_declaration','=',True)]}" />
+	    			<field name="contents_explanation_id" attrs="{'invisible':[('customs_declaration','=',False)], 'required': [('customs_declaration','=',True)]}" />
+	    			<field name="additional_fees" attrs="{'invisible':[('customs_declaration','=',False)]}" />
+	    			<field name="drop_off_location_id" attrs="{'invisible':[('customs_declaration','=',False)], 'required': [('customs_declaration','=',True)]}" />
+	    			<field name="invoice_number" attrs="{'invisible':[('customs_declaration','=',False)], 'required': [('customs_declaration','=',True)]}" />
 	    			<field name="weight" required="1"/>
 	    			<field name="length" required="1"/>
             		<field name="width" required="1"/>

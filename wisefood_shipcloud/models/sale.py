@@ -45,6 +45,15 @@ class SaleOrder(models.Model):
     
     name_int                        = fields.Integer('Name Int',compute='_name_int',store=True)
     
+    customs_declaration             = fields.Boolean('Customs Declaration')
+    contents_type_id                   = fields.Many2one('contents.type','Contents Type')
+    contents_explanation_id            = fields.Many2one('contents.explanation','Contents Explanation')
+    additional_fees                 = fields.Float('Additional Fees')
+    drop_off_location_id            = fields.Many2one('res.country','Drop Off Location')
+    invoice_number                  = fields.Char('Invoice Number')
+    
+    
+    
     @api.depends('name')
     @api.multi
     def _name_int(self):
@@ -136,8 +145,10 @@ class SaleOrder(models.Model):
             
             ship_cloud = self.env['ship.cloud'].search([], limit=1)
             if ship_cloud:
-                ship_cloud.action_create_shipment(sale)
-                
+                if sale.customs_declaration:
+                    ship_cloud.action_create_shipment_customs(sale)
+                else:
+                    ship_cloud.action_create_shipment(sale)
         return True
     
     
@@ -197,3 +208,14 @@ class SaleOrder(models.Model):
                  'url':   '/web/content/%s?download=true' % (attachment.id),
                  'target': 'new',
                  }   
+
+class ContentsExplanation(models.Model):
+    _name = 'contents.explanation'
+    
+    name = fields.Char('Contents Explanation')
+
+class ContentsType(models.Model):
+    _name = 'contents.type'
+    
+    name = fields.Char('Contents Type')
+    

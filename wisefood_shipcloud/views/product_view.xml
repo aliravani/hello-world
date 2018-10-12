@@ -11,10 +11,20 @@
             	<field name="length"/>
             	<field name="width"/>
             	<field name="height"/>
-               
             </div>
-            
             </field>
+    </record>
+    
+    <record id="product_template_only_form_view_wisefood_shipcloud" model="ir.ui.view">
+        <field name="name">product.template.product.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+        <field name="company_id" position="before">
+        	<field name="origin_country_id"/>
+            <field name="hs_tariff_number"/>
+        </field>
+        </field>
     </record>
     </data>
  </odoo>
