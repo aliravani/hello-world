@@ -18,6 +18,9 @@ from odoo.addons import decimal_precision as dp
 import requests
 import json
 
+import logging
+
+_logger = logging.getLogger(__name__)
 
 headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 
@@ -187,6 +190,7 @@ class ShipCloud(models.Model):
                 if item:
                     shipment['customs_declaration']['items'] = item
                 
+                _logger.warning('(%s).', shipment)
                 json_shipment = json.dumps(shipment)
                 resp = requests.post(cloud.api_url +'shipments/',auth=(cloud.api_key, ''), data = json_shipment, headers=headers)
                 print(resp.text)
