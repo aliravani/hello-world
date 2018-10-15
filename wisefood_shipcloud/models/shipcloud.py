@@ -112,6 +112,9 @@ class ShipCloud(models.Model):
         for cloud in self:
             if sale:
                 partner = sale.partner_id
+                
+                order_date = datetime.strptime(sale.date_order, '%Y-%m-%d %H:%M:%S').date()
+                
                 shipment={
         
                       "to": {
@@ -137,7 +140,9 @@ class ShipCloud(models.Model):
                             "currency": sale.currency_id.name if sale.currency_id else 'EUR',
                             "additional_fees": sale.additional_fees,
                             "drop_off_location": sale.drop_off_location_id.code,
-                            "posting_date": "2017-10-07",
+                            #"posting_date": "2017-10-07",
+                            "posting_date": order_date.strftime("%Y-%m-%d"),
+                            
                             "invoice_number": sale.invoice_number,
                             "total_value_amount": sale.amount_total,
 #                             "items": [{
@@ -167,9 +172,12 @@ class ShipCloud(models.Model):
                 item = []
                 if sale.order_line:
                     for line in sale.order_line:
+                        if not line.product_id.description_pickingout:
+                            raise UserError(_('Product Description for Delivery Orders is empty of product : %s') %(line.product_id.name))
+                        
                         item.append({
                                     "origin_country": line.product_id.origin_country_id.code,
-                                    "description": line.product_id.name,
+                                    "description": line.product_id.description_pickingout,
                                     "hs_tariff_number": line.product_id.hs_tariff_number,
                                     "quantity": line.product_uom_qty,
                                     "value_amount": line.price_subtotal,
