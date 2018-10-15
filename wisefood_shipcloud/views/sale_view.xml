@@ -1,6 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
   <data>
+  
+  	
+  	<record id="sale.view_quotation_tree" model="ir.ui.view">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="priority">4</field>
+            <field name="arch" type="xml">
+                <tree string="Quotation" class="o_sale_order" decoration-bf="message_needaction==True" decoration-muted="state=='cancel'" decoration-danger="make_color_red==True">
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="name" string="Quotation Number"/>
+                    <field name="date_order" string="Quotation Date"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="amount_total" sum="Total Tax Included" widget="monetary"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="state"/>
+                    <field name="currency_id" invisible="True"/>
+                    <field name="make_color_red" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+     
+     <record id="sale.view_order_tree" model="ir.ui.view">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Orders" decoration-bf="message_needaction==True" decoration-muted="state=='cancel'" decoration-danger="make_color_red==True">
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="name" string="Order Number"/>
+                    <field name="confirmation_date" string="Order Date"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="amount_total" sum="Total Tax Included" widget="monetary"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="invoice_status" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                    <field name="make_color_red" invisible="1"/>
+                </tree>
+            </field>
+        </record>
   	
   	<record model="ir.ui.view" id="wisefood_shipcloud_order_form_view">
 	    <field name="name">view.order.form</field>
@@ -16,6 +57,7 @@
 	    	<field name="package_type_id" domain="[('id','in',package_type_ids)]" options="{'no_create_edit': True}" required="1"/>
 	    	<field name="carrier_services_ids" invisible="1"/>
 	    	<field name="package_type_ids" invisible="1"/>
+	    	<field name="make_color_red" invisible="1"/>
 	    </field>
 	    <notebook position="inside">
 	    	<page string="Shipcloud" name="shipcloud">

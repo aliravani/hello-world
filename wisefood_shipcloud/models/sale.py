@@ -52,8 +52,20 @@ class SaleOrder(models.Model):
     drop_off_location_id            = fields.Many2one('res.country','Drop Off Location')
     invoice_number                  = fields.Char('Invoice Number')
     
+    make_color_red                  = fields.Boolean('Make Color Red',compute='_make_color_red')
     
-    
+    @api.depends('partner_id.custom_company_name','partner_id.street')
+    @api.multi
+    def _make_color_red(self):
+        for sale in self:
+            if sale.partner_id:
+                if sale.partner_id.custom_company_name:
+                    if len(sale.partner_id.custom_company_name) > 20:
+                        sale.make_color_red = True
+                if not sale.partner_id.street:
+                    sale.make_color_red = True
+            
+            
     @api.depends('name')
     @api.multi
     def _name_int(self):
