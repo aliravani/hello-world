@@ -145,10 +145,10 @@ class SaleOrder(models.Model):
             
             ship_cloud = self.env['ship.cloud'].search([], limit=1)
             if ship_cloud:
-                if sale.customs_declaration:
-                    ship_cloud.action_create_shipment_customs(sale)
-                else:
-                    ship_cloud.action_create_shipment(sale)
+                #if sale.customs_declaration:
+                #    ship_cloud.action_create_shipment_customs(sale)
+                #else:
+                ship_cloud.action_create_shipment(sale)
         return True
     
     
