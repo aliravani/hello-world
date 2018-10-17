@@ -193,13 +193,14 @@ class ShipCloud(models.Model):
                 _logger.warning('(%s).', shipment)
                 json_shipment = json.dumps(shipment)
                 resp = requests.post(cloud.api_url +'shipments/',auth=(cloud.api_key, ''), data = json_shipment, headers=headers)
-                print(resp.text)
+                #print(resp.text)
                 shipment_dict = json.loads(resp.text)
                 if shipment_dict.get('errors'):
                     raise UserError(_('Shipcloud Server Response \n %s') % (shipment_dict.get('errors')[0]))
                 sale.write({'shipcloud_shipment_id':shipment_dict.get('id'),'carrier_tracking_no':shipment_dict.get('carrier_tracking_no'),
                             'tracking_url': shipment_dict.get('tracking_url'),'shipcloud_shipment_price':shipment_dict.get('price'),
-                            'label_url':shipment_dict.get('label_url')})
+                            'label_url':shipment_dict.get('label_url'),
+                            'carrier_declaration_document_url':shipment_dict['customs_declaration'].get('carrier_declaration_document_url')})
             
         return True
     

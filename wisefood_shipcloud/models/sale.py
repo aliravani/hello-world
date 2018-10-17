@@ -42,6 +42,7 @@ class SaleOrder(models.Model):
     tracking_url                    = fields.Char('Tracking URL',copy=False)
     shipcloud_shipment_price        = fields.Float('Price',copy=False)
     label_url                       = fields.Char('Label URL',copy=False)
+    carrier_declaration_document_url = fields.Char('Carrier Declaration Document URL',copy=False)
     
     name_int                        = fields.Integer('Name Int',compute='_name_int',store=True)
     
