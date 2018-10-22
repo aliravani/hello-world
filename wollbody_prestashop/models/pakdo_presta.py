@@ -90,6 +90,17 @@ class PrestaPrice(models.Model):
     date_from               = fields.Char('Date From')
     date_to                 = fields.Char('Date To')
     presta_specific_price_id = fields.Char('Specific Price ID')
+    related_supplier_id     = fields.Many2one('res.partner', related='product_id.related_supplier_id',string='Supplier')
+    qty                     = fields.Float('Qty',compute='_get_qty')
+    
+    @api.multi
+    @api.depends('product_id')
+    def _get_qty(self):
+        for presta in self:
+            if presta.product_id:
+                stock = self.env['pakdo.presta.stock'].search([('product_id','=',presta.product_id.id)], limit=1)
+                if stock:
+                    presta.qty = stock.qty
                         
 class CSVPrestaPrice(models.TransientModel):
     _name = "csv.presta.price"

@@ -98,7 +98,9 @@
       <field name="arch" type="xml">
         <tree string="Presta Price">
           <field name="product_id" />
+          <field name="related_supplier_id"/>
           <field name="default_code"/>
+          <field name="qty"/>
           <field name="price" />
           <field name="price_percent"/>
           <field name="date_from" />
@@ -117,7 +119,9 @@
           	<group>
           	  <group>
           	  	<field name="product_id"/>
+          	  	<field name="related_supplier_id" readonly="1"/>
           	  	<field name="default_code"/>
+          	  	<field name="qty"/>
           	  	<field name="price"/>
           	  	<field name="price_percent"/>
           	  	<field name="presta_specific_price_id"/>
