@@ -91,7 +91,7 @@ class PrestaPrice(models.Model):
     date_to                 = fields.Char('Date To')
     presta_specific_price_id = fields.Char('Specific Price ID')
     related_supplier_id     = fields.Many2one('res.partner', related='product_id.related_supplier_id',string='Supplier')
-    qty                     = fields.Float('Qty',compute='_get_qty')
+    qty                     = fields.Float('Qty',compute='_get_qty',store=True)
     
     @api.multi
     @api.depends('product_id')
