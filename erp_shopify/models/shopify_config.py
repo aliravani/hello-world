@@ -73,13 +73,13 @@ class ShopifyConfig(models.Model):
                         odoo_products = self.env['product.template'].search([('default_code','=',variant.get('sku'))], limit=1)
                         if odoo_products:
                             odoo_products.write({
-                                                'name'          : variant.get('title'),
+                                                'name'          : response_template.get('title') + ' - ' +variant.get('title'),
                                                 #'type'          : 'product',
                                                 'shopify_id'    : variant.get('id'),
                                     })
                         if not odoo_products:
                             odoo_products = self.env['product.template'].create({
-                                                'name'          : variant.get('title'),
+                                                'name'          : response_template.get('title') +' - ' +variant.get('title'),
                                                 'type'          : 'product',
                                                 'shopify_id'    : variant.get('id'),
                                                 'default_code'  : variant.get('sku')
