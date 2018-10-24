@@ -49,7 +49,7 @@
 	    <field name="inherit_id" ref="sale.view_order_form"/>
 	    <field name="arch" type="xml">
 	    <button name="action_quotation_send" position="after">
-	    	<button name="action_create_shipment" string="Create Shipment" type="object" states="draft" class="btn-primary"/>
+	    	<button name="action_create_shipment" string="Create Shipment" type="object" class="btn-primary"/>
 	    </button>
 	    <field name="payment_term_id" position="after">
 	    	<field name="shipcloud_carrier_id" options="{'no_create_edit': True}" required="1"/>

@@ -11,6 +11,8 @@
     """,
     'depends': ['sale','stock'],
     'data': [
+            'security/ir.model.access.csv',
+            
             'views/shipcloud_view.xml',
             'views/sale_view.xml',
             'views/product_view.xml',

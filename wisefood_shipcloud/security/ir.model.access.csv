@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_control_center,control_center,model_control_center,,1,1,0,0
+access_shipcloud_carrier,shipcloud_carrier,model_shipcloud_carrier,,1,1,0,0
+access_carrier_services,carrier_services,model_carrier_services,,1,1,0,0
+access_package_type,package_type,model_package_type,,1,1,0,0
+access_contents_explanation,contents_explanation,model_contents_explanation,,1,1,1,1
+access_contents_type,contents_type,model_contents_type,,1,1,1,1
+access_bulk_print_label,bulk_print_label,model_bulk_print_label,,1,1,1,1
+access_ship_cloud,ship_cloud,model_ship_cloud,,1,1,1,0
