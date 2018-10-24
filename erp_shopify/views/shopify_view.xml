@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+  
+  
+    <!-- Top menu item -->
+    <menuitem id="shopify_menu_root" name="Shopify" sequence="2" />
+    <menuitem id="shopify_menu_label" name="Shopify" parent="shopify_menu_root" sequence="1" />
+    
+    <record id="view_shopify_config_tree" model="ir.ui.view">
+      <field name="name">shopify.config.tree</field>
+      <field name="model">shopify.config</field>
+      <field name="arch" type="xml">
+        <tree string="Shopify">
+          <field name="name" />
+          <field name="api_url" />
+          <field name="api_key" />
+        </tree>
+      </field>
+    </record>
+    
+    <record id="view_shopify_config_form" model="ir.ui.view">
+      <field name="name">shopify.config.form</field>
+      <field name="model">shopify.config</field>
+      <field name="arch" type="xml">
+        <form string="Shopify">
+          <header>
+            <button name="action_test_connection" string="Test Connection" type="object" class="btn-primary" />
+            <button name="action_import_products" string="Import Product" type="object" class="btn-primary" states="connected"/>
+            <field name="state" widget="statusbar" statusbar_visible="draft,connected"/>
+          </header>
+          <sheet>
+            <group>
+              <field name="name" required="1" attrs="{'readonly': [('state', '=', 'connected')]}"/>
+              <field name="api_url" required="1" attrs="{'readonly': [('state', '=', 'connected')]}"/>
+              <field name="api_key" required="1" attrs="{'readonly': [('state', '=', 'connected')]}"/>
+              <field name="api_pwd" required="1" attrs="{'readonly': [('state', '=', 'connected')]}"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    
+    <record id="action_shopify_config" model="ir.actions.act_window">
+      <field name="name">Shopify</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">shopify.config</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain" />
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">Create a Shopify.</p>
+      </field>
+    </record>
+    
+    <menuitem id="menu_shopify_config" name="Shopify" action="action_shopify_config" parent="shopify_menu_label" sequence="10" />
+    
+    
+    <record id="product_template_only_form_view_erp_shopify" model="ir.ui.view">
+        <field name="name">product.template.product.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+        <field name="company_id" position="before">
+        	<field name="shopify_id" readonly="1"/>
+        </field>
+        </field>
+    </record>
+    
+  </data>
+</odoo>
