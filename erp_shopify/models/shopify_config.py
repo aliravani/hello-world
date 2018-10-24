@@ -73,28 +73,28 @@ class ShopifyConfig(models.Model):
                         odoo_products = self.env['product.template'].search([('default_code','=',variant.get('sku'))], limit=1)
                         if odoo_products:
                             odoo_products.write({
-                                                'name'          : response_template.get('title'),
+                                                'name'          : variant.get('title'),
                                                 #'type'          : 'product',
                                                 'shopify_id'    : variant.get('id'),
                                     })
                         if not odoo_products:
                             odoo_products = self.env['product.template'].create({
-                                                'name'          : response_template.get('title'),
+                                                'name'          : variant.get('title'),
                                                 'type'          : 'product',
                                                 'shopify_id'    : variant.get('id'),
                                                 'default_code'  : variant.get('sku')
                                     })
     
-#     @api.multi
-#     def action_import_order(self):
-#         for shop in self:
-#             if shop.state == 'connected':
-#                 shopify_resp = shop.action_test_connection()
-#                 print ('>>>>>>>>>>      ',dir(shopify_resp))
-#                 orders = shopify_resp.Order().find(limit=250)
-#                 for order in orders:
-#                     response_template = order.to_dict()
-#                     print ('response_template      ',response_template)
+    @api.multi
+    def action_import_order(self):
+        for shop in self:
+            if shop.state == 'connected':
+                shopify_resp = shop.action_test_connection()
+                print ('>>>>>>>>>>      ',dir(shopify_resp))
+                orders = shopify_resp.Order().find(limit=250)
+                for order in orders:
+                    response_template = order.to_dict()
+                    print ('response_template      ',response_template)
                     
                 
 class ProductTemplate(models.Model):
