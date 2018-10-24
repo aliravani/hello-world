@@ -40,7 +40,7 @@ class ShopifyConfig(models.Model):
         if shopify:
             raise UserError(_("Cannot Create Second"))
         
-        res = super(self, ShopifyConfig).create(vals)
+        return super(ShopifyConfig,self).create(vals)
     
     @api.multi
     def action_test_connection(self):
