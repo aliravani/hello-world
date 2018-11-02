@@ -27,6 +27,7 @@
           <header>
             <button name="action_test_connection" string="Test Connection" type="object" class="btn-primary" />
             <button name="action_import_products" string="Import Product" type="object" class="btn-primary" states="connected"/>
+            <button name="action_import_order" string="Import Order" type="object" class="btn-primary" states="connected"/>
             <field name="state" widget="statusbar" statusbar_visible="draft,connected"/>
           </header>
           <sheet>
@@ -66,6 +67,29 @@
         </field>
         </field>
     </record>
+    
+    
+    <record model="ir.ui.view" id="erp_shopify_order_form_view">
+	    <field name="name">view.order.form</field>
+	    <field name="model">sale.order</field>
+	    <field name="inherit_id" ref="sale.view_order_form"/>
+	    <field name="arch" type="xml">
+	    <field name="payment_term_id" position="after">
+	    	<field name="shopify_id"/>
+	    </field>
+	    </field>
+	</record>
+	
+	<record id="view_partner_form_erp_shopify" model="ir.ui.view">
+      <field name="name">res.partner.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form" />
+      <field name="arch" type="xml">
+        <field name="lang" position="after">
+        	<field name="shopify_id"/>
+        </field>
+      </field>
+   </record>
     
   </data>
 </odoo>
