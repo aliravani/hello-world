@@ -183,7 +183,7 @@ class ShipCloud(models.Model):
                                     "description": line.product_id.description_pickingout,
                                     "hs_tariff_number": line.product_id.hs_tariff_number,
                                     "quantity": line.product_uom_qty,
-                                    "value_amount": line.price_subtotal,
+                                    "value_amount": line.price_unit,
                                     "net_weight": line.product_id.weight
                             })
                 
