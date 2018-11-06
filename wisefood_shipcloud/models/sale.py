@@ -55,6 +55,13 @@ class SaleOrder(models.Model):
     
     make_color_red                  = fields.Boolean('Make Color Red',compute='_make_color_red')
     
+    name = fields.Char(string='Order Reference', required=True, size=10, copy=False, readonly=False, states={'draft': [('readonly', False)]}, index=True, default=lambda self: _('New'))
+    
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)',
+            'Order Nr. must be unique!'),
+    ]
+    
     @api.depends('partner_id.custom_company_name','partner_id.street')
     @api.multi
     def _make_color_red(self):
