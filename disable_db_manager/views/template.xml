@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="new_login_layout" inherit_id="web.login_layout" name="Login Layout Inherit">
+            <xpath expr="//div[@t-if='not disable_footer']" position="replace"/>
+        </template>
+
+        <template id="new_login" inherit_id="web.login" name="Login Inherit">
+            <xpath expr="//div[@class='form-group field-db']" position="replace"/>
+        </template>
+
+    </data>
+</odoo>
