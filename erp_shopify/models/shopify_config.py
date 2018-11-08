@@ -93,7 +93,7 @@ class ShopifyConfig(models.Model):
             if shop.state == 'connected':
                 shopify_resp = shop.action_test_connection()
                 print ('>>>>>>>>>>      ',dir(shopify_resp))
-                orders = shopify_resp.Order().find(limit=250)
+                orders = shopify_resp.Order().find(status='unshipped',limit=250,page=2)
                 product_uom = self.env['product.uom.categ'].search([('name','=','Unit')])
                 for order in orders:
                     response_template = order.to_dict()
@@ -157,7 +157,93 @@ class ShopifyConfig(models.Model):
                                         'name'                  : response_template.get('order_number'),
                                         'date_order'            : response_template.get('created_at') 
                             })
+                        print ('sale_order sale_order     ',sale_order)
+                        for line in response_template.get('line_items'):
+                            if line.get('variant_id'):
+                                product = self.env['product.product'].search([('shopify_id','=',line.get('variant_id'))])
+                                if not product:
+                                    shop.action_import_products()
+                                    product = self.env['product.product'].search([('shopify_id','=',line.get('variant_id'))])
+                                    
+                                if product:
+                                    name = product.name_get()[0][1]
+                                    if product.description_sale:
+                                        name += '\n' + product.description_sale
+                                    sale_line = self.env['sale.order.line'].create({
+                                                        'order_id'          : sale_order.id,
+                                                        'product_id'        : product.id,
+                                                        'name'              : name,
+                                                        'product_uom_qty'   : line.get('quantity'),
+                                                        'price_unit'        : line.get('price'), 
+                                                        'product_uom'       : product_uom.id if product_uom else False  #unit
+                                        })
+                
+                
+                orders_paid = shopify_resp.Order().find(financial_status='paid',limit=250,page=2)
+                product_uom = self.env['product.uom.categ'].search([('name','=','Unit')])
+                for order_paid in orders_paid:
+                    response_template = order_paid.to_dict()
+                    sale_order = self.env['sale.order'].search([('name','=',response_template.get('order_number')),('shopify_id','=',response_template.get('id'))])
+                    if not sale_order:
+                        partner_shipping = False
+                        partner = False
+                        customer_resp = response_template.get('customer')
                         
+                        country = self.env['res.country'].search([('name','=',customer_resp['default_address'].get('country_name'))])
+                        partner_vals = {
+                                            'first_name'    : customer_resp.get('first_name'),
+                                            'last_name'     : customer_resp.get('last_name') if customer_resp.get('last_name') else '-',
+                                            'name'          : customer_resp.get('first_name') + ' ' + customer_resp.get('last_name') if customer_resp.get('last_name') else '-',
+                                            'email'         : customer_resp.get('email'),
+                                            'custom_company_name' : customer_resp['default_address'].get('company'),
+                                            'street2'       : customer_resp['default_address'].get('address1'),
+                                            'street'        : customer_resp['default_address'].get('address2'),
+                                            'city'          : customer_resp['default_address'].get('city'),
+                                            'zip'           : customer_resp['default_address'].get('zip'),
+                                            'phone'         : customer_resp['default_address'].get('phone'),
+                                            'country_id'    : country.id if country else False,
+                                            'customer'      : True,
+                                            'shopify_id'    : customer_resp.get('id'),
+                            
+                            }
+                        
+                        
+                        partner = self.env['res.partner'].search([('email','=',customer_resp.get('email')),('shopify_id','=',customer_resp.get('id'))])
+                        if partner:
+                            partner.write(partner_vals)
+                        if not partner:
+                            partner = self.env['res.partner'].create(partner_vals)
+                        
+                        if partner:
+                            country = self.env['res.country'].search([('name','=',response_template['shipping_address'].get('country_name'))])
+                            if not partner.street2 == response_template['shipping_address'].get('address1'):
+                                partner_shipping = self.env['res.partner'].search([('type','=','delivery'),('street2','=',response_template['shipping_address'].get('address1'))])
+                                if not partner_shipping:
+                                    shipping_vals = {
+                                                    'parent_id'     : partner.id,
+                                                    'type'          : 'delivery',
+                                                    'street2'       : response_template['shipping_address'].get('address1'),
+                                                    'street'        : response_template['shipping_address'].get('address2'),
+                                                    'city'          : response_template['shipping_address'].get('city'),
+                                                    'zip'           : response_template['shipping_address'].get('zip'),
+                                                    'phone'         : response_template['shipping_address'].get('phone'),
+                                                    'first_name'    : response_template['shipping_address'].get('first_name'),
+                                                    'last_name'     : response_template['shipping_address'].get('last_name') if response_template['shipping_address'].get('last_name') else '-',
+                                                    'name'          : response_template['shipping_address'].get('first_name') + ' ' + response_template['shipping_address'].get('last_name') if response_template['shipping_address'].get('last_name') else '-', 
+                                                    'country_id'    : country.id if country else False,
+                                        }
+                                    
+                                    partner_shipping = self.env['res.partner'].create(shipping_vals)
+                         
+                        sale_order = self.env['sale.order'].create({
+                                        'shopify_id'            : response_template.get('id'),
+                                        'partner_id'            : partner.id,
+                                        'partner_shipping_id'   : partner_shipping.id if partner_shipping else partner.id,
+                                        'partner_invoice_id'    : partner.id,
+                                        'name'                  : response_template.get('order_number'),
+                                        'date_order'            : response_template.get('created_at') 
+                            })
+                        print ('sale_order sale_order 22222    ',sale_order)
                         for line in response_template.get('line_items'):
                             if line.get('variant_id'):
                                 product = self.env['product.product'].search([('shopify_id','=',line.get('variant_id'))])
