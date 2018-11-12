@@ -62,6 +62,15 @@ class SaleOrder(models.Model):
             'Order Nr. must be unique!'),
     ]
     
+    @api.onchange('shipcloud_carrier_id')
+    def onchange_shipcloud_carrier_id(self):
+        if not self.shipcloud_carrier_id:
+            self.carrier_services_id = False
+            self.package_type_id = False
+        if self.shipcloud_carrier_id.name == 'hsi':
+            self.carrier_services_id = self.env['carrier.services'].search([('name','=','standard')]).id
+            self.package_type_id= self.env['package.type'].search([('name','=','parcel')]).id
+    
     @api.depends('partner_id.custom_company_name','partner_id.street')
     @api.multi
     def _make_color_red(self):

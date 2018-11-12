@@ -15,6 +15,12 @@
       		<field name="first_name" required="1"/>
       		<field name="last_name" required="1"/>
       	</field>
+      	<field name="street" position="attributes">
+	      	<attribute name="placeholder">House Nr...</attribute>
+	    </field>
+	    <field name="street2" position="attributes">
+	      	<attribute name="placeholder">Street...</attribute>
+      </field>
       </field>
    </record>
     </data>
