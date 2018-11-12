@@ -93,7 +93,7 @@ class ShopifyConfig(models.Model):
             if shop.state == 'connected':
                 shopify_resp = shop.action_test_connection()
                 print ('>>>>>>>>>>      ',dir(shopify_resp))
-                orders = shopify_resp.Order().find(status='unshipped',limit=250,page=2)
+                orders = shopify_resp.Order().find(limit=250,page=2)
                 product_uom = self.env['product.uom.categ'].search([('name','=','Unit')])
                 for order in orders:
                     response_template = order.to_dict()
