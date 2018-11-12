@@ -93,7 +93,7 @@ class ShopifyConfig(models.Model):
             if shop.state == 'connected':
                 shopify_resp = shop.action_test_connection()
                 print ('>>>>>>>>>>      ',dir(shopify_resp))
-                orders = shopify_resp.Order().find(status='any',limit=250,page=2)
+                orders = shopify_resp.Order().find(fulfillment_status='unshipped',limit=250)
                 product_uom = self.env['product.uom.categ'].search([('name','=','Unit')])
                 for order in orders:
                     response_template = order.to_dict()
@@ -179,7 +179,7 @@ class ShopifyConfig(models.Model):
                                         })
                 
                 
-                orders_paid = shopify_resp.Order().find(financial_status='paid',limit=250,page=2)
+                orders_paid = shopify_resp.Order().find(financial_status='paid',limit=250)
                 product_uom = self.env['product.uom.categ'].search([('name','=','Unit')])
                 for order_paid in orders_paid:
                     response_template = order_paid.to_dict()
