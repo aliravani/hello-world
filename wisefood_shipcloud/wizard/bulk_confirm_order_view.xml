@@ -14,7 +14,6 @@
             </field>
         </record>
 
-
         <record id="action_view_bulk_confirm_order" model="ir.actions.act_window">
             <field name="name">Confirm Order/ Create Shipment/ Print Labels</field>
             <field name="type">ir.actions.act_window</field>
