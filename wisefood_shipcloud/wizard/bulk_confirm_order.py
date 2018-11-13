@@ -22,6 +22,7 @@ class BulkConfirmOrder(models.TransientModel):
                 self.env.cr.commit()
                 sales.append(sale)
                 
+                
         if sales:
             pdfs = []
             for sale in sales:
