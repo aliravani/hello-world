@@ -5,8 +5,27 @@ import time
 
 from odoo import api, fields, models, _
 from odoo.addons import decimal_precision as dp
-from odoo.exceptions import UserError
 
+import uuid
+import base64
+from itertools import groupby
+from datetime import datetime, timedelta
+from werkzeug.urls import url_encode
+
+
+from odoo.exceptions import UserError, AccessError
+from odoo.osv import expression
+from odoo.tools import float_is_zero, float_compare, DEFAULT_SERVER_DATETIME_FORMAT
+
+from odoo.tools.misc import formatLang
+
+import requests
+import json
+
+from PyPDF2 import PdfFileMerger
+
+import os
+import tempfile
 
 class BulkConfirmOrder(models.TransientModel):
     _name = "bulk.confirm.order"
