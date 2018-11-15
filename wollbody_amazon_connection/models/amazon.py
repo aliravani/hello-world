@@ -750,12 +750,13 @@ class AmazonConfig(models.Model):
                 for order in orders:
                     last = False
                     if order.LastUpdateDate:
-                        last = datetime.strptime(order.LastUpdateDate, '%Y-%m-%dT%H:%M:%SZ')
+                        last_utc = datetime.strptime(order.LastUpdateDate, '%Y-%m-%dT%H:%M:%SZ')
+                        last = last_utc.replace(tzinfo=None)
                         
                     partner_id = self.get_customer(order, lang='de_DE')
                     if not partner_id:
                         continue
-
+                    
                     order_ids = order_pool.search([('amazon_id','=',order.AmazonOrderId)])
                     if order_ids:
                         order_id = order_ids[0] 
