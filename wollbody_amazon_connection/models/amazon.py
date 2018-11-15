@@ -748,10 +748,10 @@ class AmazonConfig(models.Model):
                     orders = [orders]
 
                 for order in orders:
-                    last = False
-                    if order.LastUpdateDate:
-                        last_utc = datetime.strptime(order.LastUpdateDate, '%Y-%m-%dT%H:%M:%SZ')
-                        last = last_utc.replace(tzinfo=None)
+                    #last = False
+                    #if order.LastUpdateDate:
+                    #    last_utc = datetime.strptime(order.LastUpdateDate, '%Y-%m-%dT%H:%M:%SZ')
+                    #    last = last_utc.replace(tzinfo=None)
                         
                     partner_id = self.get_customer(order, lang='de_DE')
                     if not partner_id:
@@ -767,7 +767,7 @@ class AmazonConfig(models.Model):
                                         'purchase_date'    : order.PurchaseDate and order.PurchaseDate or False,
                                         'date_time'        : order.PurchaseDate and order.PurchaseDate or False,
     
-                                        'last_update_date' : last,
+                                        'last_update_date' : order.LastUpdateDate and order.LastUpdateDate or False,
                                         'amazon_id'        : order.AmazonOrderId and order.AmazonOrderId or False,
                                         'name'             : order.AmazonOrderId and order.AmazonOrderId or False,
                                         'f_channel'        : order.FulfillmentChannel and order.FulfillmentChannel or False ,
