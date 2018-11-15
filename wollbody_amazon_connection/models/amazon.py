@@ -726,7 +726,10 @@ class AmazonConfig(models.Model):
                 resp = self.env.cr.dictfetchone()
                 #resp = {'last_update_date' : '2011-01-01 00:00:00'}
                 if resp['last_update_date']:
+                    _logger.info('Amazon : last_update_date........  ' + str(resp))
                     import_from = datetime.strptime(resp['last_update_date'], '%Y-%m-%d %H:%M:%S')
+                    
+                    
                 request = {'Action': 'ListOrders', 'LastUpdatedAfter'   : import_from.strftime('%Y-%m-%dT%H:%M:%SZ'),}
                 request.update(market_places)
                 bag =  self.make_request(request, section='/Orders/2013-09-01', version='2013-09-01')
@@ -745,6 +748,10 @@ class AmazonConfig(models.Model):
                     orders = [orders]
 
                 for order in orders:
+                    last = False
+                    if order.LastUpdateDate:
+                        last = datetime.strptime(order.LastUpdateDate, '%Y-%m-%dT%H:%M:%SZ')
+                        
                     partner_id = self.get_customer(order, lang='de_DE')
                     if not partner_id:
                         continue
@@ -753,12 +760,13 @@ class AmazonConfig(models.Model):
                     if order_ids:
                         order_id = order_ids[0] 
                     else:
+                        
                         order_dict = {
                                         'date_order'       : order.PurchaseDate and order.PurchaseDate or False,
                                         'purchase_date'    : order.PurchaseDate and order.PurchaseDate or False,
                                         'date_time'        : order.PurchaseDate and order.PurchaseDate or False,
     
-                                        'last_update_date' : order.LastUpdateDate and order.LastUpdateDate or False,
+                                        'last_update_date' : last,
                                         'amazon_id'        : order.AmazonOrderId and order.AmazonOrderId or False,
                                         'name'             : order.AmazonOrderId and order.AmazonOrderId or False,
                                         'f_channel'        : order.FulfillmentChannel and order.FulfillmentChannel or False ,
@@ -783,6 +791,7 @@ class AmazonConfig(models.Model):
                         print 'order.AmazonOrderId      ',order.AmazonOrderId
                         #_logger.info('Amazon>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : ' + str(order.AmazonOrderId))
                         order_id = order_pool.create(order_dict)
+                    
                     try:
                         for line in self.import_order_lines(order.AmazonOrderId, order_id):
                             line_ids = line_pool.search([('amazon_id', '=', line['amazon_id'])])
