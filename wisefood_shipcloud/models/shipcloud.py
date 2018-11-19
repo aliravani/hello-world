@@ -72,6 +72,13 @@ class ShipCloud(models.Model):
         for cloud in self:
             if sale:
                 partner = sale.partner_id
+                
+                weight = 0
+                if sale.so_weight > 0:
+                    weight = sale.so_weight
+                else:
+                    weight = sale.weight
+                
                 shipment={
         
                       "to": {
@@ -85,7 +92,7 @@ class ShipCloud(models.Model):
                           "country": partner.country_id.code
                       },
                       "package": {
-                          "weight": sale.weight,
+                          "weight": weight,
                           "length": sale.length,
                           "width": sale.width,
                           "height": sale.height,
@@ -116,6 +123,12 @@ class ShipCloud(models.Model):
             if sale:
                 partner = sale.partner_id
                 
+                weight = 0
+                if sale.so_weight > 0:
+                    weight = sale.so_weight
+                else:
+                    weight = sale.weight
+                    
                 order_date = datetime.strptime(sale.date_order, '%Y-%m-%d %H:%M:%S').date()
                 
                 shipment={
@@ -131,7 +144,7 @@ class ShipCloud(models.Model):
                           "country": partner.country_id.code
                       },
                       "package": {
-                          "weight": sale.weight,
+                          "weight": weight,
                           "length": sale.length,
                           "width": sale.width,
                           "height": sale.height,

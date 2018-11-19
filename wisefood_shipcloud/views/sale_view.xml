@@ -72,6 +72,7 @@
 	    			<field name="drop_off_location_id" attrs="{'invisible':[('customs_declaration','=',False)], 'required': [('customs_declaration','=',True)]}" />
 	    			<field name="invoice_number" attrs="{'invisible':[('customs_declaration','=',False)], 'required': [('customs_declaration','=',True)]}" />
 	    			<field name="weight" required="1"/>
+	    			<field name="so_weight" />
 	    			<field name="length" required="1"/>
             		<field name="width" required="1"/>
             		<field name="height" required="1"/>
