@@ -74,10 +74,32 @@ class ShipCloud(models.Model):
                 partner = sale.partner_id
                 
                 weight = 0
+                length = 0
+                width = 0
+                height = 0
+                 
                 if sale.so_weight > 0:
                     weight = sale.so_weight
                 else:
                     weight = sale.weight
+                
+                if sale.so_length > 0:
+                    length = sale.so_length
+                else:
+                    length = sale.length
+                
+                if sale.so_width > 0:
+                    width = sale.so_width
+                else:
+                    width = sale.width
+                
+                
+                if sale.so_height > 0:
+                    height = sale.so_height
+                else:
+                    height = sale.height
+                
+                
                 
                 shipment={
         
@@ -93,9 +115,9 @@ class ShipCloud(models.Model):
                       },
                       "package": {
                           "weight": weight,
-                          "length": sale.length,
-                          "width": sale.width,
-                          "height": sale.height,
+                          "length": length,
+                          "width": width,
+                          "height": height,
                           "type": sale.package_type_id.name
                       },
                       "carrier": sale.shipcloud_carrier_id.name,
@@ -124,10 +146,30 @@ class ShipCloud(models.Model):
                 partner = sale.partner_id
                 
                 weight = 0
+                length = 0
+                width = 0
+                height = 0
+                 
                 if sale.so_weight > 0:
                     weight = sale.so_weight
                 else:
                     weight = sale.weight
+                
+                if sale.so_length > 0:
+                    length = sale.so_length
+                else:
+                    length = sale.length
+                
+                if sale.so_width > 0:
+                    width = sale.so_width
+                else:
+                    width = sale.width
+                
+                
+                if sale.so_height > 0:
+                    height = sale.so_height
+                else:
+                    height = sale.height
                     
                 order_date = datetime.strptime(sale.date_order, '%Y-%m-%d %H:%M:%S').date()
                 
@@ -145,9 +187,9 @@ class ShipCloud(models.Model):
                       },
                       "package": {
                           "weight": weight,
-                          "length": sale.length,
-                          "width": sale.width,
-                          "height": sale.height,
+                          "length": length,
+                          "width": width,
+                          "height": height,
                           "type": sale.package_type_id.name
                       },
                       "customs_declaration": {

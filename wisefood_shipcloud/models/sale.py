@@ -31,6 +31,9 @@ class SaleOrder(models.Model):
     width                           = fields.Float('Width',compute='_get_width')
     height                          = fields.Float('Height',compute='_get_height')
     so_weight                       = fields.Float('Quotation Weight')
+    so_length                       = fields.Float('Quotation Length')
+    so_width                        = fields.Float('Quotation Width')
+    so_height                       = fields.Float('Quotation Height')
     
     shipcloud_carrier_id            = fields.Many2one('shipcloud.carrier','Shipcloud Carrier',copy=False)
     carrier_services_id             = fields.Many2one('carrier.services','Shipcloud Service',copy=False)

@@ -74,8 +74,11 @@
 	    			<field name="weight" required="1"/>
 	    			<field name="so_weight" />
 	    			<field name="length" required="1"/>
+	    			<field name="so_length"/>
             		<field name="width" required="1"/>
+            		<field name="so_width" />
             		<field name="height" required="1"/>
+            		<field name="so_height"/>
 	    			<field name="shipcloud_shipment_id"/>
 	    			<field name="carrier_tracking_no"/>
 	    			<field name="tracking_url" widget="url"/>
