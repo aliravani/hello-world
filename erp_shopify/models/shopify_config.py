@@ -24,6 +24,7 @@ _logger = logging.getLogger(__name__)
 
 headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 import shopify
+import re
 
 class ShopifyConfig(models.Model):
     _name = 'shopify.config'
@@ -101,8 +102,22 @@ class ShopifyConfig(models.Model):
                     if not sale_order:
                         partner_shipping = False
                         partner = False
-                        customer_resp = response_template.get('customer')
                         
+                        
+                        customer_resp = response_template.get('customer')
+                        street_no = ''
+                        street_no_list = re.findall(r'\d+', customer_resp['default_address'].get('address1'))
+                        if street_no_list:
+                            street_no = street_no_list[0]
+                        
+                        street_name = ''
+                        street1 = re.sub(r'\d+', '', customer_resp['default_address'].get('address1'))
+                        if street1:
+                            if customer_resp['default_address'].get('address2'):
+                                street_name = street1 + customer_resp['default_address'].get('address2')
+                            else:
+                                street_name = street1 
+
                         country = self.env['res.country'].search([('name','=',customer_resp['default_address'].get('country_name'))])
                         partner_vals = {
                                             'first_name'    : customer_resp.get('first_name'),
@@ -110,8 +125,8 @@ class ShopifyConfig(models.Model):
                                             'name'          : customer_resp.get('first_name') + ' ' + customer_resp.get('last_name') if customer_resp.get('last_name') else '-',
                                             'email'         : customer_resp.get('email'),
                                             'custom_company_name' : customer_resp['default_address'].get('company'),
-                                            'street2'       : customer_resp['default_address'].get('address1'),
-                                            'street'        : customer_resp['default_address'].get('address2'),
+                                            'street2'       : street_name,
+                                            'street'        : street_no,
                                             'city'          : customer_resp['default_address'].get('city'),
                                             'zip'           : customer_resp['default_address'].get('zip'),
                                             'phone'         : customer_resp['default_address'].get('phone'),
@@ -165,6 +180,23 @@ class ShopifyConfig(models.Model):
                             if not partner.street2 == response_template['shipping_address'].get('address1'):
                                 partner_shipping = self.env['res.partner'].search([('type','=','delivery'),('street2','=',response_template['shipping_address'].get('address1'))])
                                 if not partner_shipping:
+                                    
+                                    
+                                    street_no = ''
+                                    street_no_list = re.findall(r'\d+', response_template['shipping_address'].get('address1'))
+                                    if street_no_list:
+                                        street_no = street_no_list[0]
+                                    
+                                    street_name = ''
+                                    street1 = re.sub(r'\d+', '', response_template['shipping_address'].get('address1'))
+                                    if street1:
+                                        if response_template['shipping_address'].get('address2'):
+                                            street_name = street1 + response_template['shipping_address'].get('address2')
+                                        else:
+                                            street_name = street1
+                                    
+                                    
+                                    
                                     shipping_vals = {
                                                     'parent_id'     : partner.id,
                                                     'type'          : 'delivery',
