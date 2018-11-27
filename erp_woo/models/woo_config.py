@@ -157,6 +157,20 @@ class WooConfig(models.Model):
             orders = resp.json()
             product_uom = self.env['product.uom.categ'].search([('name','=','Unit')])
             for order in orders:
+                shipcloud_carrier_id = False
+                carrier_services_id = False
+                package_type_id = False
+                dhl_id = self.env['shipcloud.carrier'].search([('name','=','dhl')])
+                if dhl_id:
+                    shipcloud_carrier_id = dhl_id.id
+                    dhl_carrier_services_id = self.env['carrier.services'].search([('name','=','standard')])
+                    if dhl_carrier_services_id:
+                        carrier_services_id = dhl_carrier_services_id.id
+                    dhl_package_type_id = self.env['package.type'].search([('name','=','parcel')])
+                    if dhl_package_type_id:
+                        package_type_id = dhl_package_type_id.id
+                        
+                        
                 sale_order = self.env['sale.order'].search([('name','=',order.get('number')),('woo_id','=',order.get('id'))])
                 print ('nnnnnnnnnnn      ',order.get('number'))
                 print ('iiiiiidddddddddddddddd     ',order.get('id'))
@@ -225,7 +239,11 @@ class WooConfig(models.Model):
                                         'partner_invoice_id'    : partner.id,
                                         'name'                  : order.get('number'),
                                         'date_order'            : order.get('date_created'),
-                                        'woo_total'             : order.get('total')
+                                        'woo_total'             : order.get('total'),
+                                        
+                                        'shipcloud_carrier_id'  : shipcloud_carrier_id,
+                                        'carrier_services_id'   : carrier_services_id,
+                                        'package_type_id'       : package_type_id
                             })
                     print ('sale_order sale_order     ',sale_order)
                     if sale_order:
