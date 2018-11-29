@@ -19,7 +19,7 @@ import requests
 import json
 
 import logging
-
+import re
 _logger = logging.getLogger(__name__)
 
 headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
@@ -172,15 +172,27 @@ class WooConfig(models.Model):
                         
                         
                 sale_order = self.env['sale.order'].search([('name','=',order.get('number')),('woo_id','=',order.get('id'))])
-                print ('nnnnnnnnnnn      ',order.get('number'))
-                print ('iiiiiidddddddddddddddd     ',order.get('id'))
-                print ('sale_order sale_order         ',sale_order)
+                
                 if not sale_order:
-                    print ('nottttttttttttttttttttttttt')
                     partner_shipping = False
                     partner = False
                     
                     customer_resp = order.get('billing')
+                    
+                    
+                    street_no = ''
+                    street_no_list = re.findall(r'\d+', customer_resp.get('address_1'))
+                    if street_no_list:
+                        street_no = street_no_list[0]
+                    
+                    street_name = ''
+                    street1 = re.sub(r'\d+', '', customer_resp.get('address_1'))
+                    if street1:
+                        if customer_resp.get('address_2'):
+                            street_name = street1 + customer_resp.get('address_2')
+                        else:
+                            street_name = street1
+                                
                         
                     country = self.env['res.country'].search([('code','=',customer_resp.get('country'))])
                     partner_vals = {
@@ -189,8 +201,8 @@ class WooConfig(models.Model):
                                         'name'          : customer_resp.get('first_name') + ' ' + customer_resp.get('last_name') if customer_resp.get('last_name') else False,
                                         'email'         : customer_resp.get('email'),
                                         'custom_company_name' : customer_resp.get('company'),
-                                        'street2'       : customer_resp.get('address_1'),
-                                        'street'        : customer_resp.get('address_2'),
+                                        'street2'       : street_name,
+                                        'street'        : street_no,
                                         'city'          : customer_resp.get('city'),
                                         'zip'           : customer_resp.get('postcode'),
                                         'phone'         : customer_resp.get('phone'),
@@ -216,10 +228,26 @@ class WooConfig(models.Model):
                         if not partner.street == customer_ship_resp.get('address_1'):
                             partner_shipping = self.env['res.partner'].search([('type','=','delivery'),('street','=',customer_ship_resp.get('address1'))])
                             if not partner_shipping:
+                                
+                                street_no = ''
+                                street_no_list = re.findall(r'\d+', customer_ship_resp.get('address_1'))
+                                if street_no_list:
+                                    street_no = street_no_list[0]
+                                
+                                street_name = ''
+                                street1 = re.sub(r'\d+', '', customer_ship_resp.get('address_1'))
+                                if street1:
+                                    if customer_ship_resp.get('address_2'):
+                                        street_name = street1 + customer_ship_resp.get('address_2')
+                                    else:
+                                        street_name = street1
+                                        
+                                        
                                 shipping_vals = {
                                                 'parent_id'     : partner.id,
                                                 'type'          : 'delivery',
-                                                'street'        : customer_ship_resp.get('address_1'),
+                                                'street2'       : street_name,
+                                                'street'        : street_no,
                                                 'city'          : customer_ship_resp.get('city'),
                                                 'zip'           : customer_ship_resp.get('postcode'),
                                                 'phone'         : customer_ship_resp.get('phone'),
