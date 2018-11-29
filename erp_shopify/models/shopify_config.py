@@ -200,8 +200,8 @@ class ShopifyConfig(models.Model):
                                     shipping_vals = {
                                                     'parent_id'     : partner.id,
                                                     'type'          : 'delivery',
-                                                    'street2'       : response_template['shipping_address'].get('address1'),
-                                                    'street'        : response_template['shipping_address'].get('address2'),
+                                                    'street2'       : street_name,
+                                                    'street'        : street_no,
                                                     'city'          : response_template['shipping_address'].get('city'),
                                                     'zip'           : response_template['shipping_address'].get('zip'),
                                                     'phone'         : response_template['shipping_address'].get('phone'),
