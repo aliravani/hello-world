@@ -6,3 +6,4 @@ import csv_template
 import mail_compose_message
 import invite
 import export_sale_csv
+import export_shopify_product
