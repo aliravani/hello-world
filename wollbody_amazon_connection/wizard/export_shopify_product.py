@@ -28,7 +28,7 @@ class ExportShopifyProduct(models.TransientModel):
     def action_export(self):
         context = self._context
         for export in self:
-            delimiter = '\t'
+            delimiter = ','
             buf=cStringIO.StringIO()
             #47
             headers =  ['Handle','Title','Body (HTML)','Vendor','Type','Tags','Published','Option1 Name',
@@ -45,9 +45,10 @@ class ExportShopifyProduct(models.TransientModel):
                 products = self.env['product.product'].search([('active','=',True)])
                 
                 for product in products:
+                    
                     val = [
-                            product.name,
-                            product.product_tmpl_id.name,
+                            product.name.replace(",", ""),
+                            product.product_tmpl_id.name.replace(",", ""),
                             #'Body (HTML)',
                             '',
                             product.related_supplier_id.name if product.related_supplier_id else '',
