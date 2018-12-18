@@ -42,13 +42,13 @@ class ExportShopifyProduct(models.TransientModel):
             product_ids = context.get('active_ids')
             
             if export.all_product:
-                products = self.env['product.product'].search([('active','=',True)], order='name')
+                products = self.env['product.product'].search([('active','=',True)], order='product_tmpl_id')
                 
                 for product in products:
                     
                     val = [
                             product.name.replace(",", "")+' '+str(product.product_tmpl_id.id),
-                            product.product_tmpl_id.name.replace(",", "") +' '+str(product.product_tmpl_id.id),
+                            product.product_tmpl_id.name.replace(",", ""),
                             #'Body (HTML)',
                             '',
                             product.related_supplier_id.name if product.related_supplier_id else '',
@@ -137,7 +137,7 @@ class ExportShopifyProduct(models.TransientModel):
                 for product in products:
                     val = [
                             product.name.replace(",", "")+' '+str(product.product_tmpl_id.id),
-                            product.product_tmpl_id.name.replace(",", "") +' '+str(product.product_tmpl_id.id),
+                            product.product_tmpl_id.name.replace(",", ""),
                             #'Body (HTML)',
                             '',
                             product.related_supplier_id.name if product.related_supplier_id else '',
