@@ -152,26 +152,26 @@ class ShopifyConfig(models.Model):
                             shipping_lines = response_template.get('shipping_lines')
                             print ('shipping_lines shipping_lines        ',shipping_lines)
                             if len(shipping_lines) >= 1:
-                                if shipping_lines[0].get('code') == 'DHL':
-                                    dhl_id = self.env['shipcloud.carrier'].search([('name','=','dhl')])
-                                    if dhl_id:
-                                        shipcloud_carrier_id = dhl_id.id
-                                        dhl_carrier_services_id = self.env['carrier.services'].search([('name','=','standard')])
-                                        if dhl_carrier_services_id:
-                                            carrier_services_id = dhl_carrier_services_id.id
-                                        dhl_package_type_id = self.env['package.type'].search([('name','=','parcel')])
-                                        if dhl_package_type_id:
-                                            package_type_id = dhl_package_type_id.id
-                                else:
-                                    hsi_id = self.env['shipcloud.carrier'].search([('name','=','hsi')])
-                                    if hsi_id:
-                                        shipcloud_carrier_id = hsi_id.id
-                                        hsi_carrier_services_id = self.env['carrier.services'].search([('name','=','standard')])
-                                        if hsi_carrier_services_id:
-                                            carrier_services_id = hsi_carrier_services_id.id
-                                        hsi_package_type_id = self.env['package.type'].search([('name','=','parcel')])
-                                        if hsi_package_type_id:
-                                            package_type_id = hsi_package_type_id.id
+#                                 if shipping_lines[0].get('code') == 'DHL':
+#                                     dhl_id = self.env['shipcloud.carrier'].search([('name','=','dhl')])
+#                                     if dhl_id:
+#                                         shipcloud_carrier_id = dhl_id.id
+#                                         dhl_carrier_services_id = self.env['carrier.services'].search([('name','=','standard')])
+#                                         if dhl_carrier_services_id:
+#                                             carrier_services_id = dhl_carrier_services_id.id
+#                                         dhl_package_type_id = self.env['package.type'].search([('name','=','parcel')])
+#                                         if dhl_package_type_id:
+#                                             package_type_id = dhl_package_type_id.id
+#                                 else:
+                                hsi_id = self.env['shipcloud.carrier'].search([('name','=','hsi')])
+                                if hsi_id:
+                                    shipcloud_carrier_id = hsi_id.id
+                                    hsi_carrier_services_id = self.env['carrier.services'].search([('name','=','standard')])
+                                    if hsi_carrier_services_id:
+                                        carrier_services_id = hsi_carrier_services_id.id
+                                    hsi_package_type_id = self.env['package.type'].search([('name','=','parcel')])
+                                    if hsi_package_type_id:
+                                        package_type_id = hsi_package_type_id.id
                                             
                                         
                                     
