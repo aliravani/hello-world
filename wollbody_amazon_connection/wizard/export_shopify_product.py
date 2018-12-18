@@ -43,13 +43,13 @@ class ExportShopifyProduct(models.TransientModel):
             product_ids = context.get('active_ids')
             
             if export.all_product:
-                templates = self.env['product.template'].search([('active','=',True)], order='id')
+                templates = self.env['product.template'].search([('active','=',True)], order='art_no')
                 
                 for template in templates:
                     for product in template.product_variant_ids:
                     
                         val = [
-                                product.name.replace(",", "")+' '+str(product.product_tmpl_id.id),
+                                product.name.replace(",", "")+' '+str(product.art_no),
                                 product.product_tmpl_id.name.replace(",", ""),
                                 #'Body (HTML)',
                                 '',
