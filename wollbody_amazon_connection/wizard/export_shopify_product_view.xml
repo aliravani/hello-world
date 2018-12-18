@@ -28,7 +28,7 @@
     <act_window 
             name="Export Shopify Products"
             res_model="export.shopify.product"
-            src_model="product.product"
+            src_model="product.template"
             view_mode="form"
             target="new"
             key2="client_action_multi"
