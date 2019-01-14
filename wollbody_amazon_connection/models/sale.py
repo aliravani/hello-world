@@ -378,7 +378,7 @@ class SaleOrder(models.Model):
                     inv_id = order.action_invoice_create(grouped=False, final=False)
                     inv = self.env['account.invoice'].browse(inv_id)
                     inv.action_invoice_open()
-                    inv.invoice_sent()
+                    #inv.invoice_sent()
                     journals = self.env['account.journal'].search([('name', '=', 'Payment by Amazon')])
                     if journals:
                         account_id = self.env['account.journal'].browse(journals.id).default_credit_account_id.id
