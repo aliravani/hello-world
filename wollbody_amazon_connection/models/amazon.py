@@ -725,6 +725,7 @@ class AmazonConfig(models.Model):
                 self.env.cr.execute('select max(last_update_date) as last_update_date from sale_order WHERE amazon_id is not null');
                 resp = self.env.cr.dictfetchone()
                 #resp = {'last_update_date' : '2011-01-01 00:00:00'}
+                resp = {'last_update_date' : '2018-12-17 00:00:00'}
                 if resp['last_update_date']:
                     _logger.info('Amazon : last_update_date........  ' + str(resp))
                     import_from = datetime.strptime(resp['last_update_date'], '%Y-%m-%d %H:%M:%S')
