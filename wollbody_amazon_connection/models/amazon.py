@@ -817,5 +817,5 @@ class AmazonConfig(models.Model):
                     
                     self.env.cr.commit()
                     #order_id.action_done()
-                    order_id.process_all()
+                    #order_id.process_all()
         _logger.info('Amazon : Importing Order completed........!!!!!!!!!!!!!!!!!!!!!!!')           
