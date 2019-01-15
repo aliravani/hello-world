@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+     <record id="bulk_sale_confirm_view" model="ir.ui.view">
+            <field name="name">bulk.sale.confirm.form.view</field>
+            <field name="model">bulk.sale.confirm</field>
+            <field name="arch" type="xml">
+              <form string="Bulk Quotations to Confirm">
+                  
+                   <footer>
+		            <button name="action_bulk_confirm" string="Confirm" type="object" class="oe_highlight" />
+		            or
+		            <button string="Cancel" class="oe_link" special="cancel" />
+		          </footer>
+              </form>
+            </field>
+     </record>
+        
+     <act_window 
+            name="Bulk Quotations to Confirm"
+            res_model="bulk.sale.confirm"
+            src_model="sale.order"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="action_bulk_sale_confirm"/>
+    </data>
+    
+    
+    
+</odoo>

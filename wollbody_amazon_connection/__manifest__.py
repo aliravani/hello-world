@@ -18,6 +18,7 @@
              'wizard/csv_note_view.xml',
              'wizard/csv_template_view.xml',
              'wizard/export_shopify_product_view.xml',
+             'wizard/bulk_sale_confirm_view.xml',
              #'wizard/export_sale_csv_view.xml',
              
              'views/product_template_view.xml',
