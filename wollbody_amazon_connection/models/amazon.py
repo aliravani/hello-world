@@ -763,12 +763,17 @@ class AmazonConfig(models.Model):
                         order_id = order_ids[0] 
                     else:
                         
+                        last = datetime.strptime(order.LastUpdateDate, '%Y-%m-%dT%H:%M:%SZ')
+                        #last = order.LastUpdateDate.strftime('%Y-%m-%dT%H:%M:%SZ')
+                        #print '>>>>>>>>>>>>>llllllllll        ',last
+                        #print '>>>>>>>>>>>>>llllllllll        ',type(last)
+                        #print aaa
                         order_dict = {
                                         'date_order'       : order.PurchaseDate and order.PurchaseDate or False,
                                         'purchase_date'    : order.PurchaseDate and order.PurchaseDate or False,
                                         'date_time'        : order.PurchaseDate and order.PurchaseDate or False,
     
-                                        'last_update_date' : order.LastUpdateDate and order.LastUpdateDate or False,
+                                        'last_update_date' : last and last or False,
                                         'amazon_id'        : order.AmazonOrderId and order.AmazonOrderId or False,
                                         'name'             : order.AmazonOrderId and order.AmazonOrderId or False,
                                         'f_channel'        : order.FulfillmentChannel and order.FulfillmentChannel or False ,
