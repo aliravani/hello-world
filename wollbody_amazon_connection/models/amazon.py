@@ -768,9 +768,9 @@ class AmazonConfig(models.Model):
                         order_id = order_ids[0] 
                     else:
                         
-                        last = datetime.strptime(order.LastUpdateDate, '%Y-%m-%d %H:%M:%S.%f%z')
+                        #last = datetime.strptime(order.LastUpdateDate, '%Y-%m-%d %H:%M:%S.%f%z')
                         #last = datetime.strptime(order.LastUpdateDate, '%Y-%m-%dT%H:%M:%S')
-                        last = last.strftime('%Y-%m-%d %H:%M:%S')
+                        #last = last.strftime('%Y-%m-%d %H:%M:%S')
                         #last = order.LastUpdateDate.strftime('%Y-%m-%dT%H:%M:%SZ')
                         #print '>>>>>>>>>>>>>llllllllll        ',last
                         #print '>>>>>>>>>>>>>llllllllll        ',type(last)
@@ -780,7 +780,8 @@ class AmazonConfig(models.Model):
                                         'purchase_date'    : order.PurchaseDate and order.PurchaseDate or False,
                                         'date_time'        : order.PurchaseDate and order.PurchaseDate or False,
     
-                                        'last_update_date' : last and last or False,
+                                        #'last_update_date' : last and last or False,
+                                        'last_update_date' : order.LastUpdateDate and order.LastUpdateDate or False,
                                         'amazon_id'        : order.AmazonOrderId and order.AmazonOrderId or False,
                                         'name'             : order.AmazonOrderId and order.AmazonOrderId or False,
                                         'f_channel'        : order.FulfillmentChannel and order.FulfillmentChannel or False ,
