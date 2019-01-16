@@ -729,14 +729,14 @@ class AmazonConfig(models.Model):
                 self.env.cr.execute('select max(last_update_date) as last_update_date from sale_order WHERE amazon_id is not null');
                 resp = self.env.cr.dictfetchone()
                 
-                #resp = {'last_update_date' : '2011-01-01 00:00:00'}
+                #resp = {'last_update_date' : '2019-01-15 09:13:30'}
                 #resp = {'last_update_date' : '2018-12-17 00:00:00'}
                 if resp['last_update_date']:
                     _logger.info('Amazon : last_update_date........  ' + str(resp))
                     import_from = datetime.strptime(resp['last_update_date'], '%Y-%m-%d %H:%M:%S')
                     _logger.info('Amazon : last_update_date........  ' + str(type(import_from)))
                     
-                request = {'Action': 'ListOrders', 'LastUpdatedAfter'   : import_from.strftime('%Y-%m-%dT%H:%M:%SZ')}
+                request = {'Action': 'ListOrders', 'LastUpdatedAfter'   : import_from.strftime('%Y-%m-%dT%H:%M:%S')}
                 request.update(market_places)
                 bag =  self.make_request(request, section='/Orders/2013-09-01', version='2013-09-01')
 
@@ -769,6 +769,7 @@ class AmazonConfig(models.Model):
                     else:
                         
                         last = datetime.strptime(order.LastUpdateDate, '%Y-%m-%dT%H:%M:%SZ')
+                        #last = datetime.strptime(order.LastUpdateDate, '%Y-%m-%dT%H:%M:%S')
                         last = last.strftime('%Y-%m-%d %H:%M:%S')
                         #last = order.LastUpdateDate.strftime('%Y-%m-%dT%H:%M:%SZ')
                         #print '>>>>>>>>>>>>>llllllllll        ',last
@@ -828,6 +829,7 @@ class AmazonConfig(models.Model):
                             
                     
                     self.env.cr.commit()
+                    print '>>>>>>>>>>>>>>>>>         ',order_id
                     #order_id.action_done()
                     #order_id.process_all()
         _logger.info('Amazon : Importing Order completed........!!!!!!!!!!!!!!!!!!!!!!!')           
