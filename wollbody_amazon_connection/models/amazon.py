@@ -768,7 +768,7 @@ class AmazonConfig(models.Model):
                         order_id = order_ids[0] 
                     else:
                         
-                        last = datetime.strptime(order.LastUpdateDate, '%Y-%m-%dT%H:%M:%SZ')
+                        last = datetime.strptime(order.LastUpdateDate, '%%Y-%m-%d %H:%M:%S.%f')
                         #last = datetime.strptime(order.LastUpdateDate, '%Y-%m-%dT%H:%M:%S')
                         last = last.strftime('%Y-%m-%d %H:%M:%S')
                         #last = order.LastUpdateDate.strftime('%Y-%m-%dT%H:%M:%SZ')
