@@ -733,7 +733,7 @@ class AmazonConfig(models.Model):
                 #resp = {'last_update_date' : '2018-12-17 00:00:00'}
                 if resp['last_update_date']:
                     _logger.info('Amazon : last_update_date........  ' + str(resp))
-                    import_from = datetime.strptime(resp['last_update_date'], '%Y-%m-%d %H:%M:%S')
+                    import_from = datetime.strptime(resp['last_update_date'], '%Y-%m-%d %H:%M:%S.%f')
                     _logger.info('Amazon : last_update_date........  ' + str(type(import_from)))
                     
                 request = {'Action': 'ListOrders', 'LastUpdatedAfter'   : import_from.strftime('%Y-%m-%dT%H:%M:%SZ')}
