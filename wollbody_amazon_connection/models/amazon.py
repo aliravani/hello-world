@@ -402,7 +402,7 @@ class AmazonConfig(models.Model):
                                 'customer_created': order.PurchaseDate
                }
             
-            partner_id = partner_pool.search([('email','=',vals['email']),('street','=',vals['street'])], limit=1)
+            partner_id = partner_pool.search([('email','=',vals['email']),('street','=',vals['street']),('street2','=',vals['street2'])], limit=1)
             if partner_id:
                 partner_id = partner_id
             else:
