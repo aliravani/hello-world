@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="product_template_form_view_wollbody_pakdo" model="ir.ui.view">
+	    <field name="name">product.template.product.form</field>
+	    <field name="model">product.template</field>
+	    <field name="inherit_id" ref="product.product_template_form_view" />
+	    <field name="arch" type="xml">
+	    <xpath expr="//page[@name='sales']" position="after">
+	    <page string="Pakdo" name="pakdo">
+	      <button name="push_mother_pakdo" string="Push Mother" type="object"/>
+	      <button name="push_mother_all_pakdo" string="Push All Mother" type="object"/>
+	      <button name="update_mother_pakdo" string="Update Mother" type="object"/>
+	      <button name="update_mother_all_pakdo" string="Update All Mother" type="object"/>
+	      <button name="delete_mother_pakdo" string="Delete Mother" type="object"/>
+	      <button name="delete_mother_all_pakdo" string="Delete All Mother" type="object"/>
+	      <br/>
+	      <br/>
+	      <button name="push_single_pakdo" string="Push Single Product" type="object"/>
+	      <button name="update_single_pakdo" string="Update Single Product" type="object"/>
+	      <button name="delete_single_pakdo" string="Delete Single Product" type="object"/>
+	      <group>
+	        <field name="pakdo_pushed" />
+	        <field name="pakdo_image_pushed"/>
+	        <field name="image_pushed_method"/>
+	      </group>
+	    </page>
+	    </xpath>
+	 </field>
+	</record>
+	
+	<record id="view_stock_product_template_tree_pakdo" model="ir.ui.view">
+            <field name="name">product.template.stock.tree.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+            <field name="uom_id" position="after">
+            	<field name="pakdo_pushed" invisible="1"/>
+	        	<field name="pakdo_image_pushed" invisible="1"/>
+            </field>
+            </field>
+    </record>
+	
+	
+	<record id="product_template_search_view_pakdo" model="ir.ui.view">
+        <field name="name">product.template.search</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+        <filter name="filter_to_purchase" position="after">
+        	 <filter string="Pakdo Image pushed" name="pakdo_image_pushed" domain="[('pakdo_image_pushed', '=', True)]"/>
+        	 <filter string="Pakdo Image Not pushed" name="pakdo_image_pushed" domain="[('pakdo_image_pushed', '=', False)]"/>
+        </filter>
+        </field>
+    </record>
+
+</odoo>

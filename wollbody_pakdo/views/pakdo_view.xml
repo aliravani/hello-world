@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+  
+	<menuitem id="menu_pakdo_configuration_label" parent="wollbody_amazon_connection.menu_base_api_connection" sequence="15" name="Pakdo" />
+    
+    <record id="view_pakdo_config_tree" model="ir.ui.view">
+      <field name="name">pakdo.config.tree</field>
+      <field name="model">pakdo.config</field>
+      <field name="arch" type="xml">
+        <tree string="Pakdo Configuration">
+          <field name="name" />
+          <field name="url" />
+          <field name="user" />
+          <field name="state" widget="statusbar" statusbar_visible="draft,connected" />
+        </tree>
+      </field>
+    </record>
+    
+    <record id="view_pakdo_config_form" model="ir.ui.view">
+      <field name="name">pakdo.config.form</field>
+      <field name="model">pakdo.config</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Pakdo Configuration">
+          <header>
+            <button name="test_connection" type="object" string="Test Shopware Server Connection" states="draft,error"  class="btn-primary"/>
+            <button name="get_product" type="object" string="Get Product" states="connected"  class="btn-primary"/>
+            <button name="reset" type="object" string="Cancel Test Shopware Server Connection" states="connected" />
+<!--             <button name="push_order" type="object" string="Push Order" states="connected"  class="btn-primary"/> -->
+<!--             <button name="get_order" type="object" string="Get Order" states="connected"  class="btn-primary"/> -->
+<!--             <button name="update_order" type="object" string="Delete Order" states="connected"  class="btn-primary"/> -->
+            <button name="update_all_product" type="object" string="Update All Products" states="connected"  class="btn-primary"/>
+            <button name="get_tracking_code" type="object" string="Get Tracking Code" states="connected"  class="btn-primary"/>
+            <button name="push_all_image" string="push" type="object" />
+            
+            <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,connected,error" statusbar_colors="{&quot;connected&quot;:&quot;green&quot;,&quot;error&quot;:&quot;red&quot;}" />
+          </header>
+          <sheet>
+            <group>
+              <field name="name" />
+              <field name="url" required="1" />
+              <field name="user" required="1" />
+              <field name="pwd" required="1" />
+              <field name="all_update" />
+              <field name="track_datetime" />
+            </group>
+          </sheet>
+         </form>
+         </field>
+         </record>
+     
+     
+     <!-- Add menu: "pakdo" in Settings/Configuration -->
+    <record id="action_pakdo_configuration" model="ir.actions.act_window">
+      <field name="name">Pakdo Configuration</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">pakdo.config</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    
+    <menuitem id="menu_pakdo_configuration" parent="menu_pakdo_configuration_label" sequence="10" action="action_pakdo_configuration" />
+    
+    
+
+  </data>
+</odoo>

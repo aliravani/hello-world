@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+  
+  
+  <record id="view_order_form_wollbody_pakdo" model="ir.ui.view">
+      <field name="name">sale.order.form</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form" />
+      <field name="arch" type="xml">
+      <button name="action_confirm" position="after">
+          <button name="%(action_pakdo_order)d" string="Create PakDo" type="action" class="oe_highlight" />
+      </button>
+      <field name="payment_term_id" position="after">
+      	<field name="sale_order_number_2" />
+      </field>
+      </field>
+  </record>
+  
+  </data>
+</odoo>
