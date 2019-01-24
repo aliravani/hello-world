@@ -37,6 +37,7 @@
              'report/report_printfnsku.xml',
              'report/report_printlabellilano.xml',
              'report/report_printlabellilano_2.xml',
+             'report/repor_printinternalreference.xml',
              'report/layout.xml',
              'report/report_invoice.xml',
              'report/report_salereciept.xml',

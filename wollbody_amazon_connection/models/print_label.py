@@ -406,4 +406,122 @@ class PrintFNSKU(models.Model):
         
         return True
     
+
+class PrintInternalReference(models.Model):
+    _name = "print.internal.reference"
     
+    name          = fields.Char('Search Product')
+    art_no        = fields.Char('Article Number')
+    color_no      = fields.Char('Color number')
+    size          = fields.Char('Size')
+    
+    
+    image         = fields.Binary('Image')
+    default_code  = fields.Char('Internal Reference') 
+    barcode_img   = fields.Binary('Barcode')   
+    logo          = fields.Binary('Logo')
+    
+    @api.multi
+    def _get_barcode(self, data):
+        
+        # name = generate('EAN13', barcode, output='barcode')
+        #EAN = barcode.get_barcode_class('ean13')
+        EAN = barcode.get_barcode_class('code128')
+        ean = EAN(data, writer=ImageWriter())
+        try:
+            name = ean.save('ean13_barcode_print')
+            filetmp = os.getcwd()+'/'+name
+        except:
+            filetmp = ean.save('/home/openerp/barcode/ean13_barcode_print')
+        
+        im = Image.open(filetmp)
+        size = 1500, 1500
+        im.thumbnail(size, Image.ANTIALIAS)
+        im.save(filetmp, "png")
+        with open(filetmp, "rb") as image_file:
+            encoded_string=base64.b64encode(image_file.read())
+        return encoded_string
+    
+    @api.multi
+    @api.onchange('name')
+    def onchange_name(self):
+        vals = {}
+        if not self.name:
+            self.art_no = False
+            self.color_no = False
+            self.size = False
+            self.barcode = False
+            self.logo = False
+        
+        if self.name:
+            product_obj = self.env['product.product'].sudo().search(['|','|','|',('default_code','=',self.name),('get_int_no','ilike',self.name),('barcode','=',self.name),('fnsku','=',self.name)], limit=1)
+            if product_obj:
+                self.barcode_img = False
+                vals.update(
+                    {
+                      'art_no'              : product_obj.art_no,
+                      'color_no'            : product_obj.color_no,
+                      'size'                : product_obj.get_size,
+                      'default_code'        : product_obj.default_code,
+                      'logo'                : product_obj.related_supplier_id.company_id.logo,
+                      'image'               : product_obj.image_medium
+                    }
+                )
+                label_obj = self.env['print.internal.reference'].search([('default_code','=',product_obj.default_code)], limit=1)
+                
+                if label_obj:
+                    raise UserError(_('Record already exists....'))
+                    return False
+                
+                if not label_obj:
+                    if product_obj.barcode:
+                        barocde_str = self._get_barcode(product_obj.default_code)
+                        vals.update({
+                                    'barcode_img': unicode(barocde_str, "utf-8"),
+                                    
+                            })
+                    
+                    line = self.env['print.barcode.line'].create({'print_barcode_id':self.id, 'name':self.name, 'product_id':product_obj.id})
+                    vals['name'] = False
+                    self.update(vals)
+            else:
+                raise UserError(_('Record not found....'))
+                return False
+        
+            
+    @api.multi
+    def do_search(self):
+        vals = {}
+        product_obj = self.env['product.product'].sudo().search(['|','|','|',('default_code','=',self.name),('get_int_no','ilike',self.name),('barcode','=',self.name),('fnsku','=',self.name)], limit=1)
+        error_msg = ''
+        if product_obj:
+            self.write({'barcode_img': False})
+            vals.update(
+                    {
+                      #'supplier_id'         : product_obj.related_supplier_id.id,
+                      'art_no'              : product_obj.art_no,
+                      'color_no'            : product_obj.color_no,
+                      'size'                : product_obj.get_size,
+                      'default_code'        : product_obj.default_code,
+                      'logo'                : product_obj.related_supplier_id.company_id.logo,
+                    }
+                )
+            
+            label_obj = self.env['print.internal.reference'].search([('default_code','=',product_obj.default_code)], limit=1)
+            
+            if label_obj:
+                raise UserError(_('Record already exists....'))
+                return False
+            
+            if not label_obj:
+                if product_obj.barcode:
+                    barocde_str = self._get_barcode(product_obj.default_code)
+                    vals.update({
+                                'barcode_img': unicode(barocde_str, "utf-8"),
+                        })
+                self.write(vals)
+        else:
+            raise UserError(_('Record not found....'))
+            return False
+        
+        return True

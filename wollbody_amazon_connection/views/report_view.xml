@@ -110,6 +110,16 @@
         name="wollbody_amazon_connection.report_print_barcode"
         file="wollbody_amazon_connection.report_print_barcode"
         paperformat="wollbody_amazon_connection.paperformat_print_barcode"/>
+    
+    
+    <report
+        id="report_printinternalreference"
+        model="print.internal.reference"
+        string="Print Internal Reference"
+        report_type="qweb-pdf"
+        name="wollbody_amazon_connection.report_print_internalreference"
+        file="wollbody_amazon_connection.report_print_internalreference"
+        paperformat="wollbody_amazon_connection.paperformat_print_barcode"/>
      
      
      <report
